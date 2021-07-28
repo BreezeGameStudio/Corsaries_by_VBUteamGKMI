@@ -8,7 +8,8 @@ namespace Corsaries_by_VBUteamGKMI
 {
     public class Game1 : Game
     {
-        System.Drawing.Size _size_screen = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Size;
+        private System.Drawing.Size _size_screen = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Size;//текущий монитор
+        private System.Drawing.Size _game_size_screen;// размер окна игры
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         private MyShip _myShip;
@@ -18,10 +19,12 @@ namespace Corsaries_by_VBUteamGKMI
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
-            //_graphics = new GraphicsDeviceManager(this);
+            // задаём размер игрового окна с отступами
+            _game_size_screen = new System.Drawing.Size(_size_screen.Width - 30, _size_screen.Height - 200);
             _graphics.IsFullScreen = false;
-            _graphics.PreferredBackBufferHeight = _size_screen.Height - 70;
-            _graphics.PreferredBackBufferWidth = _size_screen.Width - 30;
+            //
+            _graphics.PreferredBackBufferHeight = _game_size_screen.Height ;
+            _graphics.PreferredBackBufferWidth = _game_size_screen.Width ;
         }
 
         protected override void Initialize()
@@ -29,7 +32,7 @@ namespace Corsaries_by_VBUteamGKMI
             // TODO: Add your initialization logic here
 
             base.Initialize();
-            _myShip = new MyShip(Content);                   
+            _myShip = new MyShip(Content, _game_size_screen);                   
         }
 
         protected override void LoadContent()
