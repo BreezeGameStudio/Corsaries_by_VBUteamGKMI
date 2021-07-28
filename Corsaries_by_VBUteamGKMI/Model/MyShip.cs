@@ -16,6 +16,7 @@ namespace Corsaries_by_VBUteamGKMI.Model
 
         public Texture2D _current_sprite; // текущий спрайт для отрисовки
         public Vector2 _position = new Vector2(0, 0);
+        public Vector2 _old_position; // память старой позиции на случай столкновения
         public MyShip(Microsoft.Xna.Framework.Content.ContentManager content, System.Drawing.Size size_screen)
         {
             _size_screen = size_screen;
@@ -31,30 +32,34 @@ namespace Corsaries_by_VBUteamGKMI.Model
             _current_sprite = _ship_sprites[0];
            
         }
+        public void Step_Back_Position() => _position = _old_position;
+
+
         #region методы перемещения
         public void Go_U() // вверх
         {
             if (_position.Y > -10 )
             {
-
+                _old_position = _position; // перезапись памяти позиции
                 _position.Y -= _speed;
                 _current_sprite = _ship_sprites[2];
             }
         }
         public void Go_UL() // вверх лево
         {
-            if (_position.Y > -10 && _position.X > -10 )
+            if (_position.Y > -10 && _position.X > -10)
             {
-
+                _old_position = _position;
                 _position.Y -= _speed;
-            _position.X -= _speed;
-            _current_sprite = _ship_sprites[4];
+                _position.X -= _speed;
+                _current_sprite = _ship_sprites[4];
             }
         }
         public void Go_UR() // вверх право
         {
             if (_position.Y > -10 && _position.X < _size_screen.Width - _current_sprite.Width)
             {
+                _old_position = _position;
                 _position.Y -= _speed;
                 _position.X += _speed;
                 _current_sprite = _ship_sprites[5];
@@ -65,6 +70,7 @@ namespace Corsaries_by_VBUteamGKMI.Model
         {
             if ( _position.Y < _size_screen.Height - _current_sprite.Height)
             {
+                _old_position = _position;
                 _position.Y += _speed;
                 _current_sprite = _ship_sprites[3];
             }
@@ -73,6 +79,7 @@ namespace Corsaries_by_VBUteamGKMI.Model
         {
             if ( _position.Y < _size_screen.Height - _current_sprite.Height && _position.X > -10)
             {
+                _old_position = _position;
                 _position.Y += _speed;
                 _position.X -= _speed;
                 _current_sprite = _ship_sprites[6];
@@ -83,6 +90,7 @@ namespace Corsaries_by_VBUteamGKMI.Model
             if ( _position.Y < _size_screen.Height - _current_sprite.Height
                 && _position.X < _size_screen.Width - _current_sprite.Width)
             {
+                _old_position = _position;
                 _position.Y += _speed;
                 _position.X += _speed;
                 _current_sprite = _ship_sprites[7];
@@ -93,6 +101,7 @@ namespace Corsaries_by_VBUteamGKMI.Model
         {
             if (_position.X > -10 )
             {
+                _old_position = _position;
                 _position.X -= _speed;
                 _current_sprite = _ship_sprites[1];
             }
@@ -101,6 +110,7 @@ namespace Corsaries_by_VBUteamGKMI.Model
         {
             if ( _position.X < _size_screen.Width - _current_sprite.Width)
             {
+                _old_position = _position;
                 _position.X += _speed;
                 _current_sprite = _ship_sprites[0];
             }

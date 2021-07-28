@@ -94,10 +94,9 @@ namespace Corsaries_by_VBUteamGKMI
                 Keyboard.GetState().IsKeyUp(Keys.D))
                 _myShip.Go_D();
             #endregion
-            if(Collide())
-            {
-               
-            }
+            if (Collide())
+                _myShip.Step_Back_Position(); // возвращение к старой позиции при столкновениее
+          
 
 
             base.Update(gameTime);
