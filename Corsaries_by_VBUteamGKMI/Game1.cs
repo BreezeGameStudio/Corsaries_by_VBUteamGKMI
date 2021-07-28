@@ -1,19 +1,27 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Corsaries_by_VBUteamGKMI.Model;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.Collections.Generic;
 
 namespace Corsaries_by_VBUteamGKMI
 {
     public class Game1 : Game
     {
+        System.Drawing.Size _size_screen = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Size;
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
+        private MyShip _myShip;
 
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
+            //_graphics = new GraphicsDeviceManager(this);
+            _graphics.IsFullScreen = false;
+            _graphics.PreferredBackBufferHeight = _size_screen.Height - 70;
+            _graphics.PreferredBackBufferWidth = _size_screen.Width - 30;
         }
 
         protected override void Initialize()
@@ -21,6 +29,17 @@ namespace Corsaries_by_VBUteamGKMI
             // TODO: Add your initialization logic here
 
             base.Initialize();
+            _myShip = new MyShip();
+            // выгружаем срайты корабля
+            _myShip._ship_sprites.Add(Content.Load<Texture2D>("ship_R"));
+            _myShip._ship_sprites.Add(Content.Load<Texture2D>("ship_L"));
+            _myShip._ship_sprites.Add(Content.Load<Texture2D>("ship_U"));
+            _myShip._ship_sprites.Add(Content.Load<Texture2D>("ship_D"));
+            _myShip._ship_sprites.Add(Content.Load<Texture2D>("ship_UL"));
+            _myShip._ship_sprites.Add(Content.Load<Texture2D>("ship_UR"));
+            _myShip._ship_sprites.Add(Content.Load<Texture2D>("ship_DL"));
+            _myShip._ship_sprites.Add(Content.Load<Texture2D>("ship_DR"));
+            _myShip._current_sprite = _myShip._ship_sprites[0];
         }
 
         protected override void LoadContent()
@@ -28,6 +47,7 @@ namespace Corsaries_by_VBUteamGKMI
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
+            
         }
 
         protected override void Update(GameTime gameTime)
@@ -36,7 +56,45 @@ namespace Corsaries_by_VBUteamGKMI
                 Exit();
 
             // TODO: Add your update logic here
+            #region кнопки перемещения
+            // перемещение  по карте
 
+            // верх лево
+            if (Keyboard.GetState().IsKeyDown(Keys.W) && Keyboard.GetState().IsKeyDown(Keys.A))
+                _myShip.Go_UL();
+            // верх право
+            if (Keyboard.GetState().IsKeyDown(Keys.W) && Keyboard.GetState().IsKeyDown(Keys.D))
+                _myShip.Go_UR();
+            // низ лево
+            if (Keyboard.GetState().IsKeyDown(Keys.S) && Keyboard.GetState().IsKeyDown(Keys.A))
+                _myShip.Go_DL();
+            // низ право
+            if (Keyboard.GetState().IsKeyDown(Keys.S) && Keyboard.GetState().IsKeyDown(Keys.D))
+                _myShip.Go_DR();
+
+
+
+            //лево
+            if (Keyboard.GetState().IsKeyDown(Keys.A) &&
+                Keyboard.GetState().IsKeyUp(Keys.W) &&
+                Keyboard.GetState().IsKeyUp(Keys.S))
+                _myShip.Go_L();
+            //право
+            if (Keyboard.GetState().IsKeyDown(Keys.D) &&
+                Keyboard.GetState().IsKeyUp(Keys.W) &&
+                Keyboard.GetState().IsKeyUp(Keys.S))
+                _myShip.Go_R();
+            //верх
+            if (Keyboard.GetState().IsKeyDown(Keys.W) &&
+                Keyboard.GetState().IsKeyUp(Keys.A) &&
+                Keyboard.GetState().IsKeyUp(Keys.D))
+                _myShip.Go_U();
+            // низ
+            if (Keyboard.GetState().IsKeyDown(Keys.S) &&
+                Keyboard.GetState().IsKeyUp(Keys.A) &&
+                Keyboard.GetState().IsKeyUp(Keys.D))
+                _myShip.Go_D();
+            #endregion
             base.Update(gameTime);
         }
 
@@ -45,12 +103,10 @@ namespace Corsaries_by_VBUteamGKMI
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
-
+            _spriteBatch.Begin(); // обязательный метод начала
+            _spriteBatch.Draw(_myShip._current_sprite, _myShip._position, Color.White); // отрисовка корабля
+            _spriteBatch.End();// обязательный метод конца
             base.Draw(gameTime);
         }
-    }
-    public class Test
-    {
-
     }
 }
