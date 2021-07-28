@@ -29,17 +29,7 @@ namespace Corsaries_by_VBUteamGKMI
             // TODO: Add your initialization logic here
 
             base.Initialize();
-            _myShip = new MyShip();
-            // выгружаем срайты корабля
-            _myShip._ship_sprites.Add(Content.Load<Texture2D>("ship_R"));
-            _myShip._ship_sprites.Add(Content.Load<Texture2D>("ship_L"));
-            _myShip._ship_sprites.Add(Content.Load<Texture2D>("ship_U"));
-            _myShip._ship_sprites.Add(Content.Load<Texture2D>("ship_D"));
-            _myShip._ship_sprites.Add(Content.Load<Texture2D>("ship_UL"));
-            _myShip._ship_sprites.Add(Content.Load<Texture2D>("ship_UR"));
-            _myShip._ship_sprites.Add(Content.Load<Texture2D>("ship_DL"));
-            _myShip._ship_sprites.Add(Content.Load<Texture2D>("ship_DR"));
-            _myShip._current_sprite = _myShip._ship_sprites[0];
+            _myShip = new MyShip(Content);                   
         }
 
         protected override void LoadContent()

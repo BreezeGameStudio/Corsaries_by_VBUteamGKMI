@@ -13,9 +13,18 @@ namespace Corsaries_by_VBUteamGKMI.Model
         public int _speed = 5; // скорость корабля
         public List<Texture2D> _ship_sprites = new List<Texture2D>(); // коллекция спрайтов в разные направления
         public Vector2 _position = new Vector2(0, 0);
-        public MyShip()
+        public MyShip(Microsoft.Xna.Framework.Content.ContentManager content)
         {
-
+            // выгружаем срайты корабля
+            _ship_sprites.Add(content.Load<Texture2D>("ship_R"));
+            _ship_sprites.Add(content.Load<Texture2D>("ship_L"));
+            _ship_sprites.Add(content.Load<Texture2D>("ship_U"));
+            _ship_sprites.Add(content.Load<Texture2D>("ship_D"));
+            _ship_sprites.Add(content.Load<Texture2D>("ship_UL"));
+            _ship_sprites.Add(content.Load<Texture2D>("ship_UR"));
+            _ship_sprites.Add(content.Load<Texture2D>("ship_DL"));
+            _ship_sprites.Add(content.Load<Texture2D>("ship_DR"));
+            _current_sprite = _ship_sprites[0];
         }
         #region методы перемещения
         public void Go_U() // вверх
