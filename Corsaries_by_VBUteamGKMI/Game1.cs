@@ -8,8 +8,12 @@ namespace Corsaries_by_VBUteamGKMI
 {
     public class Game1 : Game
     {
-        private System.Drawing.Size _size_screen = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Size;//текущий монитор
-        private System.Drawing.Size _game_size_screen;// размер окна игры
+        private List<Island> _islands = new List<Island>();
+
+
+
+
+        private System.Drawing.Size _size_screen = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Size;//текущий монитор      
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         private MyShip _myShip;
@@ -19,12 +23,11 @@ namespace Corsaries_by_VBUteamGKMI
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
-            // задаём размер игрового окна с отступами
-            _game_size_screen = new System.Drawing.Size(_size_screen.Width - 30, _size_screen.Height - 200);
-            _graphics.IsFullScreen = false;
+            // задаём размер игрового окна с отступами        
+            _graphics.IsFullScreen = true;
             //
-            _graphics.PreferredBackBufferHeight = _game_size_screen.Height ;
-            _graphics.PreferredBackBufferWidth = _game_size_screen.Width ;
+            _graphics.PreferredBackBufferHeight = _size_screen.Height;
+            _graphics.PreferredBackBufferWidth = _size_screen.Width;
         }
 
         protected override void Initialize()
@@ -32,7 +35,10 @@ namespace Corsaries_by_VBUteamGKMI
             // TODO: Add your initialization logic here
 
             base.Initialize();
-            _myShip = new MyShip(Content, _game_size_screen);                   
+            _myShip = new MyShip(Content, _size_screen);
+            _islands.Add(new Island(Content, "1", new Vector2(0, 500)));
+            _islands.Add(new Island(Content, "1", new Vector2(600, 100)));
+            _islands.Add(new Island(Content, "1", new Vector2(100, 200)));
         }
 
         protected override void LoadContent()
@@ -40,7 +46,7 @@ namespace Corsaries_by_VBUteamGKMI
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
-            
+
         }
 
         protected override void Update(GameTime gameTime)
@@ -88,6 +94,12 @@ namespace Corsaries_by_VBUteamGKMI
                 Keyboard.GetState().IsKeyUp(Keys.D))
                 _myShip.Go_D();
             #endregion
+            if(Collide())
+            {
+               
+            }
+
+
             base.Update(gameTime);
         }
 
@@ -97,9 +109,29 @@ namespace Corsaries_by_VBUteamGKMI
 
             // TODO: Add your drawing code here
             _spriteBatch.Begin(); // обязательный метод начала
-            _spriteBatch.Draw(_myShip._current_sprite, _myShip._position, Color.White); // отрисовка корабля
-            _spriteBatch.End();// обязательный метод конца
+            _spriteBatch.Draw(_myShip._current_sprite, _myShip._position, Color.White); // отрисовка корабля        
+           // отрисовка островов
+            _islands.ForEach(i => _spriteBatch.Draw(i._current_sprite, i._position, Color.White));
+            _spriteBatch.End();// обязательный метод 
             base.Draw(gameTime);
+        }
+        // метод столкновения
+        protected bool Collide()
+        {
+            //создаём прямоугольник корабля 
+            Rectangle ship = new Rectangle((int)_myShip._position.X, (int)_myShip._position.Y,
+                _myShip._current_sprite.Width, _myShip._current_sprite.Height);
+            //бежим по колекции островов и проверяем на столкновение
+            foreach (var item in _islands)
+            {
+                // создаём прямоугольник острова
+                Rectangle island = new Rectangle((int)item._position.X, (int)item._position.Y, 
+                    item._current_sprite.Width, item._current_sprite.Height);
+                if (ship.Intersects(island))
+                    return true;
+            }
+
+            return false;
         }
     }
 }

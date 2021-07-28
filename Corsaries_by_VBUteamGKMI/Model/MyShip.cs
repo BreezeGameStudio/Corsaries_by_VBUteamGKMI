@@ -9,8 +9,8 @@ namespace Corsaries_by_VBUteamGKMI.Model
 {
     public class MyShip
     {
-
-       private System.Drawing.Size _size_screen; // размер монитора что бы не выходил за его приделы
+       
+        private System.Drawing.Size _size_screen; // размер монитора что бы не выходил за его приделы
         private List<Texture2D> _ship_sprites = new List<Texture2D>(); // коллекция спрайтов в разные направления
         private int _speed = 5; // скорость корабля
 
@@ -29,6 +29,7 @@ namespace Corsaries_by_VBUteamGKMI.Model
             _ship_sprites.Add(content.Load<Texture2D>("ship_DL"));
             _ship_sprites.Add(content.Load<Texture2D>("ship_DR"));
             _current_sprite = _ship_sprites[0];
+           
         }
         #region методы перемещения
         public void Go_U() // вверх
