@@ -49,4 +49,8 @@ namespace Corsaries_by_VBUteamGKMI
             base.Draw(gameTime);
         }
     }
+    public class Test
+    {
+
+    }
 }
