@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Corsaries_by_VBUteamGKMI.Model
 {
-    public class MyShip
+    public partial class MyShip
     {
        
         //private System.Drawing.Size Game1._size_screen; // размер монитора что бы не выходил за его приделы

@@ -23,13 +23,13 @@ namespace Corsaries_by_VBUteamGKMI
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
-
+          
 
             // инициализируем камеру
             _camera.Pos = new Vector2(500.0f, 200.0f);
 
             // задаём размер игрового окна с отступами        
-            _graphics.IsFullScreen = true;
+            //_graphics.IsFullScreen = true;
             //
             _graphics.PreferredBackBufferHeight = _size_screen.Height;
             _graphics.PreferredBackBufferWidth = _size_screen.Width;
@@ -42,8 +42,8 @@ namespace Corsaries_by_VBUteamGKMI
             base.Initialize();
             _myShip = new MyShip(Content);
             _islands.Add(new Island(Content, "1", new Vector2(0, 500)));
-            _islands.Add(new Island(Content, "1", new Vector2(600, 100)));
-            _islands.Add(new Island(Content, "1", new Vector2(100, 200)));
+          //  _islands.Add(new Island(Content, "1", new Vector2(600, 100)));
+           // _islands.Add(new Island(Content, "1", new Vector2(100, 200)));
            
         }
 
@@ -102,8 +102,8 @@ namespace Corsaries_by_VBUteamGKMI
             #endregion
             if (Collide())
                 _myShip.Step_Back_Position(); // возвращение к старой позиции при столкновениее
-            // да   м камере позицию корабля
 
+            // даём камере позицию корабля
             _camera.Pos = _myShip._position;
 
 

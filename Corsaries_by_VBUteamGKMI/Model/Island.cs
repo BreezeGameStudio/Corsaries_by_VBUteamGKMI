@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Corsaries_by_VBUteamGKMI.Model
 {
-    public class Island
+    public partial class Island
     {        
         public Texture2D _current_sprite; // текущий спрайт для отрисовки
         public Vector2 _position;
