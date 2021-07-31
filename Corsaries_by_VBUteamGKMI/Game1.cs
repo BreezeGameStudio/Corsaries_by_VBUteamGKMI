@@ -10,10 +10,10 @@ namespace Corsaries_by_VBUteamGKMI
     {
         private List<Island> _islands = new List<Island>();
 
-
-
-
-        private System.Drawing.Size _size_screen = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Size;//текущий монитор      
+        // камера
+        Camera2d _camera = new Camera2d();
+        //текущий монитор   
+        public static System.Drawing.Size _size_screen = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Size;   
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         private MyShip _myShip;
@@ -23,6 +23,11 @@ namespace Corsaries_by_VBUteamGKMI
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
+
+
+            // инициализируем камеру
+            _camera.Pos = new Vector2(500.0f, 200.0f);
+
             // задаём размер игрового окна с отступами        
             _graphics.IsFullScreen = true;
             //
@@ -35,10 +40,11 @@ namespace Corsaries_by_VBUteamGKMI
             // TODO: Add your initialization logic here
 
             base.Initialize();
-            _myShip = new MyShip(Content, _size_screen);
+            _myShip = new MyShip(Content);
             _islands.Add(new Island(Content, "1", new Vector2(0, 500)));
             _islands.Add(new Island(Content, "1", new Vector2(600, 100)));
             _islands.Add(new Island(Content, "1", new Vector2(100, 200)));
+           
         }
 
         protected override void LoadContent()
@@ -96,7 +102,9 @@ namespace Corsaries_by_VBUteamGKMI
             #endregion
             if (Collide())
                 _myShip.Step_Back_Position(); // возвращение к старой позиции при столкновениее
-          
+            // да   м камере позицию корабля
+
+            _camera.Pos = _myShip._position;
 
 
             base.Update(gameTime);
@@ -105,21 +113,23 @@ namespace Corsaries_by_VBUteamGKMI
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
+            // обязательный метод начала отрисовки в который передают камеру
+            _spriteBatch.Begin(SpriteSortMode.BackToFront,
+                        BlendState.AlphaBlend, null, null, null, null,
+                        _camera.get_transformation(GraphicsDevice));
 
-            // TODO: Add your drawing code here
-            _spriteBatch.Begin(); // обязательный метод начала
             _spriteBatch.Draw(_myShip._current_sprite, _myShip._position, Color.White); // отрисовка корабля        
-           // отрисовка островов
+                                                                                        // отрисовка островов
             _islands.ForEach(i => _spriteBatch.Draw(i._current_sprite, i._position, Color.White));
             _spriteBatch.End();// обязательный метод 
             base.Draw(gameTime);
         }
         // метод столкновения
         protected bool Collide()
-        {
-            //создаём прямоугольник корабля 
-            Rectangle ship = new Rectangle((int)_myShip._position.X, (int)_myShip._position.Y,
-                _myShip._current_sprite.Width, _myShip._current_sprite.Height);
+        {                    
+                //создаём прямоугольник корабля 
+              Rectangle  ship = new Rectangle((int)_myShip._position.X, (int)_myShip._position.Y,
+                     _myShip._current_sprite.Width, _myShip._current_sprite.Height);
             //бежим по колекции островов и проверяем на столкновение
             foreach (var item in _islands)
             {
