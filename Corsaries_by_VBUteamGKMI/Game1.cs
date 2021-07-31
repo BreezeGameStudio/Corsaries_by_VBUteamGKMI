@@ -6,17 +6,21 @@ using System.Collections.Generic;
 
 namespace Corsaries_by_VBUteamGKMI
 {
+    
     public class Game1 : Game
     {
-        private List<Island> _islands = new List<Island>();
+       public static Game_ground _game_ground = new Game_ground(50000, 50000);
+        SpriteFont _text;
+        Vector2 _text_pos ; // позиция
 
+        private List<Island> _islands = new List<Island>(); // коллекция островов
         // камера
         Camera2d _camera = new Camera2d();
         //текущий монитор   
         public static System.Drawing.Size _size_screen = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Size;   
-        private GraphicsDeviceManager _graphics;
-        private SpriteBatch _spriteBatch;
-        private MyShip _myShip;
+        private GraphicsDeviceManager _graphics; // графика
+        private SpriteBatch _spriteBatch; // отрисовщик спрайтов
+        private MyShip _myShip; // мой кораблик
 
         public Game1()
         {
@@ -42,8 +46,11 @@ namespace Corsaries_by_VBUteamGKMI
             base.Initialize();
             _myShip = new MyShip(Content);
             _islands.Add(new Island(Content, "1", new Vector2(0, 500)));
-          //  _islands.Add(new Island(Content, "1", new Vector2(600, 100)));
-           // _islands.Add(new Island(Content, "1", new Vector2(100, 200)));
+            //  _islands.Add(new Island(Content, "1", new Vector2(600, 100)));
+            // _islands.Add(new Island(Content, "1", new Vector2(100, 200)));
+
+            // тестовый текст
+            _text = Content.Load<SpriteFont>("testtext");
            
         }
 
@@ -105,6 +112,8 @@ namespace Corsaries_by_VBUteamGKMI
 
             // даём камере позицию корабля
             _camera.Pos = _myShip._position;
+            _text_pos.Y = _myShip._position.Y+100;
+            _text_pos.X = _myShip._position.X;
 
 
             base.Update(gameTime);
@@ -121,6 +130,18 @@ namespace Corsaries_by_VBUteamGKMI
             _spriteBatch.Draw(_myShip._current_sprite, _myShip._position, Color.White); // отрисовка корабля        
                                                                                         // отрисовка островов
             _islands.ForEach(i => _spriteBatch.Draw(i._current_sprite, i._position, Color.White));
+
+            /// тест текста
+          
+        Color color = new Color(255, 255, 0); // цвет желтый
+            if (_myShip != null)
+            {
+                _spriteBatch.DrawString(_text, $"X {_myShip._position.X} Y {_myShip._position.Y}", _text_pos, color); // рисуем текст
+            }
+
+
+
+
             _spriteBatch.End();// обязательный метод 
             base.Draw(gameTime);
         }
@@ -142,5 +163,18 @@ namespace Corsaries_by_VBUteamGKMI
 
             return false;
         }
+    }
+
+    public struct Game_ground // структура для храения размеров игрового поля
+    {
+        public Game_ground (int x_e, int y_e)
+        {
+            _x_b = 0; _x_e = x_e;
+            _y_b = 0; _y_e = y_e;
+        }
+        public int _x_b { get; set; } // ось Х начало
+        public int _x_e { get; set; } // ось Х конец
+        public int _y_b { get; set; } // ось У начало
+        public int _y_e { get; set; } // ось У конец
     }
 }
