@@ -11,8 +11,8 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
     {
         private Random _random = new Random(); // рандом для смены направления движения
         // список направлений движений
-        private enum Eirection { up, up_right, right, right_down, down, down_left, left, left_up }
-        private Eirection _eirection { get; set; }
+        public enum Direction { up, up_right, right, right_down, down, down_left, left, left_up }
+        public Direction _direction { get; set; }
 
         public NPS_Ship(Ship_type ship_Type, Microsoft.Xna.Framework.Content.ContentManager content) : base(ship_Type)
         {
@@ -32,33 +32,33 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
                  _current_sprite.Width, _current_sprite.Height);
         }
         public void Step_Back_Position() => _position = _old_position;
-        public void Next_Move() => _eirection = (Eirection)_random.Next(7);
+        public void Next_Move() => _direction = (Direction)_random.Next(7);
         public void Move()
         {
-            switch (_eirection)
+            switch (_direction)
             {
-                case Eirection.up:
+                case Direction.up:
                     Go_U();
                     break;
-                case Eirection.up_right:
+                case Direction.up_right:
                     Go_UR();
                     break;
-                case Eirection.right:
+                case Direction.right:
                     Go_R();
                     break;
-                case Eirection.right_down:
+                case Direction.right_down:
                     Go_DR();
                     break;
-                case Eirection.down:
+                case Direction.down:
                     Go_D();
                     break;
-                case Eirection.down_left:
+                case Direction.down_left:
                     Go_DL();
                     break;
-                case Eirection.left:
+                case Direction.left:
                     Go_L();
                     break;
-                case Eirection.left_up:
+                case Direction.left_up:
                     Go_UL();
                     break;
             }

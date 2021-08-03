@@ -70,13 +70,14 @@ namespace Corsaries_by_VBUteamGKMI
 
             base.Initialize();
             // добавляем нпс
+            _nps.Clear(); //очищаем коллекцию чтобы при перезапуске не становилось больше NPS
             for (int i = 0; i < 2; i++)
             {
                 _nps.Add(new NPS_Ship((Ship_type)new Random().Next(0,7),Content));
             }
 
 
-            _myShip = new MyShip(Ship_type.Caravel,Content);
+            _myShip = new MyShip(Ship_type.Boat,Content);
             _islands.Add(new Island(Content, "1", new Vector2((_game_ground._x_e / 2)+300, (_game_ground._y_e / 2)-300)));
            
 
@@ -90,76 +91,79 @@ namespace Corsaries_by_VBUteamGKMI
 
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
-
-            // TODO: Add your update logic here
-            #region кнопки перемещения
-            // перемещение  по карте
-
-            // верх лево
-            if (Keyboard.GetState().IsKeyDown(Keys.W) && Keyboard.GetState().IsKeyDown(Keys.A))
-                _myShip.Go_UL();
-            // верх право
-            if (Keyboard.GetState().IsKeyDown(Keys.W) && Keyboard.GetState().IsKeyDown(Keys.D))
-                _myShip.Go_UR();
-            // низ лево
-            if (Keyboard.GetState().IsKeyDown(Keys.S) && Keyboard.GetState().IsKeyDown(Keys.A))
-                _myShip.Go_DL();
-            // низ право
-            if (Keyboard.GetState().IsKeyDown(Keys.S) && Keyboard.GetState().IsKeyDown(Keys.D))
-                _myShip.Go_DR();
-
-
-
-            //лево
-            if (Keyboard.GetState().IsKeyDown(Keys.A) &&
-                Keyboard.GetState().IsKeyUp(Keys.W) &&
-                Keyboard.GetState().IsKeyUp(Keys.S))
-                _myShip.Go_L();
-            //право
-            if (Keyboard.GetState().IsKeyDown(Keys.D) &&
-                Keyboard.GetState().IsKeyUp(Keys.W) &&
-                Keyboard.GetState().IsKeyUp(Keys.S))
-                _myShip.Go_R();
-            //верх
-            if (Keyboard.GetState().IsKeyDown(Keys.W) &&
-                Keyboard.GetState().IsKeyUp(Keys.A) &&
-                Keyboard.GetState().IsKeyUp(Keys.D))
-                _myShip.Go_U();
-            // низ
-            if (Keyboard.GetState().IsKeyDown(Keys.S) &&
-                Keyboard.GetState().IsKeyUp(Keys.A) &&
-                Keyboard.GetState().IsKeyUp(Keys.D))
-                _myShip.Go_D();
-            #endregion
-
-            // проверка столкнованеий моего корабля
-            if (Collision_island(_myShip))
-                _myShip.Step_Back_Position(); // возвращение к старой позиции при столкновениее
-
-
-            // проверка столкноваений НПС с островами
-            foreach (var item in _nps)
+            if (this.IsActive)
             {
-                if (Collision_island(item))
-                    item.Step_Back_Position();// возвращение к старой позиции при столкновениее
+                if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+                    Exit();
+
+                // TODO: Add your update logic here
+                #region кнопки перемещения
+                // перемещение  по карте
+
+                // верх лево
+                if (Keyboard.GetState().IsKeyDown(Keys.W) && Keyboard.GetState().IsKeyDown(Keys.A))
+                    _myShip.Go_UL();
+                // верх право
+                if (Keyboard.GetState().IsKeyDown(Keys.W) && Keyboard.GetState().IsKeyDown(Keys.D))
+                    _myShip.Go_UR();
+                // низ лево
+                if (Keyboard.GetState().IsKeyDown(Keys.S) && Keyboard.GetState().IsKeyDown(Keys.A))
+                    _myShip.Go_DL();
+                // низ право
+                if (Keyboard.GetState().IsKeyDown(Keys.S) && Keyboard.GetState().IsKeyDown(Keys.D))
+                    _myShip.Go_DR();
+
+
+
+                //лево
+                if (Keyboard.GetState().IsKeyDown(Keys.A) &&
+                    Keyboard.GetState().IsKeyUp(Keys.W) &&
+                    Keyboard.GetState().IsKeyUp(Keys.S))
+                    _myShip.Go_L();
+                //право
+                if (Keyboard.GetState().IsKeyDown(Keys.D) &&
+                    Keyboard.GetState().IsKeyUp(Keys.W) &&
+                    Keyboard.GetState().IsKeyUp(Keys.S))
+                    _myShip.Go_R();
+                //верх
+                if (Keyboard.GetState().IsKeyDown(Keys.W) &&
+                    Keyboard.GetState().IsKeyUp(Keys.A) &&
+                    Keyboard.GetState().IsKeyUp(Keys.D))
+                    _myShip.Go_U();
+                // низ
+                if (Keyboard.GetState().IsKeyDown(Keys.S) &&
+                    Keyboard.GetState().IsKeyUp(Keys.A) &&
+                    Keyboard.GetState().IsKeyUp(Keys.D))
+                    _myShip.Go_D();
+                #endregion
+
+                // проверка столкнованеий моего корабля
+                if (Collision_island(_myShip))
+                    _myShip.Step_Back_Position(); // возвращение к старой позиции при столкновениее
+
+
+                // проверка столкноваений НПС с островами
+                foreach (var item in _nps)
+                {
+                    if (Collision_island(item))
+                        item.Step_Back_Position();// возвращение к старой позиции при столкновениее
+                }
+
+                Collision_NPS(_myShip); // столкновение меня и нпс
+
+
+                // даём камере позицию корабля
+                _camera.Pos = _myShip._position;
+                _text_pos.Y = _myShip._position.Y - (_size_screen.Height / 2);
+                _text_pos.X = _myShip._position.X - (_size_screen.Width / 2);
+
+
+                // НПС ДВИЖЕНИЕ
+                _nps.ForEach(i => i.Move());
+
+
+                base.Update(gameTime);
             }
-
-            Collision_NPS(_myShip); // столкновение меня и нпс
-
-
-            // даём камере позицию корабля
-            _camera.Pos = _myShip._position;
-            _text_pos.Y =  _myShip._position.Y - (_size_screen.Height/2);
-            _text_pos.X =  _myShip._position.X- (_size_screen.Width/2);
-
-
-            // НПС ДВИЖЕНИЕ
-            _nps.ForEach(i => i.Move());
-           
-
-            base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
@@ -222,16 +226,68 @@ namespace Corsaries_by_VBUteamGKMI
                 foreach (var item in _nps)
                 {
                     // создаём прямоугольник NPS
-                    Rectangle nps = new Rectangle((int)item._position.X, (int)item._position.Y,
-                        item._current_sprite.Width, item._current_sprite.Height);
+                    Rectangle nps = new Rectangle((int)item._position.X-100, (int)item._position.Y-100,
+                        item._current_sprite.Width+100, item._current_sprite.Height+100);
                     if (R_ship.Intersects(nps))
                     {
 
                         System.Windows.Forms.DialogResult rez = System.Windows.Forms.MessageBox.Show($"Вы хотите вступить в бой с {item._name}", "Обнаружен корабыль",
                             System.Windows.Forms.MessageBoxButtons.YesNo);
-                        if (rez == System.Windows.Forms.DialogResult.Yes)
+
+                        if (rez == System.Windows.Forms.DialogResult.Yes) //если предложение о бое было принято
                         {
-                            new Battle_Form(_myShip, item).ShowDialog();
+                            System.Windows.Forms.DialogResult result = new Battle_Form(_myShip, item).ShowDialog(); //запускаем форму и присваем результат переменной
+
+                            if(result == System.Windows.Forms.DialogResult.No) //если форма возвращает ответ "нет" тоесть мы не победили а проиграли то тогда перезапустить игру
+                            {
+                                this.Initialize(); //перезапуск игры
+                            }
+                            
+                        }
+
+                        else //если форма была закрыта или предложение о бое было отклонено
+                        {
+                            //проверка направления NPS и перемещение нашего корабля в противоположном направлении
+                            if(item._direction == NPS_Ship.Direction.up)
+                            {
+                                ship._position = new Vector2(nps.X + nps.Width/2,nps.Y+nps.Height + ship._rectangle.Height);
+                            }
+
+                            else if (item._direction == NPS_Ship.Direction.up_right)
+                            {
+                                ship._position = new Vector2(nps.X - ship._rectangle.Width, nps.Y + nps.Height);
+                            }
+
+                            else if (item._direction == NPS_Ship.Direction.right)
+                            {
+                                ship._position = new Vector2(nps.X - ship._rectangle.Width, nps.Y + nps.Height/2);
+                            }
+
+                            else if (item._direction == NPS_Ship.Direction.right_down)
+                            {
+                                ship._position = new Vector2(nps.X - ship._rectangle.Width, nps.Y - ship._rectangle.Height);
+                            }
+
+                            else if (item._direction == NPS_Ship.Direction.down)
+                            {
+                                ship._position = new Vector2(nps.X + nps.Width/2, nps.Y - ship._rectangle.Height);
+                            }
+
+                            else if (item._direction == NPS_Ship.Direction.down_left)
+                            {
+                                ship._position = new Vector2(nps.X + nps.Width, nps.Y - ship._rectangle.Height);
+                            }
+
+                            else if (item._direction == NPS_Ship.Direction.left)
+                            {
+                                ship._position = new Vector2(nps.X + nps.Width, nps.Y + nps.Height/2);
+                            }
+
+                            else if (item._direction == NPS_Ship.Direction.left_up)
+                            {
+                                ship._position = new Vector2(nps.X + nps.Width, nps.Y + nps.Height);
+                            }
+
                         }
 
                     }

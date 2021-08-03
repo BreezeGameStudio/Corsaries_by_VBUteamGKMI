@@ -91,6 +91,7 @@ namespace Corsaries_by_VBUteamGKMI.View
             {
                 Game1._nps.Remove(_Enemy_Ship);
                 MessageBox.Show($"Это ПОБЕДА над {_Enemy_Ship._name}", "Открывай ром!!!", MessageBoxButtons.OK);
+                this.DialogResult = DialogResult.Yes;
                 this.Close();
             }
             else
@@ -99,6 +100,7 @@ namespace Corsaries_by_VBUteamGKMI.View
             if (_MyShip._hp <= 0)
             {                
                 MessageBox.Show($"Нас РАЗГРОМИЛ {_Enemy_Ship._name}", "Спасайся!!!", MessageBoxButtons.OK);
+                this.DialogResult = DialogResult.No;
                 this.Close();
             }
             else
