@@ -1,7 +1,10 @@
 ﻿using Corsaries_by_VBUteamGKMI.Model;
+using Corsaries_by_VBUteamGKMI.Model.Ship;
+using Corsaries_by_VBUteamGKMI.View;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System;
 using System.Collections.Generic;
 
 namespace Corsaries_by_VBUteamGKMI
@@ -9,7 +12,10 @@ namespace Corsaries_by_VBUteamGKMI
     
     public class Game1 : Game
     {
-        public List<NPS_Ship> _nps = new List<NPS_Ship>(); // коллекция нпс
+      
+        public static  int _game_ground_X_Y = 5000;
+       
+        public static List<NPS_Ship> _nps = new List<NPS_Ship>(); // коллекция нпс
 
         //наймер смены направления движения нпс
         System.Windows.Forms.Timer _timer = new System.Windows.Forms.Timer();
@@ -17,7 +23,7 @@ namespace Corsaries_by_VBUteamGKMI
 
 
         // размеры игровой карты
-       public static Game_ground _game_ground = new Game_ground(50000, 50000);
+       public static Game_ground _game_ground = new Game_ground(_game_ground_X_Y, _game_ground_X_Y);
         SpriteFont _text;
         Vector2 _text_pos ; // позиция
 
@@ -32,6 +38,9 @@ namespace Corsaries_by_VBUteamGKMI
 
         public Game1()
         {
+            
+
+
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content"; // директория закачки контента
             IsMouseVisible = true; // видимость мышки
@@ -50,6 +59,8 @@ namespace Corsaries_by_VBUteamGKMI
             _graphics.PreferredBackBufferWidth = _size_screen.Width;
         }
 
+       
+
         private void _timer_Tick(object sender, System.EventArgs e) => _nps.ForEach(i => i.Next_Move());
 
 
@@ -59,13 +70,13 @@ namespace Corsaries_by_VBUteamGKMI
 
             base.Initialize();
             // добавляем нпс
-            for (int i = 0; i < 20; i++)
+            for (int i = 0; i < 2; i++)
             {
-                _nps.Add(new NPS_Ship(Content));
+                _nps.Add(new NPS_Ship((Ship_type)new Random().Next(0,7),Content));
             }
 
 
-            _myShip = new MyShip(Content);
+            _myShip = new MyShip(Ship_type.Caravel,Content);
             _islands.Add(new Island(Content, "1", new Vector2((_game_ground._x_e / 2)+300, (_game_ground._y_e / 2)-300)));
            
 
@@ -74,13 +85,8 @@ namespace Corsaries_by_VBUteamGKMI
            
         }
 
-        protected override void LoadContent()
-        {
-            _spriteBatch = new SpriteBatch(GraphicsDevice);
+        protected override void LoadContent() => _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            // TODO: use this.Content to load your game content here
-
-        }
 
         protected override void Update(GameTime gameTime)
         {
@@ -129,23 +135,24 @@ namespace Corsaries_by_VBUteamGKMI
             #endregion
 
             // проверка столкнованеий моего корабля
-            if (Collide(_myShip))
+            if (Collision_island(_myShip))
                 _myShip.Step_Back_Position(); // возвращение к старой позиции при столкновениее
 
 
-            // проверка столкноваений НПС
+            // проверка столкноваений НПС с островами
             foreach (var item in _nps)
             {
-                if (Collide(item))
+                if (Collision_island(item))
                     item.Step_Back_Position();// возвращение к старой позиции при столкновениее
             }
 
+            Collision_NPS(_myShip); // столкновение меня и нпс
 
 
             // даём камере позицию корабля
             _camera.Pos = _myShip._position;
-            _text_pos.Y = _myShip._position.Y+100;
-            _text_pos.X = _myShip._position.X;
+            _text_pos.Y =  _myShip._position.Y - (_size_screen.Height/2);
+            _text_pos.X =  _myShip._position.X- (_size_screen.Width/2);
 
 
             // НПС ДВИЖЕНИЕ
@@ -171,12 +178,13 @@ namespace Corsaries_by_VBUteamGKMI
 
             /// тест текста
           
-        Color color = new Color(255, 255, 0); // цвет желтый
+        Color color = new Color(0, 0, 0); // цвет желтый
             if (_myShip != null)
             {
+                _spriteBatch.DrawString(_text, $"X {_myShip._position.X} Y {_myShip._position.Y}",
+                     _text_pos, color);
+            } // рисуем текст
 
-                _spriteBatch.DrawString(_text, $"X {_myShip._position.X} Y {_myShip._position.Y}", _text_pos, color); // рисуем текст
-            }
 
 
 
@@ -184,8 +192,8 @@ namespace Corsaries_by_VBUteamGKMI
             _spriteBatch.End();// обязательный метод 
             base.Draw(gameTime);
         }
-        // метод столкновения
-        protected bool Collide(Ship ship)
+        // метод столкновения с островами
+        protected bool Collision_island(Ship ship)
         {                    
                 //создаём прямоугольник корабля 
               Rectangle  R_ship = new Rectangle((int)ship._position.X, (int)ship._position.Y,
@@ -201,6 +209,36 @@ namespace Corsaries_by_VBUteamGKMI
             }
 
             return false;
+        }
+
+        protected void Collision_NPS(Ship ship)
+        {
+            //создаём прямоугольник корабля 
+            Rectangle R_ship = new Rectangle((int)ship._position.X, (int)ship._position.Y,
+                   ship._current_sprite.Width, ship._current_sprite.Height);
+            //бежим по колекции NPS и проверяем на столкновение
+            try
+            {
+                foreach (var item in _nps)
+                {
+                    // создаём прямоугольник NPS
+                    Rectangle nps = new Rectangle((int)item._position.X, (int)item._position.Y,
+                        item._current_sprite.Width, item._current_sprite.Height);
+                    if (R_ship.Intersects(nps))
+                    {
+
+                        System.Windows.Forms.DialogResult rez = System.Windows.Forms.MessageBox.Show($"Вы хотите вступить в бой с {item._name}", "Обнаружен корабыль",
+                            System.Windows.Forms.MessageBoxButtons.YesNo);
+                        if (rez == System.Windows.Forms.DialogResult.Yes)
+                        {
+                            new Battle_Form(_myShip, item).ShowDialog();
+                        }
+
+                    }
+                }
+            }
+            catch (InvalidOperationException) { return; }
+                     
         }
     }
 

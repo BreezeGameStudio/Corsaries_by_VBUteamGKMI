@@ -5,25 +5,18 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using System.Text;
 
-namespace Corsaries_by_VBUteamGKMI.Model
+namespace Corsaries_by_VBUteamGKMI.Model.Ship
 {
-    public abstract class Ship 
+   public class NPS_Ship : Ship
     {
-        protected List<Texture2D> _ship_sprites = new List<Texture2D>(); // коллекция спрайтов в разные направления
-        protected int _speed = 5; // скорость корабля
-        public Rectangle _rectangle; // прямоугольник для корабля
-        public Texture2D _current_sprite; // текущий спрайт для отрисовки
-        public Vector2 _position = new Vector2(Game1._game_ground._x_e / 2, Game1._game_ground._y_e / 2);
-        public Vector2 _old_position; // память старой позиции на случай столкновения
-    }
+        private Random _random = new Random(); // рандом для смены направления движения
+        // список направлений движений
+        private enum Eirection { up, up_right, right, right_down, down, down_left, left, left_up }
+        private Eirection _eirection { get; set; }
 
-
-    public partial class MyShip : Ship
-    {
-     
-        public MyShip(Microsoft.Xna.Framework.Content.ContentManager content)
+        public NPS_Ship(Ship_type ship_Type, Microsoft.Xna.Framework.Content.ContentManager content) : base(ship_Type)
         {
-
+            _position = new Vector2(Game1._game_ground._x_e / 2 - 100, Game1._game_ground._y_e / 2);
             // выгружаем срайты корабля
             _ship_sprites.Add(content.Load<Texture2D>("ship_R"));
             _ship_sprites.Add(content.Load<Texture2D>("ship_L"));
@@ -39,10 +32,41 @@ namespace Corsaries_by_VBUteamGKMI.Model
                  _current_sprite.Width, _current_sprite.Height);
         }
         public void Step_Back_Position() => _position = _old_position;
+        public void Next_Move() => _eirection = (Eirection)_random.Next(7);
+        public void Move()
+        {
+            switch (_eirection)
+            {
+                case Eirection.up:
+                    Go_U();
+                    break;
+                case Eirection.up_right:
+                    Go_UR();
+                    break;
+                case Eirection.right:
+                    Go_R();
+                    break;
+                case Eirection.right_down:
+                    Go_DR();
+                    break;
+                case Eirection.down:
+                    Go_D();
+                    break;
+                case Eirection.down_left:
+                    Go_DL();
+                    break;
+                case Eirection.left:
+                    Go_L();
+                    break;
+                case Eirection.left_up:
+                    Go_UL();
+                    break;
+            }
+        }
+    
 
-
-        #region методы перемещения
-        public void Go_U() // вверх
+    #region методы перемещения
+    public void Go_U() // вверх
         {
             if (_position.Y > Game1._game_ground._y_b)
             {
@@ -64,7 +88,7 @@ namespace Corsaries_by_VBUteamGKMI.Model
         }
         public void Go_UR() // вверх право
         {
-            if (_position.Y > Game1._game_ground._y_b 
+            if (_position.Y > Game1._game_ground._y_b
                 && _position.X < Game1._game_ground._x_e - _current_sprite.Width)
             {
                 _old_position = _position;
@@ -85,7 +109,7 @@ namespace Corsaries_by_VBUteamGKMI.Model
         }
         public void Go_DL()  // вниз лево
         {
-            if (_position.Y < Game1._game_ground._y_e - _current_sprite.Height 
+            if (_position.Y < Game1._game_ground._y_e - _current_sprite.Height
                 && _position.X > Game1._game_ground._x_b)
             {
                 _old_position = _position;
@@ -124,7 +148,6 @@ namespace Corsaries_by_VBUteamGKMI.Model
                 _current_sprite = _ship_sprites[0];
             }
         }
-        #endregion
-    }
+    #endregion
 }
-
+}
