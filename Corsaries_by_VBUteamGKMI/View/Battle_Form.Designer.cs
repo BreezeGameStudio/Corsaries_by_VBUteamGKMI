@@ -65,6 +65,7 @@ namespace Corsaries_by_VBUteamGKMI.View
             this.label15 = new System.Windows.Forms.Label();
             this.label16 = new System.Windows.Forms.Label();
             this.log = new System.Windows.Forms.TextBox();
+            this.btn_abbord = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
@@ -335,7 +336,7 @@ namespace Corsaries_by_VBUteamGKMI.View
             // 
             // btn_Attack
             // 
-            this.btn_Attack.Location = new System.Drawing.Point(248, 415);
+            this.btn_Attack.Location = new System.Drawing.Point(375, 415);
             this.btn_Attack.Name = "btn_Attack";
             this.btn_Attack.Size = new System.Drawing.Size(285, 23);
             this.btn_Attack.TabIndex = 31;
@@ -396,11 +397,21 @@ namespace Corsaries_by_VBUteamGKMI.View
             this.log.TabIndex = 37;
             this.log.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
+            // btn_abbord
+            // 
+            this.btn_abbord.Location = new System.Drawing.Point(48, 415);
+            this.btn_abbord.Name = "btn_abbord";
+            this.btn_abbord.Size = new System.Drawing.Size(285, 23);
+            this.btn_abbord.TabIndex = 38;
+            this.btn_abbord.Text = "Абордаж";
+            this.btn_abbord.UseVisualStyleBackColor = true;
+            // 
             // Battle_Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.btn_abbord);
             this.Controls.Add(this.log);
             this.Controls.Add(this.label16);
             this.Controls.Add(this.label15);
@@ -437,6 +448,7 @@ namespace Corsaries_by_VBUteamGKMI.View
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "Battle_Form";
             this.Text = "Battle_Form";
             this.ResumeLayout(false);
@@ -482,5 +494,6 @@ namespace Corsaries_by_VBUteamGKMI.View
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.TextBox log;
+        private System.Windows.Forms.Button btn_abbord;
     }
 }

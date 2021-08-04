@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
+using Corsaries_by_VBUteamGKMI.View;
 
 namespace Corsaries_by_VBUteamGKMI
 {
@@ -294,7 +295,7 @@ namespace Corsaries_by_VBUteamGKMI
                 }
 
             }
-            catch (InvalidOperationException) { return; }
+            catch (InvalidOperationException ) { return; }
                      
         }
     }

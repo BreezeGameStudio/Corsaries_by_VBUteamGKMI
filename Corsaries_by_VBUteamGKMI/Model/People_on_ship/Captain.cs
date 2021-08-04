@@ -6,7 +6,8 @@ namespace Corsaries_by_VBUteamGKMI.Model.People_on_ship
 {
     public class Captain
     {
-        public int _hp ;   //  здоровья капитана
+        public int _current_hp ;   // текущее  здоровья капитана
+        public int _max_hp ;   //  здоровья капитана
         public int _damag ;  //  урона капитана
         public int _deff ;  //  защиты капитана
         public int _dodge ;  //   уворота капитана
@@ -15,12 +16,12 @@ namespace Corsaries_by_VBUteamGKMI.Model.People_on_ship
         // метод для задавания параметров капитана
         public void Set_Cap_Prop(List<Sailor> sailors)
         {
-            _hp = 0;   //  здоровья капитана
+            _max_hp = 0;   //  здоровья капитана
             _damag = 0;   //  урона капитана
             _deff = 0;  //  защиты капитана
             _dodge = 0;  //   уворота капитана
             _critical = 0; //  шанса крит удара капитана
-            sailors.ForEach(i => _hp += (i._hp_boost * i._count));// хп кэпа
+            sailors.ForEach(i => _max_hp += (i._hp_boost * i._count));// хп кэпа
 
             double temp_damag = 0;
             sailors.ForEach(i => temp_damag += (i._damag_boost * i._count));// урон кэпа
@@ -37,6 +38,7 @@ namespace Corsaries_by_VBUteamGKMI.Model.People_on_ship
             double temp_critical = 0;
             sailors.ForEach(i => temp_critical += (i._critical_boost * i._count));// крит кэпа
             _critical = (int)temp_critical;
+            _current_hp = _max_hp;
         }
     }
 }
