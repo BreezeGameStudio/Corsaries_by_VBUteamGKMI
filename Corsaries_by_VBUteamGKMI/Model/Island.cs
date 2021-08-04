@@ -13,7 +13,7 @@ namespace Corsaries_by_VBUteamGKMI.Model
         public Vector2 _position;
         public Island(Microsoft.Xna.Framework.Content.ContentManager content, string name_sprit,Vector2 pos)
         {
-            // выгружаем срайты корабля
+            // выгружаем срайты острова
             _current_sprite=content.Load<Texture2D>(name_sprit);
             _position = pos;
         }

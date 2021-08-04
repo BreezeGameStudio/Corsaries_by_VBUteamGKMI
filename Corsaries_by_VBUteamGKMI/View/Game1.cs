@@ -71,13 +71,13 @@ namespace Corsaries_by_VBUteamGKMI
             base.Initialize();
             // добавляем нпс
             _nps.Clear(); //очищаем коллекцию чтобы при перезапуске не становилось больше NPS
-            for (int i = 0; i < 2; i++)
+            for (int i = 0; i < 5; i++)
             {
                 _nps.Add(new NPS_Ship((Ship_type)new Random().Next(0,7),Content));
             }
 
 
-            _myShip = new MyShip(Ship_type.Boat,Content);
+            _myShip = new MyShip(Ship_type.Corvette,Content);
             _islands.Add(new Island(Content, "1", new Vector2((_game_ground._x_e / 2)+300, (_game_ground._y_e / 2)-300)));
            
 

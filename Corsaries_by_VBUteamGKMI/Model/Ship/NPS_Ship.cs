@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using System.Text;
+using Corsaries_by_VBUteamGKMI.Model.Products;
+using Corsaries_by_VBUteamGKMI.Model.People_on_ship;
 
 namespace Corsaries_by_VBUteamGKMI.Model.Ship
 {
@@ -30,7 +32,58 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
             //создаём прямоугольник корабля 
             _rectangle = new Rectangle((int)_position.X, (int)_position.Y,
                  _current_sprite.Width, _current_sprite.Height);
+            // // заполняем коллекцию матросов матросов =)
+            SetSailorsList();
+            // оживляем капитана
+            _captain =  new Captain(_sailors);
+            // заполняем коллекцию продуктов продуктами =)
+            SetProductList();
         }
+        // заполняем коллекцию матросов матромаит =)
+        private void SetSailorsList()
+        {
+           
+            while(_current_count_sailors<_max_count_sailors)
+            {
+                foreach (var item in _sailors)
+                {
+                    item._count++;
+                    _current_count_sailors++;
+                    if (_current_count_sailors == _max_count_sailors)
+                        break;
+                }
+               
+            }
+        }
+
+        // заполняем коллекцию продуктов продуктами =)
+        private void SetProductList()
+        {
+            // даём нпс по 30 штук каждого продукта
+            _products.ForEach(i => i._count = _random.Next(30));
+            // подсчитуем на сколько мы перегрузили корабыль
+            _products.ForEach(i => _current_capacity+=(i._count*i._weight));
+
+            //крутим безконечный цикл пока текущая загруженость не будет меньше равно максимальной загружености
+            while (_current_capacity>=_max_capacity)
+            {
+                //бежим по продуктам
+                foreach (var item in _products)
+                {
+                    // проверяем достаточни ли у нас продукта
+                    if (item._count > 0)
+                    {
+                        item._count--; // убераем одну еденицу продукта
+                        _current_capacity -= item._weight; // отнимаем убраный вес
+                        if (_current_capacity <= _max_capacity) // проверяем перегружены мы еще или нет
+                            break; // если да конец цикла
+                    }
+                    else
+                        continue;
+                }
+            }         
+        }
+
         public void Step_Back_Position() => _position = _old_position;
         public void Next_Move() => _direction = (Direction)_random.Next(7);
         public void Move()

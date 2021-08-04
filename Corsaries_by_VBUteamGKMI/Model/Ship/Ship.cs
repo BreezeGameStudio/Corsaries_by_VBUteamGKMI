@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using System.Text;
+using Corsaries_by_VBUteamGKMI.Model.Products;
+using Corsaries_by_VBUteamGKMI.Model.People_on_ship;
 
 namespace Corsaries_by_VBUteamGKMI.Model.Ship
 {
@@ -11,14 +13,18 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
 
     public abstract class Ship
     {
-        protected Ship_type _ship_type;
-
+        public Captain _captain; // капитан наш любимый
+        protected Ship_type _ship_type; // тип корабля
+        public List<Product> _products = new List<Product>(); // колекция товаров
+        public List<Sailor> _sailors = new List<Sailor>(); // колекция моряков
         #region параметры именяемые от типа корабля
         public string _name; // имя корабля
-        public int  _count_sailors; // максимальное количество матросов
+        public int  _current_count_sailors =0; // текущее количество матросов
         public int _max_count_sailors; // максимальное количество матросов
-        public int _capacity; //  вместимость
-        public int _hp; // здоровье
+        public int _max_capacity; //  вместимость
+        public int _current_capacity = 0; //  показывет сколько места на корабле занято
+        public int _max_hp; // максимальное количество здоровья
+        public int _current_hp;// текущее количество хп
         public int _speed; // скорость корабля
         public Сannon _cannon; // пушки корабля
         public int _count_cannon; // количество пушек
@@ -44,8 +50,8 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
             {
                 case Ship_type.Boat: // шлюшка
                     _name = "Шлюпка";
-                    _capacity = 100; // всестимость
-                    _hp = 500; // здоровье 
+                    _max_capacity = 100; // всестимость
+                    _max_hp = 500; // максимальное количество здоровья 
                     _speed = 1; // скорость               
                      _count_cannon = 4; // количество пушке
                     _max_count_sailors = 10; // максимальное количество матросов
@@ -54,8 +60,8 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
                     break;
                 case Ship_type.Schooner:
                     _name ="Шхуна";
-                    _capacity = 150; // всестимость
-                    _hp = 1000; // здоровье 
+                    _max_capacity = 150; // всестимость
+                    _max_hp = 1000; // максимальное количество здоровья 
                     _speed = 2; // скорость               
                     _count_cannon = 6; // количество пушке
                     _max_count_sailors = 20; // максимальное количество матросов
@@ -64,8 +70,8 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
                     break;
                 case Ship_type.Caravel:
                     _name ="Каравелла";
-                     _capacity = 200; // всестимость
-                    _hp = 2000; // здоровье 
+                     _max_capacity = 200; // всестимость
+                    _max_hp = 2000; // максимальное количество здоровья 
                     _speed = 3; // скорость               
                      _count_cannon = 8; // количество пушке
                     _max_count_sailors = 25; // максимальное количество матросов
@@ -74,8 +80,8 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
                     break;
                 case Ship_type.Brig:
                     _name ="Бриг";
-                     _capacity = 250; // всестимость
-                    _hp = 2300; // здоровье 
+                     _max_capacity = 250; // всестимость
+                    _max_hp = 2300; // максимальное количество здоровья 
                     _speed = 3; // скорость               
                      _count_cannon = 8; // количество пушке
                     _max_count_sailors = 30; // максимальное количество матросов
@@ -84,8 +90,8 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
                     break;
                 case Ship_type.Frigate:
                     _name ="Фрегат";
-                     _capacity = 300; // всестимость
-                    _hp = 4000; // здоровье 
+                     _max_capacity = 300; // всестимость
+                    _max_hp = 4000; // максимальное количество здоровья 
                     _speed = 4; // скорость               
                      _count_cannon = 10; // количество пушке
                     _max_count_sailors = 40; // максимальное количество матросов
@@ -94,8 +100,8 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
                     break;
                 case Ship_type.Galleon:
                     _name ="Галеон";
-                     _capacity = 400; // всестимость
-                    _hp = 6500; // здоровье 
+                     _max_capacity = 400; // всестимость
+                    _max_hp = 6500; // максимальное количество здоровья 
                     _speed = 5; // скорость               
                      _count_cannon = 12; // количество пушке
                     _max_count_sailors = 50; // максимальное количество матросов
@@ -104,8 +110,8 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
                     break;
                 case Ship_type.Corvette:
                     _name ="Корвет";
-                     _capacity = 350; // всестимость
-                    _hp = 6700; // здоровье 
+                     _max_capacity = 350; // всестимость
+                    _max_hp = 6700; // максимальное количество здоровья 
                     _speed = 8; // скорость               
                      _count_cannon = 10; // количество пушке
                     _max_count_sailors = 40; // максимальное количество матросов
@@ -114,14 +120,25 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
                     break;
                 case Ship_type.Battleship:
                     _name ="Линкор";
-                     _capacity = 500; // всестимость
-                    _hp = 10000; // здоровье 
+                     _max_capacity = 500; // всестимость
+                    _max_hp = 10000; // максимальное количество здоровья 
                     _speed = 6; // скорость               
                      _count_cannon = 12; // количество пушке
                     _max_count_sailors = 70; // максимальное количество матросов
                      _protection = 60;// защит от выстрела в процентах
                     _dodge_chance= 15; // шанс уворота в процентах
                     break;
+            }
+            _current_hp = _max_hp; // присваиваем макс хп к текущему хп
+            for (int i = 0; i < 8; i++)
+            {
+               // инициализируем в нашей колекции места пот продукты
+                _products.Add(new Product((Product_type)i));
+            }
+            for (int i = 0; i < 3; i++)
+            {
+                // инициализируем в нашей колекции места пот продукты
+                _sailors.Add(new Sailor((Sailor_type)i));
             }
         }
         #endregion

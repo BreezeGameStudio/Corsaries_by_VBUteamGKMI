@@ -388,7 +388,6 @@ namespace Corsaries_by_VBUteamGKMI.View
             // 
             // log
             // 
-            this.log.Enabled = false;
             this.log.Location = new System.Drawing.Point(264, 34);
             this.log.Multiline = true;
             this.log.Name = "log";
