@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
-using Corsaries_by_VBUteamGKMI.View;
+using System.Threading.Tasks;
 
 namespace Corsaries_by_VBUteamGKMI
 {
@@ -14,7 +14,7 @@ namespace Corsaries_by_VBUteamGKMI
     public class Game1 : Game
     {
       
-        public static  int _game_ground_X_Y = 5000;
+        public static  int _game_ground_X_Y = 10000;
        
         public static List<NPS_Ship> _nps = new List<NPS_Ship>(); // коллекция нпс
 
@@ -28,7 +28,8 @@ namespace Corsaries_by_VBUteamGKMI
         SpriteFont _text;
         Vector2 _text_pos ; // позиция
 
-        private List<Island> _islands = new List<Island>(); // коллекция островов
+        private List<Archipelag> _islands = new List<Archipelag>(); // коллекция островов
+
         // камера
         Camera2d _camera = new Camera2d();
         //текущий монитор   
@@ -39,8 +40,6 @@ namespace Corsaries_by_VBUteamGKMI
 
         public Game1()
         {
-            
-
 
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content"; // директория закачки контента
@@ -77,9 +76,14 @@ namespace Corsaries_by_VBUteamGKMI
                 _nps.Add(new NPS_Ship((Ship_type)new Random().Next(0,7),Content));
             }
 
+            for (int i = 0; i < 1; i++)
+            {
+                Archipelag island = new Archipelag(Content, GraphicsDevice, new Vector2(i*1000,0));
+                _islands.Add(island);
+                island.Draw_Island(_spriteBatch);
+            }
 
             _myShip = new MyShip(Ship_type.Corvette,Content);
-            _islands.Add(new Island(Content, "1", new Vector2((_game_ground._x_e / 2)+300, (_game_ground._y_e / 2)-300)));
            
 
             // тестовый текст
@@ -144,11 +148,11 @@ namespace Corsaries_by_VBUteamGKMI
 
 
                 // проверка столкноваений НПС с островами
-                foreach (var item in _nps)
-                {
-                    if (Collision_island(item))
-                        item.Step_Back_Position();// возвращение к старой позиции при столкновениее
-                }
+                //foreach (var item in _nps)
+                //{
+                //    if (Collision_island(item))
+                //        item.Step_Back_Position();// возвращение к старой позиции при столкновениее
+                //}
 
                 Collision_NPS(_myShip); // столкновение меня и нпс
 
@@ -169,20 +173,24 @@ namespace Corsaries_by_VBUteamGKMI
 
         protected override void Draw(GameTime gameTime)
         {
+            GraphicsDevice.SetRenderTarget(null);
             GraphicsDevice.Clear(Color.CornflowerBlue);
             // обязательный метод начала отрисовки в который передают камеру
             _spriteBatch.Begin(SpriteSortMode.BackToFront,
                         BlendState.AlphaBlend, null, null, null, null,
                         _camera.get_transformation(GraphicsDevice));
 
+            foreach (var item in _islands)
+            {
+                _spriteBatch.Draw(item._render, item._position, null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+            }
+
             _spriteBatch.Draw(_myShip._current_sprite, _myShip._position, Color.White); // отрисовка корабля        
             // отрисовка островов                                                                             
-            _islands.ForEach(i => _spriteBatch.Draw(i._current_sprite, i._position, Color.White));
             // отрисовка nps  
             _nps.ForEach(i => _spriteBatch.Draw(i._current_sprite, i._position, Color.White));
-
             /// тест текста
-          
+
         Color color = new Color(0, 0, 0); // цвет желтый
             if (_myShip != null)
             {
@@ -199,21 +207,23 @@ namespace Corsaries_by_VBUteamGKMI
         }
         // метод столкновения с островами
         protected bool Collision_island(Ship ship)
-        {                    
+        {
+            bool collide = false;
                 //создаём прямоугольник корабля 
               Rectangle  R_ship = new Rectangle((int)ship._position.X, (int)ship._position.Y,
                      ship._current_sprite.Width, ship._current_sprite.Height);
             //бежим по колекции островов и проверяем на столкновение
-            foreach (var item in _islands)
-            {
-                // создаём прямоугольник острова
-                Rectangle island = new Rectangle((int)item._position.X, (int)item._position.Y, 
-                    item._current_sprite.Width, item._current_sprite.Height);
-                if (R_ship.Intersects(island))
-                    return true;
-            }
-
-            return false;
+            Parallel.For(0,_islands.Count, i => {
+                List<Tile> sands = _islands[i].Exclude_Terrain(Content).Value;
+                Parallel.For(0,sands.Count, j =>
+                {
+                    if (sands[j].Texture.Bounds.Intersects(R_ship))
+                    {
+                        collide = true;
+                    }
+                });
+            });
+            return collide;
         }
 
         protected void Collision_NPS(Ship ship)
