@@ -9,16 +9,14 @@ using Corsaries_by_VBUteamGKMI.Model.People_on_ship;
 
 namespace Corsaries_by_VBUteamGKMI.Model.Ship
 {
-   public class NPS_Ship : Ship
+    public class NPS_Ship : Ship
     {
         private Random _random = new Random(); // рандом для смены направления движения
-        // список направлений движений
-      
-        public Direction _direction { get; set; }
+                                               // список направлений движений
+
 
         public NPS_Ship(Ship_type ship_Type, Microsoft.Xna.Framework.Content.ContentManager content) : base(ship_Type)
         {
-            _position = new Vector2(Game1._game_ground._x_e / 2 - 100, Game1._game_ground._y_e / 2);
             // выгружаем срайты корабля
             _ship_sprites.Add(content.Load<Texture2D>("ship_R"));
             _ship_sprites.Add(content.Load<Texture2D>("ship_L"));
@@ -35,15 +33,15 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
             // // заполняем коллекцию матросов матросов =)
             SetSailorsList();
             // оживляем капитана
-            _captain =  new Captain(_sailors);
+            _captain = new Captain(_sailors);
             // заполняем коллекцию продуктов продуктами =)
             SetProductList();
         }
         // заполняем коллекцию матросов матромаит =)
         private void SetSailorsList()
         {
-           
-            while(_current_count_sailors<_max_count_sailors)
+
+            while (_current_count_sailors < _max_count_sailors)
             {
                 foreach (var item in _sailors)
                 {
@@ -52,7 +50,7 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
                     if (_current_count_sailors == _max_count_sailors)
                         break;
                 }
-               
+
             }
         }
 
@@ -62,10 +60,10 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
             // даём нпс по 30 штук каждого продукта
             _products.ForEach(i => i._count = _random.Next(30));
             // подсчитуем на сколько мы перегрузили корабыль
-            _products.ForEach(i => _current_capacity+=(i._count*i._weight));
+            _products.ForEach(i => _current_capacity += (i._count * i._weight));
 
             //крутим безконечный цикл пока текущая загруженость не будет меньше равно максимальной загружености
-            while (_current_capacity>=_max_capacity)
+            while (_current_capacity >= _max_capacity)
             {
                 //бежим по продуктам
                 foreach (var item in _products)
@@ -81,7 +79,7 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
                     else
                         continue;
                 }
-            }         
+            }
         }
 
         public void Step_Back_Position() => _position = _old_position;
@@ -116,10 +114,10 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
                     break;
             }
         }
-    
 
-    #region методы перемещения
-    public void Go_U() // вверх
+
+        #region методы перемещения
+        public override void Go_U() // вверх
         {
             if (_position.Y > Game1._game_ground._y_b)
             {
@@ -127,10 +125,11 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
                 _position.Y -= _speed;
                 _current_sprite = _ship_sprites[2];
             }
-             else
+            else
                 Next_Move();
         }
-        public void Go_UL() // вверх лево
+
+        public override void Go_UL() // вверх лево
         {
             if (_position.Y > Game1._game_ground._y_b
                 && _position.X > Game1._game_ground._x_b)
@@ -143,7 +142,7 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
             else
                 Next_Move();
         }
-        public void Go_UR() // вверх право
+        public override void Go_UR() // вверх право
         {
             if (_position.Y > Game1._game_ground._y_b
                 && _position.X < Game1._game_ground._x_e - _current_sprite.Width)
@@ -157,7 +156,7 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
             else
                 Next_Move();
         }
-        public void Go_D()  // вниз
+        public override void Go_D()  // вниз
         {
             if (_position.Y < Game1._game_ground._y_e - _current_sprite.Height)
             {
@@ -165,10 +164,10 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
                 _position.Y += _speed;
                 _current_sprite = _ship_sprites[3];
             }
-             else
+            else
                 Next_Move();
         }
-        public void Go_DL()  // вниз лево
+        public override void Go_DL()  // вниз лево
         {
             if (_position.Y < Game1._game_ground._y_e - _current_sprite.Height
                 && _position.X > Game1._game_ground._x_b)
@@ -178,10 +177,10 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
                 _position.X -= _speed;
                 _current_sprite = _ship_sprites[6];
             }
-             else
+            else
                 Next_Move();
         }
-        public void Go_DR()  // вниз право
+        public override void Go_DR()  // вниз право
         {
             if (_position.Y < Game1._game_ground._y_e - _current_sprite.Height
                   && _position.X < Game1._game_ground._x_e - _current_sprite.Width)
@@ -191,11 +190,10 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
                 _position.X += _speed;
                 _current_sprite = _ship_sprites[7];
             }
-             else
+            else
                 Next_Move();
         }
-
-        public void Go_L() // в лево
+        public override void Go_L() // в лево
         {
             if (_position.X > Game1._game_ground._x_b)
             {
@@ -203,10 +201,10 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
                 _position.X -= _speed;
                 _current_sprite = _ship_sprites[1];
             }
-             else
+            else
                 Next_Move();
         }
-        public void Go_R() // в право
+        public override void Go_R() // в право
         {
             if (_position.X < Game1._game_ground._x_e - _current_sprite.Width)
             {
@@ -214,9 +212,9 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
                 _position.X += _speed;
                 _current_sprite = _ship_sprites[0];
             }
-             else
+            else
                 Next_Move();
         }
-    #endregion
-}
+        #endregion
+    }
 }

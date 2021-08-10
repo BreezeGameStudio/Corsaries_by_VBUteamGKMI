@@ -12,32 +12,35 @@ using System.Threading.Tasks;
 
 namespace Corsaries_by_VBUteamGKMI
 {
-    
+    public enum Game_Sate { In_World,In_Battle,In_Port}
     public class Game1 : Game
     {
+        public static List<Cannonball> _cannonballs = new List<Cannonball>();
         System.Drawing.Color _water_colorl;
-      
-
-        public static  int _game_ground_X_Y = 1500; // размер карты     
+        public Game_Sate _game_state; //состояние игры
+        public static int _game_ground_X_Y = 3000; // размер карты     
         // размеры игровой карты
         public static Game_ground _game_ground = new Game_ground(_game_ground_X_Y, _game_ground_X_Y);
         public static List<NPS_Ship> _nps = new List<NPS_Ship>(); // коллекция нпс
         //таймер смены направления движения нпс
         System.Windows.Forms.Timer _timer = new System.Windows.Forms.Timer();
         SpriteFont _text;
-        Vector2 _text_pos ; // позиция
+        Vector2 _text_pos; // позиция
         private List<Island> _islands = new List<Island>(); // коллекция островов
         // камера
         Camera2d _camera = new Camera2d();
         //текущий монитор   
-        public static System.Drawing.Size _size_screen = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Size;   
-        private GraphicsDeviceManager _graphics; // графика
+        public static System.Drawing.Size _size_screen = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Size;
+        public static GraphicsDeviceManager _graphics; // графика
         private SpriteBatch _spriteBatch; // отрисовщик спрайтов
         private MyShip _myShip; // мой кораблик
+        private NPS_Ship _enemyShip;
+
+
 
         public Game1()
         {
-           
+            _game_state = Game_Sate.In_World;
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content"; // директория закачки контента
             IsMouseVisible = true; // видимость мышки
@@ -55,7 +58,7 @@ namespace Corsaries_by_VBUteamGKMI
             _graphics.PreferredBackBufferHeight = _size_screen.Height;
             _graphics.PreferredBackBufferWidth = _size_screen.Width;
         }
-      
+
         // тик таймера изменение движения нпс
         private void _timer_Tick(object sender, System.EventArgs e) => _nps.ForEach(i => i.Next_Move());
 
@@ -66,36 +69,34 @@ namespace Corsaries_by_VBUteamGKMI
             base.Initialize();
             // добавляем нпс
             _nps.Clear(); //очищаем коллекцию чтобы при перезапуске не становилось больше NPS
-           /* for (int i = 0; i < 5; i++)
+            for (int i = 0; i < 5; i++)
             {
-                _nps.Add(new NPS_Ship((Ship_type)new Random().Next(0,7),Content));
-            }*/
+                _nps.Add(new NPS_Ship((Ship_type)new Random().Next(0, 7), Content));
+            }
             // добавляем острова
             for (int i = 0; i < 1; i++)
-            {           
-                _islands.Add(new Island(Content, 1000, 0));              
+            {
+                _islands.Add(new Island(Content, 1000, 0));
             }
 
-            _myShip = new MyShip(Ship_type.Corvette,Content, 500,500);
-          
+            _myShip = new MyShip(Ship_type.Corvette, Content, 500, 500);
+
             // получаем цвет воды
-            _water_colorl = GetColorWaterIsland(_islands[0],0, 548 );
+            _water_colorl = GetColorWaterIsland(_islands[0], 0, 548);
 
             // тестовый текст
             _text = Content.Load<SpriteFont>("testtext");
-           
+
         }
-
         protected override void LoadContent() => _spriteBatch = new SpriteBatch(GraphicsDevice);
-
-
         protected override void Update(GameTime gameTime)
         {
+
             if (this.IsActive)
             {
                 if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                     Exit();
-                
+
                 #region кнопки перемещения
                 // перемещение  по карте
 
@@ -134,43 +135,26 @@ namespace Corsaries_by_VBUteamGKMI
                     Keyboard.GetState().IsKeyUp(Keys.A) &&
                     Keyboard.GetState().IsKeyUp(Keys.D))
                     _myShip.Go_D();
-                #endregion
 
-                // проверка столкнованеий моего корабля с островом
-                if (Collision_island(_myShip))
-                    _myShip.Step_Back_Position(); // возвращение к старой позиции при столкновениее
-
-
-                // проверка столкноваений НПС с островами
-                foreach (var item in _nps)
-                {
-                    if (Collision_island(item))
-                    {
-                        item.Step_Back_Position();// возвращение к старой позиции при столкновениее
-                        item.Next_Move();
-                    }
-                }
-
-                Collision_NPS(_myShip); // столкновение меня и нпс
-
-
-                // даём камере позицию корабля
-                _camera.SetPosition(_myShip);
                
-
-
-                _text_pos.Y = _myShip._position.Y - (_size_screen.Height / 2);
-                _text_pos.X = _myShip._position.X - (_size_screen.Width / 2);
-
-
-                // НПС ДВИЖЕНИЕ
-                _nps.ForEach(i => i.Move());
-
-
+                #endregion
+                //обновление в зависимости от состоянис игры
+                switch (_game_state)
+                {
+                    case Game_Sate.In_World:
+                        In_World_Update(gameTime);
+                        break;
+                    case Game_Sate.In_Battle:
+                        In_Battle_Update(gameTime);
+                        break;
+                    case Game_Sate.In_Port:
+                        break;
+                    default:
+                        break;
+                }
                 base.Update(gameTime);
             }
         }
-
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.SetRenderTarget(null);
@@ -179,34 +163,92 @@ namespace Corsaries_by_VBUteamGKMI
             _spriteBatch.Begin(SpriteSortMode.BackToFront,
                         BlendState.AlphaBlend, null, null, null, null,
                         _camera.get_transformation(GraphicsDevice));
+
+            // отрисовка в зависимости от состояния игры
+            switch (_game_state)
+            {
+                case Game_Sate.In_World:
+                    In_World_Draw(gameTime);
+                    break;
+                case Game_Sate.In_Battle:
+                    In_Battle_Draw(gameTime);
+                    break;
+                case Game_Sate.In_Port:
+                    break;
+                default:
+                    break;
+            }
+            _spriteBatch.End();// обязательный метод 
+            base.Draw(gameTime);
+        }
+
+
+
+
+        // установка стостояния игры в открытом мире
+        public void Set_In_World_GS()
+        {
+            // задаём размеры игрового поля 
+            _game_ground = new Game_ground(_game_ground_X_Y, _game_ground_X_Y);
+            // задаём состояние игры
+            _game_state = Game_Sate.In_World;
+        }
+        // установка стостояния игры в битве
+        public void Set_In_Battle_GS()
+        {
+            // задаём размеры боевого поля 
+            _game_ground = new Game_ground((int)_myShip._position.X-(_size_screen.Width/2),
+                (int)_myShip._position.X + (_size_screen.Width / 2),
+                (int)_myShip._position.Y - (_size_screen.Height / 2),
+                (int)_myShip._position.Y + (_size_screen.Height / 2));
+            // задаём состояние игры
+            _game_state = Game_Sate.In_Battle;
+        }
+
+
+        #region In_World
+
+        private void In_World_Update(GameTime gameTime)
+        {
+            // проверка столкнованеий моего корабля с островом
+            if (Collision_island(_myShip))
+                _myShip.Step_Back_Position(); // возвращение к старой позиции при столкновениее
+            // проверка столкноваений НПС с островами
+            foreach (var item in _nps)
+            {
+                if (Collision_island(item))
+                {
+                    item.Step_Back_Position();// возвращение к старой позиции при столкновениее
+                    item.Next_Move();
+                }
+            }
+            Collision_NPS(_myShip); // столкновение меня и нпс
+            // даём камере позицию корабля
+            _camera.SetPosition(_myShip);
+            _text_pos.Y = _myShip._position.Y - (_size_screen.Height / 2);
+            _text_pos.X = _myShip._position.X - (_size_screen.Width / 2);
+            // НПС ДВИЖЕНИЕ
+            _nps.ForEach(i => i.Move());
+           
+        }
+        private void In_World_Draw(GameTime gameTime)
+        {           
             // отрисовка островов   
             foreach (var item in _islands)
             {
                 _spriteBatch.Draw(item._current_sprite, item._position, null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
             }
-
-                                                                                      
             // отрисовка nps  
             _nps.ForEach(i => _spriteBatch.Draw(i._current_sprite, i._position, Color.White));
             /// тест текста
-
             Color color = new Color(0, 0, 0); // цвет желтый
             if (_myShip != null)
             {
                 _spriteBatch.DrawString(_text, $"X {_myShip._position.X} Y {_myShip._position.Y}",
                      _text_pos, color);
             } // рисуем текст
-
-
+            _spriteBatch.Draw(_myShip._current_sprite, _myShip._position, Color.White); // отрисовка корабля
            
-           
-            _spriteBatch.Draw(_myShip._current_sprite, _myShip._position, Color.White); // отрисовка корабля        
-           
-
-
-
-            _spriteBatch.End();// обязательный метод 
-            base.Draw(gameTime);
         }
         // метод столкновения с островами
         protected bool Collision_island(Ship ship)
@@ -232,19 +274,19 @@ namespace Corsaries_by_VBUteamGKMI
                         if (ship._position.Y > item._position.Y
                             && ship._position.Y < (item._position.Y + item._current_sprite.Height))
                         {
-                            int x = (int)((ship._position.X+ (ship._current_sprite.Width/2)) - item._position.X);
-                            int y = (int)((ship._position.Y+(ship._current_sprite.Height/2)) - item._position.Y);
+                            int x = (int)((ship._position.X + (ship._current_sprite.Width / 2)) - item._position.X);
+                            int y = (int)((ship._position.Y + (ship._current_sprite.Height / 2)) - item._position.Y);
                             try
-                            { 
-                                System.Drawing.Color color = GetColorWaterIsland(item, x, y); 
+                            {
+                                System.Drawing.Color color = GetColorWaterIsland(item, x, y);
                                 if (_water_colorl.ToArgb() != color.ToArgb())
                                 {
                                     collide = true;
                                 }
                             }
                             catch (Exception) { return collide; }
-                           
-                           
+
+
                         }
                     }
                 }
@@ -252,8 +294,7 @@ namespace Corsaries_by_VBUteamGKMI
 
             return collide;
         }
-
-        private System.Drawing.Color GetColorWaterIsland(Island island, int x, int y ) => island._bitmap.GetPixel(x, y);
+        private System.Drawing.Color GetColorWaterIsland(Island island, int x, int y) => island._bitmap.GetPixel(x, y);
         protected void Collision_NPS(Ship ship)
         {
             //создаём прямоугольник корабля 
@@ -265,8 +306,8 @@ namespace Corsaries_by_VBUteamGKMI
                 foreach (var item in _nps)
                 {
                     // создаём прямоугольник NPS
-                    Rectangle nps = new Rectangle((int)item._position.X-100, (int)item._position.Y-100,
-                        item._current_sprite.Width+100, item._current_sprite.Height+100);
+                    Rectangle nps = new Rectangle((int)item._position.X - 100, (int)item._position.Y - 100,
+                        item._current_sprite.Width + 100, item._current_sprite.Height + 100);
                     if (R_ship.Intersects(nps))
                     {
 
@@ -275,15 +316,18 @@ namespace Corsaries_by_VBUteamGKMI
 
                         if (rez == System.Windows.Forms.DialogResult.Yes) //если предложение о бое было принято
                         {
-                            System.Windows.Forms.DialogResult result = new Battle_Form(_myShip, item).ShowDialog(); //запускаем форму и присваем результат переменной
+                            //System.Windows.Forms.DialogResult result = new Battle_Form(_myShip, item).ShowDialog(); //запускаем форму и присваем результат переменной
 
-                            if(result == System.Windows.Forms.DialogResult.No) //если форма возвращает ответ "нет" тоесть мы не победили а проиграли то тогда перезапустить игру
+                            /*if (result == System.Windows.Forms.DialogResult.No) //если форма возвращает ответ "нет" тоесть мы не победили а проиграли то тогда перезапустить игру
                             {
                                 this.Initialize(); //перезапуск игры
-                            }
-                            
-                        }
+                            }*/
+                            // делаем врагом выбраного нпс
+                            _enemyShip = item;
+                            // даём игре состояние битвы
+                            Set_In_Battle_GS();
 
+                        }
                         else //если форма была закрыта или предложение о бое было отклонено
                         {
                             //проверка направления NPS и перемещение нашего корабля в противоположном направлении
@@ -315,7 +359,7 @@ namespace Corsaries_by_VBUteamGKMI
                                     break;
                                 default:
                                     break;
-                            }                           
+                            }
 
                         }
 
@@ -323,9 +367,43 @@ namespace Corsaries_by_VBUteamGKMI
                 }
 
             }
-            catch (InvalidOperationException ) { return; }
-                     
+            catch (InvalidOperationException) { return; }
+
         }
+
+
+        #endregion
+
+        #region In Battle
+
+        private void In_Battle_Update(GameTime gameTime)
+        {
+            _enemyShip.Move();
+            // стрелять лево
+            if (Mouse.GetState().LeftButton == ButtonState.Pressed)
+                _myShip.Shoot_Left();
+            // стрелять лево
+            if (Mouse.GetState().RightButton == ButtonState.Pressed)
+                _myShip.Shoot_Right();
+
+            try { _cannonballs.ForEach(i => i.Move()); }// движение снарядов
+            catch (Exception) { }
+            
+            
+            
+           
+
+        }
+        private void In_Battle_Draw(GameTime gameTime)
+        {
+            _spriteBatch.Draw(_myShip._current_sprite, _myShip._position, Color.White); // отрисовка корабля
+            _spriteBatch.Draw(_enemyShip._current_sprite, _enemyShip._position, Color.White); // отрисовка врага
+            _cannonballs.ForEach(i => _spriteBatch.Draw(i._current_sprite,i._position, Color.White)); // отрисовка снаряда 
+           
+        }
+
+
+        #endregion
     }
 
     public struct Game_ground // структура для храения размеров игрового поля
@@ -335,11 +413,20 @@ namespace Corsaries_by_VBUteamGKMI
             _x_b = 0; _x_e = x_e;
             _y_b = 0; _y_e = y_e;
         }
+
+        public Game_ground(int x_b, int x_e, int y_b, int y_e) 
+        {
+            _x_b = x_b;
+            _x_e = x_e;
+            _y_b = y_b;
+            _y_e = y_e;
+        }
+
         public int _x_b { get; set; } // ось Х начало
         public int _x_e { get; set; } // ось Х конец
         public int _y_b { get; set; } // ось У начало
         public int _y_e { get; set; } // ось У конец
     }
 
-   
+
 }
