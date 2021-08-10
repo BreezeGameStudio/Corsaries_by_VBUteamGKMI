@@ -13,7 +13,7 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
     {
         private Random _random = new Random(); // рандом для смены направления движения
         // список направлений движений
-        public enum Direction { up, up_right, right, right_down, down, down_left, left, left_up }
+      
         public Direction _direction { get; set; }
 
         public NPS_Ship(Ship_type ship_Type, Microsoft.Xna.Framework.Content.ContentManager content) : base(ship_Type)
@@ -127,6 +127,8 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
                 _position.Y -= _speed;
                 _current_sprite = _ship_sprites[2];
             }
+             else
+                Next_Move();
         }
         public void Go_UL() // вверх лево
         {
@@ -138,6 +140,8 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
                 _position.X -= _speed;
                 _current_sprite = _ship_sprites[4];
             }
+            else
+                Next_Move();
         }
         public void Go_UR() // вверх право
         {
@@ -150,6 +154,8 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
                 _current_sprite = _ship_sprites[5];
 
             }
+            else
+                Next_Move();
         }
         public void Go_D()  // вниз
         {
@@ -159,6 +165,8 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
                 _position.Y += _speed;
                 _current_sprite = _ship_sprites[3];
             }
+             else
+                Next_Move();
         }
         public void Go_DL()  // вниз лево
         {
@@ -170,6 +178,8 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
                 _position.X -= _speed;
                 _current_sprite = _ship_sprites[6];
             }
+             else
+                Next_Move();
         }
         public void Go_DR()  // вниз право
         {
@@ -181,6 +191,8 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
                 _position.X += _speed;
                 _current_sprite = _ship_sprites[7];
             }
+             else
+                Next_Move();
         }
 
         public void Go_L() // в лево
@@ -191,6 +203,8 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
                 _position.X -= _speed;
                 _current_sprite = _ship_sprites[1];
             }
+             else
+                Next_Move();
         }
         public void Go_R() // в право
         {
@@ -200,6 +214,8 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
                 _position.X += _speed;
                 _current_sprite = _ship_sprites[0];
             }
+             else
+                Next_Move();
         }
     #endregion
 }

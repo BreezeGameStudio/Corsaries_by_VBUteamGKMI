@@ -4,9 +4,43 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using System.Text;
+using System.IO;
 
 namespace Corsaries_by_VBUteamGKMI.Model
 {
+    public partial class Island
+    {
+        public Rectangle _rectangle; // прямоугольник для корабля
+        public Texture2D _current_sprite; // текущий спрайт для отрисовки
+        public Vector2 _position; // позицыя
+        public System.Drawing.Bitmap _bitmap;// битмап для пикселя = new System.Drawing.Bitmap(memoryStream);
+        public Island(Microsoft.Xna.Framework.Content.ContentManager content,
+           float x_pos, float y_pos)
+        {
+            _position = new Vector2(x_pos, y_pos);
+            // выгружаем срайты 
+
+            _current_sprite = content.Load<Texture2D>("1");
+            //создаём прямоугольник корабля 
+            _rectangle = new Rectangle((int)_position.X, (int)_position.Y,
+                 _current_sprite.Width, _current_sprite.Height);
+            // инициализация битмапа
+            SetBitMap();
+
+
+        }
+        private void SetBitMap()
+        {
+            using (MemoryStream memoryStream = new MemoryStream())
+            {
+                _current_sprite.SaveAsJpeg(memoryStream,
+                    _current_sprite.Width, _current_sprite.Height);
+                _bitmap = new System.Drawing.Bitmap(memoryStream);
+            }
+        }
+    }
+
+//=======================================================================
     public partial class Archipelag
     {
         //Необходимые для отрисовки обьекты Monogame
@@ -16,8 +50,8 @@ namespace Corsaries_by_VBUteamGKMI.Model
 
 
         //Параметры архипелага. Ширина,высота и позиция
-        public int _width { get; set; } = 1000;
-        public int _height { get; set; } = 1000;
+        public int _width { get; set; } = 100;
+        public int _height { get; set; } = 100;
         public Vector2 _position { get; set; }
 
         //Колекция всех тайлов

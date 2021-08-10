@@ -9,9 +9,9 @@ using Microsoft.Xna.Framework.Content;
 namespace Corsaries_by_VBUteamGKMI.Model
 {
     public class Tile
-    { 
+    {
 
-        private int id = new Random().Next(0,3);
+        private int id = new Random().Next(0, 3);
 
         public int Id { get { return id; } set { id = value; } }
 
@@ -22,11 +22,11 @@ namespace Corsaries_by_VBUteamGKMI.Model
         public Tile(ContentManager content, Vector2 position)
         {
             this.Position = position;
-            if(this.Id == 0)
+            if (this.Id == 0)
             {
                 this.Texture = content.Load<Texture2D>("water");
             }
-            else if(this.Id == 1)
+            else if (this.Id == 1)
             {
                 this.Texture = content.Load<Texture2D>("sand");
             }

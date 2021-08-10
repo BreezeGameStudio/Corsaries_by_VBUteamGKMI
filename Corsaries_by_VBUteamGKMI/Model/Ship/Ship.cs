@@ -10,7 +10,7 @@ using Corsaries_by_VBUteamGKMI.Model.People_on_ship;
 namespace Corsaries_by_VBUteamGKMI.Model.Ship
 {
     public enum Ship_type { Boat, Schooner, Caravel, Brig, Frigate, Galleon, Corvette, Battleship }
-
+    public enum Direction { up, up_right, right, right_down, down, down_left, left, left_up }
     public abstract class Ship
     {
         public Captain _captain; // капитан наш любимый
@@ -35,7 +35,7 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
         protected List<Texture2D> _ship_sprites = new List<Texture2D>(); // коллекция спрайтов в разные направления
         public Rectangle _rectangle; // прямоугольник для корабля
         public Texture2D _current_sprite; // текущий спрайт для отрисовки
-        public Vector2 _position = new Vector2(Game1._game_ground._x_e / 2, Game1._game_ground._y_e / 2);
+        public Vector2 _position; // позицыя
         public Vector2 _old_position; // память старой позиции на случай столкновения
         #endregion
         protected Ship(Ship_type ship_Type) => Set_Ship_Type(ship_Type);
