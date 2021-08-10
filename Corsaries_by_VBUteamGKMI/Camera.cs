@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Corsaries_by_VBUteamGKMI.Model;
+using Corsaries_by_VBUteamGKMI.Model.Ship;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -37,9 +38,24 @@ namespace Corsaries_by_VBUteamGKMI
         }
 
         // Auxiliary function to move the camera
-        public void Move(Vector2 amount)
+        public void SetPosition(MyShip ship)
         {
-            _pos += amount;
+            if (ship._position.X < Game1._size_screen.Width / 2 && ship._position.Y < Game1._size_screen.Height /2)
+            { return; }
+            if (ship._position.X > Game1._game_ground._x_e - (Game1._size_screen.Width /2)
+                 && ship._position.Y > Game1._game_ground._y_e - (Game1._size_screen.Height /2))
+            { return; }
+            if (ship._position.X < Game1._size_screen.Width /2
+                && ship._position.Y > Game1._game_ground._y_e - (Game1._size_screen.Height /2))
+            { return; }
+            if(ship._position.X > Game1._game_ground._x_e - (Game1._size_screen.Width /2)
+                && ship._position.Y < Game1._size_screen.Height /2)
+            { return; }
+            if(ship._position.X < Game1._size_screen.Width /2|| ship._position.X > Game1._game_ground._x_e - (Game1._size_screen.Width /2))
+            { _pos.Y = ship._position.Y;return; }
+            if(ship._position.Y < Game1._size_screen.Height /2|| ship._position.Y > Game1._game_ground._y_e - (Game1._size_screen.Height /2))
+            { _pos.X = ship._position.X;return; }
+            else { _pos = ship._position; }
         }
         // Get set position
         public Vector2 Pos

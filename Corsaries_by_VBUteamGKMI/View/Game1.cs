@@ -66,10 +66,10 @@ namespace Corsaries_by_VBUteamGKMI
             base.Initialize();
             // добавляем нпс
             _nps.Clear(); //очищаем коллекцию чтобы при перезапуске не становилось больше NPS
-            for (int i = 0; i < 5; i++)
+           /* for (int i = 0; i < 5; i++)
             {
                 _nps.Add(new NPS_Ship((Ship_type)new Random().Next(0,7),Content));
-            }
+            }*/
             // добавляем острова
             for (int i = 0; i < 1; i++)
             {           
@@ -155,7 +155,10 @@ namespace Corsaries_by_VBUteamGKMI
 
 
                 // даём камере позицию корабля
-                _camera.Pos = _myShip._position;
+                _camera.SetPosition(_myShip);
+               
+
+
                 _text_pos.Y = _myShip._position.Y - (_size_screen.Height / 2);
                 _text_pos.X = _myShip._position.X - (_size_screen.Width / 2);
 
