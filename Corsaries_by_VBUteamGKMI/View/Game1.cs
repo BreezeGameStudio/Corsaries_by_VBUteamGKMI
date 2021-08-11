@@ -96,9 +96,7 @@ namespace Corsaries_by_VBUteamGKMI
         {
 
             if (this.IsActive)
-            {
-                if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                    Exit();
+            {             
 
                 #region кнопки перемещения
                 // перемещение  по карте
@@ -213,6 +211,8 @@ namespace Corsaries_by_VBUteamGKMI
 
         private void In_World_Update(GameTime gameTime)
         {
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+                Exit();
             // проверка столкнованеий моего корабля с островом
             if (Collision_island(_myShip))
                 _myShip.Step_Back_Position(); // возвращение к старой позиции при столкновениее
@@ -318,13 +318,7 @@ namespace Corsaries_by_VBUteamGKMI
                             System.Windows.Forms.MessageBoxButtons.YesNo);
 
                         if (rez == System.Windows.Forms.DialogResult.Yes) //если предложение о бое было принято
-                        {
-                            //System.Windows.Forms.DialogResult result = new Battle_Form(_myShip, item).ShowDialog(); //запускаем форму и присваем результат переменной
-
-                            /*if (result == System.Windows.Forms.DialogResult.No) //если форма возвращает ответ "нет" тоесть мы не победили а проиграли то тогда перезапустить игру
-                            {
-                                this.Initialize(); //перезапуск игры
-                            }*/
+                        {                          
                             // делаем врагом выбраного нпс
                             _enemyShip = item;
                             // даём игре состояние битвы
@@ -381,6 +375,10 @@ namespace Corsaries_by_VBUteamGKMI
 
         private void In_Battle_Update(GameTime gameTime)
         {
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+                Escape_Battle();
+
+
             _enemyShip.Move();
             // стрелять лево
             if (Mouse.GetState().LeftButton == ButtonState.Pressed)
@@ -390,6 +388,8 @@ namespace Corsaries_by_VBUteamGKMI
                 _myShip.Shoot_Right();
 
             try { _my_cannonballs.ForEach(i => i.Move()); }// движение снарядов
+            catch (Exception) { }
+            try { _enemy_cannonballs.ForEach(i => i.Move()); }// движение врага снарядов
             catch (Exception) { }
             
             
@@ -405,6 +405,20 @@ namespace Corsaries_by_VBUteamGKMI
            
         }
 
+        private void Escape_Battle()
+        {
+            System.Windows.Forms.DialogResult rez = System.Windows.Forms.MessageBox.Show($"Вы хотите сбежать с боя с {_enemyShip._name}", "Струсил?",
+                            System.Windows.Forms.MessageBoxButtons.YesNo);
+
+            if (rez == System.Windows.Forms.DialogResult.Yes) //если предложение о бое было принято
+            {
+                for (int i = 0; i < 3; i++)
+                {
+                    _enemyShip.Move();
+                }
+                Set_In_World_GS();
+            }
+        }
 
         #endregion
     }
