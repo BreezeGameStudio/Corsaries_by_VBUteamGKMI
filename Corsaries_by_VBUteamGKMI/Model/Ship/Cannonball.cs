@@ -21,7 +21,7 @@ namespace Corsaries_by_VBUteamGKMI.Model
         public Texture2D _current_sprite; // текущий спрайт для отрисовки
         public Vector2 _position; // позицыя
         public Direction _direction { get; set; } // направление движения
-        public Cannonball(Сannon cannon, Cannonball_side type, Vector2 position, Direction direction)
+        public Cannonball(Cannon cannon, Cannonball_side type, Vector2 position, Direction direction)
         {
             _side_type = type;
             _direction = direction;

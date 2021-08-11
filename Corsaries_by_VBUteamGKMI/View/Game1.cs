@@ -77,6 +77,7 @@ namespace Corsaries_by_VBUteamGKMI
                 _nps.Add(new NPS_Ship((Ship_type)new Random().Next(0, 7), Content));
             }
             // добавляем острова
+            _islands.Clear(); //очищаем коллекцию чтобы при перезапуске не становилось больше островов
             for (int i = 0; i < 1; i++)
             {
                 _islands.Add(new Island(Content, 1000, 0));
@@ -96,7 +97,7 @@ namespace Corsaries_by_VBUteamGKMI
         {
 
             if (this.IsActive)
-            {             
+            {
 
                 #region кнопки перемещения
                 // перемещение  по карте
@@ -137,7 +138,7 @@ namespace Corsaries_by_VBUteamGKMI
                     Keyboard.GetState().IsKeyUp(Keys.D))
                     _myShip.Go_D();
 
-               
+
                 #endregion
                 //обновление в зависимости от состоянис игры
                 switch (_game_state)
@@ -198,7 +199,7 @@ namespace Corsaries_by_VBUteamGKMI
         public void Set_In_Battle_GS()
         {
             // задаём размеры боевого поля 
-            _game_ground = new Game_ground((int)_myShip._position.X-(_size_screen.Width/2),
+            _game_ground = new Game_ground((int)_myShip._position.X - (_size_screen.Width / 2),
                 (int)_myShip._position.X + (_size_screen.Width / 2),
                 (int)_myShip._position.Y - (_size_screen.Height / 2),
                 (int)_myShip._position.Y + (_size_screen.Height / 2));
@@ -232,10 +233,10 @@ namespace Corsaries_by_VBUteamGKMI
             _text_pos.X = _myShip._position.X - (_size_screen.Width / 2);
             // НПС ДВИЖЕНИЕ
             _nps.ForEach(i => i.Move());
-           
+
         }
         private void In_World_Draw(GameTime gameTime)
-        {           
+        {
             // отрисовка островов   
             foreach (var item in _islands)
             {
@@ -251,7 +252,7 @@ namespace Corsaries_by_VBUteamGKMI
                      _text_pos, color);
             } // рисуем текст
             _spriteBatch.Draw(_myShip._current_sprite, _myShip._position, Color.White); // отрисовка корабля
-           
+
         }
         // метод столкновения с островами
         protected bool Collision_island(Ship ship)
@@ -318,7 +319,7 @@ namespace Corsaries_by_VBUteamGKMI
                             System.Windows.Forms.MessageBoxButtons.YesNo);
 
                         if (rez == System.Windows.Forms.DialogResult.Yes) //если предложение о бое было принято
-                        {                          
+                        {
                             // делаем врагом выбраного нпс
                             _enemyShip = item;
                             // даём игре состояние битвы
@@ -391,20 +392,25 @@ namespace Corsaries_by_VBUteamGKMI
             catch (Exception) { }
             try { _enemy_cannonballs.ForEach(i => i.Move()); }// движение врага снарядов
             catch (Exception) { }
-            
-            
-            
-           
+
+            // проверка на урон 
+            Hit_Enemy(_myShip,_enemyShip);
+            Hit_My(_myShip, _enemyShip);
+
+            // проверка на конец боя
+            if (IsEndBattle())
+                Set_In_World_GS();
+
+
 
         }
         private void In_Battle_Draw(GameTime gameTime)
         {
             _spriteBatch.Draw(_myShip._current_sprite, _myShip._position, Color.White); // отрисовка корабля
             _spriteBatch.Draw(_enemyShip._current_sprite, _enemyShip._position, Color.White); // отрисовка врага
-            _my_cannonballs.ForEach(i => _spriteBatch.Draw(i._current_sprite,i._position, Color.White)); // отрисовка снаряда 
-           
-        }
+            _my_cannonballs.ForEach(i => _spriteBatch.Draw(i._current_sprite, i._position, Color.White)); // отрисовка снаряда 
 
+        }
         private void Escape_Battle()
         {
             System.Windows.Forms.DialogResult rez = System.Windows.Forms.MessageBox.Show($"Вы хотите сбежать с боя с {_enemyShip._name}", "Струсил?",
@@ -420,8 +426,73 @@ namespace Corsaries_by_VBUteamGKMI
             }
         }
 
-        #endregion
+        public bool IsEndBattle()
+        {
+            bool rez = false;
+            if (_enemyShip._current_hp <= 0)
+            {
+                _nps.Remove(_enemyShip);
+                MessageBox.Show($"Это ПОБЕДА над {_enemyShip._name}", "Открывай ром!!!",new List<string>() { "ОК"});
+               
+                rez= true;
+            }
+         
+            if (_myShip._current_hp <= 0)
+            {
+                MessageBox.Show($"Нас РАЗГРОМИЛ {_enemyShip._name}", "Спасайся!!!", new List<string>() { "ОК" });
+                Initialize();
+                rez = true;
+            }
+           
+              
+            return rez;
+        }
+        protected void Hit_Enemy(Ship My_ship, Ship Enemy_ship)
+        {
+            //создаём прямоугольник корабля 
+            Rectangle R_ship = new Rectangle((int)Enemy_ship._position.X, (int)Enemy_ship._position.Y,
+                   Enemy_ship._current_sprite.Width, Enemy_ship._current_sprite.Height);
+            //бежим по колекции ядер и проверяем на столкновение
+            try
+            {
+                foreach (var item in _my_cannonballs)
+                {
+                    // создаём прямоугольник ядер
+                    Rectangle nps = new Rectangle((int)item._position.X - 100, (int)item._position.Y - 100,
+                        item._current_sprite.Width + 100, item._current_sprite.Height + 100);
+                    if (R_ship.Intersects(nps))
+                    {
+                        Enemy_ship.GetDamaged(My_ship._cannon);
+                        item._range = 0; // для того что бы не продолжало дальше наносить урон
+                    }
+                }
+            }
+            catch (Exception) { }
+        }
+        protected void Hit_My(Ship My_ship, Ship Enemy_ship)
+        {
+            //создаём прямоугольник корабля 
+            Rectangle R_ship = new Rectangle((int)My_ship._position.X, (int)My_ship._position.Y,
+                   My_ship._current_sprite.Width, My_ship._current_sprite.Height);
+            //бежим по колекции ядер и проверяем на столкновение
+            try
+            {
+                foreach (var item in _enemy_cannonballs)
+                {
+                    // создаём прямоугольник ядер
+                    Rectangle nps = new Rectangle((int)item._position.X - 100, (int)item._position.Y - 100,
+                        item._current_sprite.Width + 100, item._current_sprite.Height + 100);
+                    if (R_ship.Intersects(nps))
+                    {
+                        My_ship.GetDamaged(Enemy_ship._cannon);
+                        item._range = 0; // для того что бы не продолжало дальше наносить урон
+                    }
+                }
+            }
+            catch (Exception) { }
+        }
     }
+                        #endregion
 
     public struct Game_ground // структура для храения размеров игрового поля
     {

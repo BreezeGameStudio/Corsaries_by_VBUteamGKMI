@@ -33,7 +33,7 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
         public int _max_hp; // максимальное количество здоровья
         public int _current_hp;// текущее количество хп
         public int _speed; // скорость корабля
-        public Сannon _cannon; // пушки корабля       
+        public Cannon _cannon; // пушки корабля       
         public int _count_cannon; // количество пушек
         public int _protection; // защита корабля от выстрела в процентах
         public int _dodge_chance; // шанс уворота в процентах
@@ -144,7 +144,7 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
             _cooldown_timer_left.Interval = _cooldown;
             _cooldown_timer_right.Interval = _cooldown;
             _ship_type = ship_Type; // задаём тип корабля
-            _cannon = new Сannon(_ship_type, Cunnon_type.small); // даём ему пушки
+            _cannon = new Cannon(_ship_type, Cannon_type.small); // даём ему пушки
             switch (_ship_type)
             {
                 case Ship_type.Boat: // шлюшка
@@ -257,6 +257,25 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
         
         public virtual void Shoot_Right() { }
         
+        public void GetDamaged(Cannon cannon)
+        {
+            Random rdn = new Random();
+            // проверка на уворот
+            if (rdn.Next(100) > _dodge_chance)
+            {
+                int current_damag = cannon._damage;
+                int protected_damag = 0;
+                // проверка на блокировку
+                if (rdn.Next(100) > _protection)
+                {
+                    protected_damag = cannon._damage / 100 * _protection;
+                    _current_hp -= (current_damag - protected_damag);
+                }
+                else { _current_hp -= current_damag; }                
+            }
+            else
+            {  }
+        }
     }
     
 }
