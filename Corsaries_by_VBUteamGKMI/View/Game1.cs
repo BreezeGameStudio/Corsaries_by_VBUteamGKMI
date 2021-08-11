@@ -15,7 +15,10 @@ namespace Corsaries_by_VBUteamGKMI
     public enum Game_Sate { In_World,In_Battle,In_Port}
     public class Game1 : Game
     {
-        public static List<Cannonball> _cannonballs = new List<Cannonball>();
+        // мои снаряды
+        public static List<Cannonball> _my_cannonballs = new List<Cannonball>();
+        //снаряды врага
+        public static List<Cannonball> _enemy_cannonballs = new List<Cannonball>();
         System.Drawing.Color _water_colorl;
         public Game_Sate _game_state; //состояние игры
         public static int _game_ground_X_Y = 3000; // размер карты     
@@ -386,7 +389,7 @@ namespace Corsaries_by_VBUteamGKMI
             if (Mouse.GetState().RightButton == ButtonState.Pressed)
                 _myShip.Shoot_Right();
 
-            try { _cannonballs.ForEach(i => i.Move()); }// движение снарядов
+            try { _my_cannonballs.ForEach(i => i.Move()); }// движение снарядов
             catch (Exception) { }
             
             
@@ -398,7 +401,7 @@ namespace Corsaries_by_VBUteamGKMI
         {
             _spriteBatch.Draw(_myShip._current_sprite, _myShip._position, Color.White); // отрисовка корабля
             _spriteBatch.Draw(_enemyShip._current_sprite, _enemyShip._position, Color.White); // отрисовка врага
-            _cannonballs.ForEach(i => _spriteBatch.Draw(i._current_sprite,i._position, Color.White)); // отрисовка снаряда 
+            _my_cannonballs.ForEach(i => _spriteBatch.Draw(i._current_sprite,i._position, Color.White)); // отрисовка снаряда 
            
         }
 

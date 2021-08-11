@@ -9,6 +9,8 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
     {
        public Cunnon_type _cunnon_type; // тип пушки 
         public int _damage; // урон пушки
+        public int _speed; // скорость снаряда
+        public int _range ;// дальность полёта
         public Сannon(Ship_type ship_Type, Cunnon_type cunnon_Type) => Set_Cunnon_Type(ship_Type, cunnon_Type);
         public void Set_Cunnon_Type(Ship_type ship_Type, Cunnon_type cunnon_Type)
         {
@@ -20,12 +22,21 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
                     {
                         case Cunnon_type.small:
                             _damage = 10;
+                            _speed = 4;
+                            _range = 20;
+
                             break;
                         case Cunnon_type.medium:
                             _damage = 20;
+                            _speed = 4;
+                            _range = 25;
+
                             break;
                         case Cunnon_type.big:
                             _damage = 30;
+                            _speed = 4;
+                            _range = 25;
+
                             break;
                     }
                     break;
@@ -34,12 +45,21 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
                     {
                         case Cunnon_type.small:
                             _damage = 40;
+                            _speed = 4;
+                            _range = 25;
+
                             break;
                         case Cunnon_type.medium:
                             _damage = 50;
+                            _speed = 5;
+                            _range = 25;
+
                             break;
                         case Cunnon_type.big:
                             _damage = 60;
+                            _speed = 5;
+                            _range = 25;
+
                             break;
                     }
                     break;
@@ -48,12 +68,21 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
                     {
                         case Cunnon_type.small:
                             _damage = 70;
+                            _speed = 5;
+                            _range = 27;
+
                             break;
                         case Cunnon_type.medium:
                             _damage = 80;
+                            _speed = 5;
+                            _range = 27;
+
                             break;
                         case Cunnon_type.big:
                             _damage = 90;
+                            _speed = 5;
+                            _range = 27;
+
                             break;
                     }
                     break;
@@ -62,12 +91,21 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
                     {
                         case Cunnon_type.small:
                             _damage = 100;
+                            _speed = 6;
+                            _range = 30;
+
                             break;
                         case Cunnon_type.medium:
                             _damage = 110;
+                            _speed = 6;
+                            _range = 30;
+
                             break;
                         case Cunnon_type.big:
                             _damage = 120;
+                            _speed = 6;
+                            _range = 30;
+
                             break;
                     }
                     break;
@@ -76,12 +114,21 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
                     {
                         case Cunnon_type.small:
                             _damage = 130;
+                            _speed = 6;
+                            _range = 30;
+
                             break;
                         case Cunnon_type.medium:
                             _damage = 140;
+                            _speed = 6;
+                            _range = 30;
+
                             break;
                         case Cunnon_type.big:
                             _damage = 150;
+                            _speed = 6;
+                            _range = 30;
+
                             break;
                     }
                     break;
@@ -90,12 +137,21 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
                     {
                         case Cunnon_type.small:
                             _damage = 160;
+                            _speed = 7;
+                            _range = 35;
+
                             break;
                         case Cunnon_type.medium:
                             _damage = 170;
+                            _speed = 7;
+                            _range = 35;
+
                             break;
                         case Cunnon_type.big:
                             _damage = 180;
+                            _speed = 7;
+                            _range = 35;
+
                             break;
                     }
                     break;
@@ -104,12 +160,21 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
                     {
                         case Cunnon_type.small:
                             _damage = 190;
+                            _speed = 7;
+                            _range = 35;
+
                             break;
                         case Cunnon_type.medium:
                             _damage = 200;
+                            _speed = 7;
+                            _range = 35;
+
                             break;
                         case Cunnon_type.big:
                             _damage = 210;
+                            _speed = 7;
+                            _range = 35;
+
                             break;
                     }
                     break;
@@ -118,12 +183,21 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
                     {
                         case Cunnon_type.small:
                             _damage = 220;
+                            _speed = 8;
+                            _range = 40;
+
                             break;
                         case Cunnon_type.medium:
                             _damage = 230;
+                            _speed = 8;
+                            _range = 40;
+
                             break;
                         case Cunnon_type.big:
                             _damage = 240;
+                            _speed = 8;
+                            _range = 40;
+
                             break;
                     }
                     break;

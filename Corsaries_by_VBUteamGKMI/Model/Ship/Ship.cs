@@ -16,8 +16,8 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
         public bool _ready_shoot_left = true;
         public bool _ready_shoot_right = true;
         private int _cooldown = 3000;// перезарядка
-        System.Windows.Forms.Timer _cooldown_timer_left = new System.Windows.Forms.Timer();
-        System.Windows.Forms.Timer _cooldown_timer_right = new System.Windows.Forms.Timer();
+        public System.Windows.Forms.Timer _cooldown_timer_left = new System.Windows.Forms.Timer();
+        public System.Windows.Forms.Timer _cooldown_timer_right = new System.Windows.Forms.Timer();
         public Rectangle _rectangle;
         public Direction _direction { get; set; } // направление движения
         public Captain _captain; // капитан наш любимый
@@ -26,7 +26,7 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
         public List<Sailor> _sailors = new List<Sailor>(); // колекция моряков
         #region параметры именяемые от типа корабля
         public string _name; // имя корабля
-        public int  _current_count_sailors =0; // текущее количество матросов
+        public int _current_count_sailors = 0; // текущее количество матросов
         public int _max_count_sailors; // максимальное количество матросов
         public int _max_capacity; //  вместимость
         public int _current_capacity = 0; //  показывет сколько места на корабле занято
@@ -136,13 +136,13 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
         }
         #endregion
         // метода задавания типа корабля паблик так ак нужен будет в классах наследниках 
-       
+
         public void Set_Ship_Type(Ship_type ship_Type)
         {
             _cooldown_timer_left.Tick += _cooldown_timer_left_Tick;
             _cooldown_timer_right.Tick += _cooldown_timer_right_Tick;
             _cooldown_timer_left.Interval = _cooldown;
-            _cooldown_timer_right.Interval = _cooldown;          
+            _cooldown_timer_right.Interval = _cooldown;
             _ship_type = ship_Type; // задаём тип корабля
             _cannon = new Сannon(_ship_type, Cunnon_type.small); // даём ему пушки
             switch (_ship_type)
@@ -152,86 +152,86 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
                     _max_capacity = 100; // всестимость
                     _max_hp = 500; // максимальное количество здоровья 
                     _speed = 1; // скорость               
-                     _count_cannon = 4; // количество пушке
+                    _count_cannon = 4; // количество пушке
                     _max_count_sailors = 10; // максимальное количество матросов
                     _protection = 10;// защит от выстрела в процентах
                     _dodge_chance = 30; // шанс уворота в процентах
                     break;
                 case Ship_type.Schooner:
-                    _name ="Шхуна";
+                    _name = "Шхуна";
                     _max_capacity = 150; // всестимость
                     _max_hp = 1000; // максимальное количество здоровья 
                     _speed = 2; // скорость               
                     _count_cannon = 6; // количество пушке
                     _max_count_sailors = 20; // максимальное количество матросов
-                     _protection = 15 ;// защит от выстрела в процентах
+                    _protection = 15;// защит от выстрела в процентах
                     _dodge_chance = 30; // шанс уворота в процентах
                     break;
                 case Ship_type.Caravel:
-                    _name ="Каравелла";
-                     _max_capacity = 200; // всестимость
+                    _name = "Каравелла";
+                    _max_capacity = 200; // всестимость
                     _max_hp = 2000; // максимальное количество здоровья 
                     _speed = 3; // скорость               
-                     _count_cannon = 8; // количество пушке
+                    _count_cannon = 8; // количество пушке
                     _max_count_sailors = 25; // максимальное количество матросов
-                     _protection = 25 ;// защит от выстрела в процентах
+                    _protection = 25;// защит от выстрела в процентах
                     _dodge_chance = 35; // шанс уворота в процентах
                     break;
                 case Ship_type.Brig:
-                    _name ="Бриг";
-                     _max_capacity = 250; // всестимость
+                    _name = "Бриг";
+                    _max_capacity = 250; // всестимость
                     _max_hp = 2300; // максимальное количество здоровья 
                     _speed = 3; // скорость               
-                     _count_cannon = 8; // количество пушке
+                    _count_cannon = 8; // количество пушке
                     _max_count_sailors = 30; // максимальное количество матросов
-                     _protection =30 ;// защит от выстрела в процентах
-                    _dodge_chance  =20; // шанс уворота в процентах
+                    _protection = 30;// защит от выстрела в процентах
+                    _dodge_chance = 20; // шанс уворота в процентах
                     break;
                 case Ship_type.Frigate:
-                    _name ="Фрегат";
-                     _max_capacity = 300; // всестимость
+                    _name = "Фрегат";
+                    _max_capacity = 300; // всестимость
                     _max_hp = 4000; // максимальное количество здоровья 
                     _speed = 4; // скорость               
-                     _count_cannon = 10; // количество пушке
+                    _count_cannon = 10; // количество пушке
                     _max_count_sailors = 40; // максимальное количество матросов
-                     _protection = 30;// защит от выстрела в процентах
+                    _protection = 30;// защит от выстрела в процентах
                     _dodge_chance = 20; // шанс уворота в процентах
                     break;
                 case Ship_type.Galleon:
-                    _name ="Галеон";
-                     _max_capacity = 400; // всестимость
+                    _name = "Галеон";
+                    _max_capacity = 400; // всестимость
                     _max_hp = 6500; // максимальное количество здоровья 
                     _speed = 5; // скорость               
-                     _count_cannon = 12; // количество пушке
+                    _count_cannon = 12; // количество пушке
                     _max_count_sailors = 50; // максимальное количество матросов
-                     _protection = 35;// защит от выстрела в процентах
+                    _protection = 35;// защит от выстрела в процентах
                     _dodge_chance = 15; // шанс уворота в процентах
                     break;
                 case Ship_type.Corvette:
-                    _name ="Корвет";
-                     _max_capacity = 350; // всестимость
+                    _name = "Корвет";
+                    _max_capacity = 350; // всестимость
                     _max_hp = 6700; // максимальное количество здоровья 
                     _speed = 8; // скорость               
-                     _count_cannon = 10; // количество пушке
+                    _count_cannon = 10; // количество пушке
                     _max_count_sailors = 40; // максимальное количество матросов
-                     _protection = 20;// защит от выстрела в процентах
+                    _protection = 20;// защит от выстрела в процентах
                     _dodge_chance = 40; // шанс уворота в процентах
                     break;
                 case Ship_type.Battleship:
-                    _name ="Линкор";
-                     _max_capacity = 500; // всестимость
+                    _name = "Линкор";
+                    _max_capacity = 500; // всестимость
                     _max_hp = 10000; // максимальное количество здоровья 
                     _speed = 6; // скорость               
-                     _count_cannon = 12; // количество пушке
+                    _count_cannon = 12; // количество пушке
                     _max_count_sailors = 70; // максимальное количество матросов
-                     _protection = 60;// защит от выстрела в процентах
-                    _dodge_chance= 15; // шанс уворота в процентах
+                    _protection = 60;// защит от выстрела в процентах
+                    _dodge_chance = 15; // шанс уворота в процентах
                     break;
             }
             _current_hp = _max_hp; // присваиваем макс хп к текущему хп
             for (int i = 0; i < 8; i++)
             {
-               // инициализируем в нашей колекции места пот продукты
+                // инициализируем в нашей колекции места пот продукты
                 _products.Add(new Product((Product_type)i));
             }
             for (int i = 0; i < 3; i++)
@@ -253,262 +253,12 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
             _cooldown_timer_left.Stop();
         }
 
-        public void Shoot_Left()
-        {
-            if (_ready_shoot_left)
-            {
-                Game1._cannonballs.Add(new Cannonball(Cannonball_side.Left, new Vector2(_position.X + (_current_sprite.Width / 2),
-                 _position.Y + (_current_sprite.Height / 2)), _direction));
-                _cooldown_timer_left.Start();
-                _ready_shoot_left = false;
-            }   
-        }
-        public void Shoot_Right()
-        {
-            if (_ready_shoot_right)
-            {
-                Game1._cannonballs.Add(new Cannonball(Cannonball_side.Right, new Vector2(_position.X + (_current_sprite.Width / 2),
-                  _position.Y + (_current_sprite.Height / 2)), _direction));
-                _cooldown_timer_right.Start();
-                _ready_shoot_right = false;
-            }
-        }
+        public virtual void Shoot_Left() { }
+        
+        public virtual void Shoot_Right() { }
+        
     }
-    public enum Cannonball_side { Left,Right}
-    public class Cannonball
-    {
-        public Cannonball_side _type;
-        public int _speed = 10;
-        public int range = 50;
-        public Texture2D _current_sprite; // текущий спрайт для отрисовки
-        public Vector2 _position; // позицыя
-        public Direction _direction { get; set; } // направление движения
-        public Cannonball(Cannonball_side type, Vector2 position, Direction direction)
-        {
-            _type = type;
-            _direction = direction;
-            _current_sprite = createCircleText(5);
-            _position = position;
-        }
-        Texture2D createCircleText(int radius)
-        {
-            Texture2D texture = new Texture2D(Game1._graphics.GraphicsDevice, radius, radius);
-            Color[] colorData = new Color[radius * radius];
-
-            float diam = radius / 2f;
-            float diamsq = diam * diam;
-
-            for (int x = 0; x < radius; x++)
-            {
-                for (int y = 0; y < radius; y++)
-                {
-                    int index = x * radius + y;
-                    Vector2 pos = new Vector2(x - diam, y - diam);
-                    if (pos.LengthSquared() <= diamsq)
-                    {
-                        colorData[index] = Color.White;
-                    }
-                    else
-                    {
-                        colorData[index] = Color.Transparent;
-                    }
-                }
-            }
-
-            texture.SetData(colorData);
-            return texture;
-        }
-        public void Move()
-        {
-            switch (_direction)
-            {
-                case Direction.up:
-                    switch (_type)
-                    {
-                        case Cannonball_side.Left:
-                            Go_L();
-                            break;
-                        case Cannonball_side.Right:
-                            Go_R();
-                            break;
-                        default:
-                            break;
-                    }
-                    break;
-                case Direction.up_right:
-                    switch (_type)
-                    {
-                        case Cannonball_side.Left:
-                            Go_UL();
-                            break;
-                        case Cannonball_side.Right:
-                            Go_DR();
-                            break;
-                        default:
-                            break;
-                    }
-                    break;
-                case Direction.right:
-                    switch (_type)
-                    {
-                        case Cannonball_side.Left:
-                            Go_U();
-                            break;
-                        case Cannonball_side.Right:
-                            Go_D();
-                            break;
-                        default:
-                            break;
-                    }
-                    break;
-                case Direction.right_down:
-                    switch (_type)
-                    {
-                        case Cannonball_side.Left:
-                            Go_UR();
-                            break;
-                        case Cannonball_side.Right:
-                            Go_DL();
-                            break;
-                        default:
-                            break;
-                    }
-                    break;
-                case Direction.down:
-                    switch (_type)
-                    {
-                        case Cannonball_side.Left:
-                            Go_R();
-                            break;
-                        case Cannonball_side.Right:
-                            Go_L();
-                            break;
-                        default:
-                            break;
-                    }
-                    break;
-                case Direction.down_left:
-                    switch (_type)
-                    {
-                        case Cannonball_side.Left:
-                            Go_DR();
-                            break;
-                        case Cannonball_side.Right:
-                            Go_UL();
-                            break;
-                        default:
-                            break;
-                    }
-                    break;
-                case Direction.left:
-                    switch (_type)
-                    {
-                        case Cannonball_side.Left:
-                            Go_D();
-                            break;
-                        case Cannonball_side.Right:
-                            Go_U();
-                            break;
-                        default:
-                            break;
-                    }
-                    break;
-                case Direction.left_up:
-                    switch (_type)
-                    {
-                        case Cannonball_side.Left:
-                            Go_DL();
-                            break;
-                        case Cannonball_side.Right:
-                            Go_UR();
-                            break;
-                        default:
-                            break;
-                    }
-                    break;
-                default:
-                    break;
-            }
-        }
-        #region методы перемещения
-        public virtual void Go_U() // вверх
-        {
-            if (range > 0)
-            {
-                _position.Y -= _speed;
-                range--;
-            }
-            else { Game1._cannonballs.Remove(this); }
-        }
-        public virtual void Go_UL() // вверх лево
-        {
-            if (range > 0)
-            {
-                _position.Y -= _speed;
-                _position.X -= _speed;
-                range--;
-            }
-            else { Game1._cannonballs.Remove(this); }
-        }
-        public virtual void Go_UR() // вверх право
-        {
-            if (range > 0)
-            {
-                _position.Y -= _speed;
-                _position.X += _speed;
-                range--;
-            }
-            else { Game1._cannonballs.Remove(this); }
-        }
-        public virtual void Go_D()  // вниз
-        {
-            if (range > 0)
-            {
-                _position.Y += _speed;
-                range--;
-            }
-            else { Game1._cannonballs.Remove(this); }
-        }
-        public virtual void Go_DL()  // вниз лево
-        {
-            if (range > 0)
-            {
-                _position.Y += _speed;
-                _position.X -= _speed;
-                range--;
-            }
-            else { Game1._cannonballs.Remove(this); }
-        }
-        public virtual void Go_DR()  // вниз право
-        {
-            if (range > 0)
-            {
-                _position.Y += _speed;
-                _position.X += _speed;
-                range--;
-            }
-            else { Game1._cannonballs.Remove(this); }
-        }
-        public virtual void Go_L() // в лево
-        {
-            if (range > 0)
-            {
-                _position.X -= _speed;
-                range--;
-            }
-            else { Game1._cannonballs.Remove(this); }
-        }
-        public virtual void Go_R() // в право
-        {
-            if (range > 0)
-            {
-                _position.X += _speed;
-                range--;
-            }
-            else { Game1._cannonballs.Remove(this); }
-        }
-        #endregion
-    }
+    
 }
 
 
