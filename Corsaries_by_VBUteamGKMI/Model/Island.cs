@@ -15,12 +15,12 @@ namespace Corsaries_by_VBUteamGKMI.Model
         public Vector2 _position; // позицыя
         public System.Drawing.Bitmap _bitmap;// битмап для пикселя = new System.Drawing.Bitmap(memoryStream);
         public Island(Microsoft.Xna.Framework.Content.ContentManager content,
-           float x_pos, float y_pos)
+           Vector2 pos, Texture2D texture)
         {
-            _position = new Vector2(x_pos, y_pos);
+            _position = pos;
             // выгружаем срайты 
 
-            _current_sprite = content.Load<Texture2D>("1");
+            _current_sprite = texture;
             //создаём прямоугольник корабля 
             _rectangle = new Rectangle((int)_position.X, (int)_position.Y,
                  _current_sprite.Width, _current_sprite.Height);

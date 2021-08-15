@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Corsaries_by_VBUteamGKMI
 {
-    public enum Game_Sate { In_World,In_Battle,In_Port}
+    public enum Game_Sate { In_Menu,In_World,In_Battle,In_Port}
     public class Game1 : Game
     {
         // мои снаряды
@@ -21,7 +21,7 @@ namespace Corsaries_by_VBUteamGKMI
         public static List<Cannonball> _enemy_cannonballs = new List<Cannonball>();
         System.Drawing.Color _water_colorl;
         public Game_Sate _game_state; //состояние игры
-        public static int _game_ground_X_Y = 3000; // размер карты     
+        public static int _game_ground_X_Y = 5000; // размер карты     
         // размеры игровой карты
         public static Game_ground _game_ground = new Game_ground(_game_ground_X_Y, _game_ground_X_Y);
         public static List<NPS_Ship> _nps = new List<NPS_Ship>(); // коллекция нпс
@@ -30,6 +30,7 @@ namespace Corsaries_by_VBUteamGKMI
         SpriteFont _text;
         Vector2 _text_pos; // позиция
         private List<Island> _islands = new List<Island>(); // коллекция островов
+        private List<Vector2> _island_positions = new List<Vector2>() { new Vector2(1000, 2500), new Vector2(2000, 1500), new Vector2(3000, 1500), new Vector2(4500, 2500), new Vector2(3500, 4000), new Vector2(2500, 4000) };
         // камера
         Camera2d _camera = new Camera2d();
         //текущий монитор   
@@ -78,15 +79,14 @@ namespace Corsaries_by_VBUteamGKMI
             }
             // добавляем острова
             _islands.Clear(); //очищаем коллекцию чтобы при перезапуске не становилось больше островов
-            for (int i = 0; i < 1; i++)
+            foreach (var item in _island_positions)
             {
-                _islands.Add(new Island(Content, 1000, 0));
+                _islands.Add(new Island(Content, item, Content.Load<Texture2D>($"island_{_island_positions.IndexOf(item) + 1}")));
             }
-
             _myShip = new MyShip(Ship_type.Corvette, Content, 500, 500);
 
             // получаем цвет воды
-            _water_colorl = GetColorWaterIsland(_islands[0], 0, 548);
+            _water_colorl = GetColorWaterIsland(_islands[0], 0, 0);
 
             // тестовый текст
             _text = Content.Load<SpriteFont>("testtext");
@@ -169,6 +169,8 @@ namespace Corsaries_by_VBUteamGKMI
             // отрисовка в зависимости от состояния игры
             switch (_game_state)
             {
+                case Game_Sate.In_Menu:
+                    break;
                 case Game_Sate.In_World:
                     In_World_Draw(gameTime);
                     break;
@@ -229,8 +231,8 @@ namespace Corsaries_by_VBUteamGKMI
             Collision_NPS(_myShip); // столкновение меня и нпс
             // даём камере позицию корабля
             _camera.SetPosition(_myShip);
-            _text_pos.Y = _myShip._position.Y - (_size_screen.Height / 2);
-            _text_pos.X = _myShip._position.X - (_size_screen.Width / 2);
+            _text_pos.Y = _camera.Pos.Y - (_size_screen.Height / 2);
+            _text_pos.X = _camera.Pos.X - (_size_screen.Width / 2);
             // НПС ДВИЖЕНИЕ
             _nps.ForEach(i => i.Move());
 
@@ -241,7 +243,7 @@ namespace Corsaries_by_VBUteamGKMI
             // отрисовка островов   
             foreach (var item in _islands)
             {
-                _spriteBatch.Draw(item._current_sprite, item._position, null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+                _spriteBatch.Draw(item._current_sprite, item._position, null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.FlipVertically, 0f);
             }
             // отрисовка nps  
             _nps.ForEach(i => _spriteBatch.Draw(i._current_sprite, i._position, Color.White));
@@ -279,8 +281,8 @@ namespace Corsaries_by_VBUteamGKMI
                         if (ship._position.Y > item._position.Y
                             && ship._position.Y < (item._position.Y + item._current_sprite.Height))
                         {
-                            int x = (int)((ship._position.X + (ship._current_sprite.Width / 2)) - item._position.X);
-                            int y = (int)((ship._position.Y + (ship._current_sprite.Height / 2)) - item._position.Y);
+                            int x = (int)((ship._position.X + ship._current_sprite.Width - item._position.X));
+                            int y = (int)((ship._position.Y + ship._current_sprite.Height - item._position.Y));
                             try
                             {
                                 System.Drawing.Color color = GetColorWaterIsland(item, x, y);
@@ -521,6 +523,45 @@ namespace Corsaries_by_VBUteamGKMI
             catch (Exception) { }
         }
         #endregion
+
+        private void In_Menu_Update(GameTime gameTime)
+        {
+
+            // кнопка абордажа
+            if (Keyboard.GetState().IsKeyDown(Keys.Q))
+                Boarding(_myShip, _enemyShip);
+
+            _enemyShip.Move();
+            // стрелять лево
+            if (Mouse.GetState().LeftButton == ButtonState.Pressed)
+                _myShip.Shoot_Left();
+            // стрелять лево
+            if (Mouse.GetState().RightButton == ButtonState.Pressed)
+                _myShip.Shoot_Right();
+
+            try { _my_cannonballs.ForEach(i => i.Move()); }// движение снарядов
+            catch (Exception) { }
+            try { _enemy_cannonballs.ForEach(i => i.Move()); }// движение врага снарядов
+            catch (Exception) { }
+
+            // проверка на урон 
+            Hit_Enemy(_myShip, _enemyShip);
+            Hit_My(_myShip, _enemyShip);
+
+            // проверка на конец боя
+            if (EndBattle())
+                Set_In_World_GS();
+
+
+
+        }
+         private void In_Menu_Draw(GameTime gameTime)
+        {
+            _spriteBatch.Draw(_myShip._current_sprite, _myShip._position, Color.White); // отрисовка корабля
+            _spriteBatch.Draw(_enemyShip._current_sprite, _enemyShip._position, Color.White); // отрисовка врага
+            _my_cannonballs.ForEach(i => _spriteBatch.Draw(i._current_sprite, i._position, Color.White)); // отрисовка снаряда 
+
+        }
     }
 
     public struct Game_ground // структура для храения размеров игрового поля
