@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Input;
 using System.Text;
 using Corsaries_by_VBUteamGKMI.Model.Products;
 using Corsaries_by_VBUteamGKMI.Model.People_on_ship;
+using Microsoft.Xna.Framework.Media;
 
 namespace Corsaries_by_VBUteamGKMI.Model.Ship
 {
@@ -13,6 +14,8 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
     public enum Direction { up, up_right, right, right_down, down, down_left, left, left_up }
     public abstract class Ship
     {
+        Song _hit_song;
+        Song _shoot_song;
         public bool _ready_shoot_left = true;
         public bool _ready_shoot_right = true;
         private int _cooldown = 3000;// перезарядка
@@ -44,7 +47,7 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
         public Vector2 _position; // позицыя
         public Vector2 _old_position; // память старой позиции на случай столкновения     
         #endregion
-        protected Ship(Ship_type ship_Type) => Set_Ship_Type(ship_Type);
+        protected Ship(Ship_type ship_Type, Microsoft.Xna.Framework.Content.ContentManager content) => Set_Ship_Type(ship_Type, content);
         #region методы перемещения
         public virtual void Go_U() // вверх
         {
@@ -137,8 +140,10 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
         #endregion
         // метода задавания типа корабля паблик так ак нужен будет в классах наследниках 
 
-        public void Set_Ship_Type(Ship_type ship_Type)
+        public void Set_Ship_Type(Ship_type ship_Type, Microsoft.Xna.Framework.Content.ContentManager content)
         {
+            _hit_song = content.Load<Song>("hit");
+            _shoot_song = content.Load<Song>("shoot");
             _cooldown_timer_left.Tick += _cooldown_timer_left_Tick;
             _cooldown_timer_right.Tick += _cooldown_timer_right_Tick;
             _cooldown_timer_left.Interval = _cooldown;
@@ -253,12 +258,21 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
             _cooldown_timer_left.Stop();
         }
 
-        public virtual void Shoot_Left() { }
+        public virtual void Shoot_Left() 
+        {
+            for (int i = 0; i < _count_cannon / 2; i++)
+            { MediaPlayer.Play(_shoot_song); }
+        }
         
-        public virtual void Shoot_Right() { }
+        public virtual void Shoot_Right() 
+        {
+            for (int i = 0; i < _count_cannon / 2; i++)
+            { MediaPlayer.Play(_shoot_song); }
+        }
         
         public void GetDamaged(Cannon cannon)
         {
+            
             Random rdn = new Random();
             // проверка на уворот
             if (rdn.Next(100) > _dodge_chance)
@@ -268,10 +282,11 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
                 // проверка на блокировку
                 if (rdn.Next(100) > _protection)
                 {
+                    MediaPlayer.Play(_hit_song);
                     protected_damag = cannon._damage / 100 * _protection;
                     _current_hp -= (current_damag - protected_damag);
                 }
-                else { _current_hp -= current_damag; }                
+                else { _current_hp -= current_damag; MediaPlayer.Play(_hit_song); }                
             }
             else
             {  }

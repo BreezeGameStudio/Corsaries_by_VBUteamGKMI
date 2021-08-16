@@ -14,8 +14,9 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
         private Random _random = new Random(); // рандом для смены направления движения
                                                // список направлений движений
 
-
-        public NPS_Ship(Ship_type ship_Type, Microsoft.Xna.Framework.Content.ContentManager content) : base(ship_Type)
+        Rectangle _left_attack_zone;
+        Rectangle _right_attack_zone;
+        public NPS_Ship(Ship_type ship_Type, Microsoft.Xna.Framework.Content.ContentManager content) : base(ship_Type, content)
         {
             // выгружаем срайты корабля
             _ship_sprites.Add(content.Load<Texture2D>("ship_R"));
@@ -85,7 +86,7 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
         public void Step_Back_Position() => _position = _old_position;
         public void Next_Move() => _direction = (Direction)_random.Next(7);
         public void Move()
-        {
+        {                 
             switch (_direction)
             {
                 case Direction.up:
@@ -114,8 +115,146 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
                     break;
             }
         }
+        public void Move_in_Battle(Ship enemy)
+        {
+            if (_ready_shoot_right)
+            { 
+
+            }
+            if (_ready_shoot_left)
+            {
+
+            }
+            else
+                Move();
+
+        }
+        public override void Shoot_Left()
+        {
+            if (_ready_shoot_left)
+            {
+                base.Shoot_Left();
+                // если корабыль смотрит в верх или в низ
+                if (_direction == Direction.down || _direction == Direction.up)
+                {
+                    for (int i = 0; i < _count_cannon / 2; i++)
+                    {
+                        Game1._enemy_cannonballs.Add(new Cannonball(_cannon, Cannonball_side.Left,
+                            new Vector2(
+                                _position.X + (_current_sprite.Width / 2),// позиция по Х
+                         _position.Y + ((_current_sprite.Height / (_count_cannon / 2)) * i)// позиция по У
+                         )
+                         , _direction)); // направление
+
+                    }
+                }
+                if (_direction == Direction.left || _direction == Direction.right)
+                {
+                    for (int i = 0; i < _count_cannon / 2; i++)
+                    {
+                        Game1._enemy_cannonballs.Add(new Cannonball(_cannon, Cannonball_side.Left,
+                            new Vector2(
+                                _position.X + ((_current_sprite.Width / (_count_cannon / 2)) * i), // позиция по Х
+                       _position.Y + (_current_sprite.Height / 2) // позиция по У
+                       )
+                         , _direction));// направление
+
+                    }
+                }
+                if (_direction == Direction.left_up || _direction == Direction.right_down)
+                {
+                    for (int i = 0; i < _count_cannon / 2; i++)
+                    {
+                        Game1._enemy_cannonballs.Add(new Cannonball(_cannon, Cannonball_side.Left,
+                            new Vector2(
+                                _position.X + ((_current_sprite.Width / (_count_cannon / 2)) * i), // позиция по Х
+                                  _position.Y + ((_current_sprite.Height / (_count_cannon / 2)) * i)    // позиция по У
+                                )
+                         , _direction));// направление
+
+                    }
+                }
+                if (_direction == Direction.up_right || _direction == Direction.down_left)
+                {
+                    for (int i = 0; i < _count_cannon / 2; i++)
+                    {
+                        Game1._my_cannonballs.Add(new Cannonball(_cannon, Cannonball_side.Left,
+                           new Vector2(
+                              (_position.X + _current_sprite.Width) - ((_current_sprite.Width / (_count_cannon / 2)) * i), // позиция по Х
+                                 _position.Y + ((_current_sprite.Height / (_count_cannon / 2)) * i)    // позиция по У
+                               )
+                        , _direction));// направление
+
+                    }
+                }
 
 
+
+                _cooldown_timer_left.Start();
+                _ready_shoot_left = false;
+            }
+        }
+        public override void Shoot_Right()
+        {
+            if (_ready_shoot_right)
+            {
+                base.Shoot_Right();
+                if (_direction == Direction.down || _direction == Direction.up)
+                {
+                    for (int i = 0; i < _count_cannon / 2; i++)
+                    {
+                        Game1._enemy_cannonballs.Add(new Cannonball(_cannon, Cannonball_side.Right,
+                            new Vector2(
+                                _position.X + (_current_sprite.Width / 2),// позиция по Х
+                         _position.Y + ((_current_sprite.Height / (_count_cannon / 2)) * i)// позиция по У
+                         )
+                         , _direction)); // направление
+
+                    }
+                }
+                if (_direction == Direction.left || _direction == Direction.right)
+                {
+                    for (int i = 0; i < _count_cannon / 2; i++)
+                    {
+                        Game1._enemy_cannonballs.Add(new Cannonball(_cannon, Cannonball_side.Right,
+                            new Vector2(
+                                _position.X + ((_current_sprite.Width / (_count_cannon / 2)) * i), // позиция по Х
+                       _position.Y + (_current_sprite.Height / 2) // позиция по У
+                       )
+                         , _direction));// направление
+
+                    }
+                }
+                if (_direction == Direction.left_up || _direction == Direction.right_down)
+                {
+                    for (int i = 0; i < _count_cannon / 2; i++)
+                    {
+                        Game1._enemy_cannonballs.Add(new Cannonball(_cannon, Cannonball_side.Right,
+                            new Vector2(
+                                _position.X + ((_current_sprite.Width / (_count_cannon / 2)) * i), // позиция по Х
+                                  _position.Y + ((_current_sprite.Height / (_count_cannon / 2)) * i)    // позиция по У
+                                )
+                         , _direction));// направление
+
+                    }
+                }
+                if (_direction == Direction.up_right || _direction == Direction.down_left)
+                {
+                    for (int i = 0; i < _count_cannon / 2; i++)
+                    {
+                        Game1._my_cannonballs.Add(new Cannonball(_cannon, Cannonball_side.Right,
+                            new Vector2(
+                               (_position.X + _current_sprite.Width) - ((_current_sprite.Width / (_count_cannon / 2)) * i), // позиция по Х
+                                  _position.Y + ((_current_sprite.Height / (_count_cannon / 2)) * i)    // позиция по У
+                                )
+                         , _direction));// направление
+
+                    }
+                }
+                _cooldown_timer_right.Start();
+                _ready_shoot_right = false;
+            }
+        }
         #region методы перемещения
         public override void Go_U() // вверх
         {

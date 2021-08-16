@@ -178,7 +178,7 @@ namespace Corsaries_by_VBUteamGKMI.Model
                 _position.Y -= _speed;
                 _range--;
             }
-            else { Game1._my_cannonballs.Remove(this); }
+           
         }
         public virtual void Go_UL() // вверх лево
         {
@@ -188,7 +188,7 @@ namespace Corsaries_by_VBUteamGKMI.Model
                 _position.X -= _speed;
                 _range--;
             }
-            else { Game1._my_cannonballs.Remove(this); }
+           
         }
         public virtual void Go_UR() // вверх право
         {
@@ -198,7 +198,7 @@ namespace Corsaries_by_VBUteamGKMI.Model
                 _position.X += _speed;
                 _range--;
             }
-            else { Game1._my_cannonballs.Remove(this); }
+           
         }
         public virtual void Go_D()  // вниз
         {
@@ -207,7 +207,7 @@ namespace Corsaries_by_VBUteamGKMI.Model
                 _position.Y += _speed;
                 _range--;
             }
-            else { Game1._my_cannonballs.Remove(this); }
+           
         }
         public virtual void Go_DL()  // вниз лево
         {
@@ -217,7 +217,7 @@ namespace Corsaries_by_VBUteamGKMI.Model
                 _position.X -= _speed;
                 _range--;
             }
-            else { Game1._my_cannonballs.Remove(this); }
+           
         }
         public virtual void Go_DR()  // вниз право
         {
@@ -227,7 +227,7 @@ namespace Corsaries_by_VBUteamGKMI.Model
                 _position.X += _speed;
                 _range--;
             }
-            else { Game1._my_cannonballs.Remove(this); }
+           
         }
         public virtual void Go_L() // в лево
         {
@@ -236,7 +236,7 @@ namespace Corsaries_by_VBUteamGKMI.Model
                 _position.X -= _speed;
                 _range--;
             }
-            else { Game1._my_cannonballs.Remove(this); }
+           
         }
         public virtual void Go_R() // в право
         {
@@ -245,7 +245,7 @@ namespace Corsaries_by_VBUteamGKMI.Model
                 _position.X += _speed;
                 _range--;
             }
-            else { Game1._my_cannonballs.Remove(this); }
+           
         }
         #endregion
     }

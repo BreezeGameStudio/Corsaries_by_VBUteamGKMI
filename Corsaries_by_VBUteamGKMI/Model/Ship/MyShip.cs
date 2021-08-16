@@ -14,7 +14,7 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
     {      
         public MyShip(Ship_type ship_Type,
             Microsoft.Xna.Framework.Content.ContentManager content,
-            float x_pos,float y_pos) : base(ship_Type)
+            float x_pos,float y_pos) : base(ship_Type, content)
         {
           _position = new Vector2(x_pos , y_pos);          
             // выгружаем срайты корабля
@@ -48,6 +48,7 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
         {
             if (_ready_shoot_left)
             {
+                base.Shoot_Left();
                 // если корабыль смотрит в верх или в низ
                 if (_direction == Direction.down || _direction == Direction.up)
                 {
@@ -95,7 +96,7 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
                         Game1._my_cannonballs.Add(new Cannonball(_cannon, Cannonball_side.Left,
                             new Vector2(
                                ( _position.X + _current_sprite.Width)-((_current_sprite.Width / (_count_cannon / 2)) * i), // позиция по Х
-                                 ( _position.Y + _current_sprite.Height)-((_current_sprite.Height / (_count_cannon / 2)) * i)    // позиция по У
+                                  _position.Y +((_current_sprite.Height / (_count_cannon / 2)) * i)    // позиция по У
                                 )
                          , _direction));// направление
 
@@ -110,8 +111,10 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
         }
         public override void Shoot_Right()
         {
+
             if (_ready_shoot_right)
             {
+                base.Shoot_Right();
                 if (_direction == Direction.down || _direction == Direction.up)
                 {
                     for (int i = 0; i < _count_cannon / 2; i++)
@@ -155,20 +158,15 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
                 {
                     for (int i = 0; i < _count_cannon / 2; i++)
                     {
-                        Game1._my_cannonballs.Add(new Cannonball(_cannon, Cannonball_side.Right,
+                         Game1._my_cannonballs.Add(new Cannonball(_cannon, Cannonball_side.Right,
                             new Vector2(
-                               (_position.X + _current_sprite.Width) - ((_current_sprite.Width / (_count_cannon / 2)) * i), // позиция по Х
-                                 (_position.Y + _current_sprite.Height) - ((_current_sprite.Height / (_count_cannon / 2)) * i)    // позиция по У
+                               ( _position.X + _current_sprite.Width)-((_current_sprite.Width / (_count_cannon / 2)) * i), // позиция по Х
+                                  _position.Y +((_current_sprite.Height / (_count_cannon / 2)) * i)    // позиция по У
                                 )
                          , _direction));// направление
 
                     }
-                }
-
-
-
-                /*Game1._my_cannonballs.Add(new Cannonball(_cannon, Cannonball_side.Right, new Vector2(_position.X + (_current_sprite.Width / 2),
-                  _position.Y + (_current_sprite.Height / 2)), _direction));*/
+                }              
                 _cooldown_timer_right.Start();
                 _ready_shoot_right = false;
             }

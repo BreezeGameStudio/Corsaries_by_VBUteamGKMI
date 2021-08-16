@@ -212,6 +212,9 @@ namespace Corsaries_by_VBUteamGKMI
             _game_state = Game_Sate.In_Battle;
             _my_hp_bar = new HP_Bar(GraphicsDevice, _myShip);
             _enemy_hp_bar =new HP_Bar(GraphicsDevice, _enemyShip);
+            // чистим снаряды
+            _enemy_cannonballs.Clear();
+            _my_cannonballs.Clear();
 
         }
 
@@ -454,6 +457,10 @@ namespace Corsaries_by_VBUteamGKMI
             Hit_Enemy(_myShip,_enemyShip);
             Hit_My(_myShip, _enemyShip);
 
+            // очистка поля от снарядов
+            _my_cannonballs.FindAll(i => i._range <= 0).ForEach(q => _my_cannonballs.Remove(q));
+            _enemy_cannonballs.FindAll(i => i._range <= 0).ForEach(q => _enemy_cannonballs.Remove(q));
+
             // проверка на конец боя
             if (EndBattle())
                 Set_In_World_GS();
@@ -469,7 +476,7 @@ namespace Corsaries_by_VBUteamGKMI
             _spriteBatch.Draw(_myShip._current_sprite, _myShip._position, Color.White); // отрисовка корабля
             _spriteBatch.Draw(_enemyShip._current_sprite, _enemyShip._position, Color.White); // отрисовка врага
             _my_cannonballs.ForEach(i => _spriteBatch.Draw(i._current_sprite, i._position, Color.White)); // отрисовка снаряда 
-                                                                                                          // отрисовка хп бара
+            _enemy_cannonballs.ForEach(i => _spriteBatch.Draw(i._current_sprite, i._position, Color.White)); //  отрисовка снаряда врага                                                                              // отрисовка хп бара
 
             _my_hp_bar.Draw(_spriteBatch, new Vector2(_myShip._position.X - 30, _myShip._position.Y - 30));
             _enemy_hp_bar.Draw(_spriteBatch, new Vector2(_enemyShip._position.X - 30, _enemyShip._position.Y - 30));

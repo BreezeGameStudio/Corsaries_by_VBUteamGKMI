@@ -25,6 +25,12 @@
 /processorParam:TextureFormat=Color
 /build:grass.png
 
+#begin hit.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:hit.mp3
+
 #begin island_1.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -204,6 +210,12 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:ship_UR.png
+
+#begin shoot.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:shoot.mp3
 
 #begin testtext.spritefont
 /importer:FontDescriptionImporter
