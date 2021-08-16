@@ -20,6 +20,7 @@ namespace Corsaries_by_VBUteamGKMI
         //снаряды врага
         public static List<Cannonball> _enemy_cannonballs = new List<Cannonball>();
         System.Drawing.Color _water_colorl;
+        System.Drawing.Color _water_colorl_2;
         public Game_Sate _game_state; //состояние игры
         public static int _game_ground_X_Y = 5000; // размер карты     
         // размеры игровой карты
@@ -86,7 +87,9 @@ namespace Corsaries_by_VBUteamGKMI
             _myShip = new MyShip(Ship_type.Corvette, Content, 500, 500);
 
             // получаем цвет воды
-            _water_colorl = GetColorWaterIsland(_islands[0], 0, 0);
+             _water_colorl = GetColorWaterIsland(_islands[0], 1, 1);
+            _water_colorl_2 =  System.Drawing.Color.FromArgb(255,101,148,236);
+          
 
             // тестовый текст
             _text = Content.Load<SpriteFont>("testtext");
@@ -201,10 +204,10 @@ namespace Corsaries_by_VBUteamGKMI
         public void Set_In_Battle_GS()
         {
             // задаём размеры боевого поля 
-            _game_ground = new Game_ground((int)_myShip._position.X - (_size_screen.Width / 2),
-                (int)_myShip._position.X + (_size_screen.Width / 2),
-                (int)_myShip._position.Y - (_size_screen.Height / 2),
-                (int)_myShip._position.Y + (_size_screen.Height / 2));
+            _game_ground = new Game_ground((int)_camera._pos.X - (_size_screen.Width / 2),
+                (int)_camera._pos.X + (_size_screen.Width / 2),
+                (int)_camera._pos.Y - (_size_screen.Height / 2),
+                (int)_camera._pos.Y + (_size_screen.Height / 2));
             // задаём состояние игры
             _game_state = Game_Sate.In_Battle;
         }
@@ -216,6 +219,9 @@ namespace Corsaries_by_VBUteamGKMI
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
+            // кнопка проверки своего судна
+            if (Keyboard.GetState().IsKeyDown(Keys.Q))
+                Show_Info_Ship(_myShip);
             // проверка столкнованеий моего корабля с островом
             if (Collision_island(_myShip))
                 _myShip.Step_Back_Position(); // возвращение к старой позиции при столкновениее
@@ -240,21 +246,21 @@ namespace Corsaries_by_VBUteamGKMI
         // отрисовка данных при состояние игры игровой мир
         private void In_World_Draw(GameTime gameTime)
         {
+            if (_myShip != null)
+            {
+                _spriteBatch.DrawString(_text, $"X {_myShip._position.X} Y {_myShip._position.Y}",
+                     _text_pos, new Color(0, 0, 0));
+            } // рисуем текст
+            _spriteBatch.Draw(_myShip._current_sprite, _myShip._position, Color.White); // отрисовка корабля
+            // отрисовка nps  
+            _nps.ForEach(i => _spriteBatch.Draw(i._current_sprite, i._position, Color.White));
             // отрисовка островов   
             foreach (var item in _islands)
             {
                 _spriteBatch.Draw(item._current_sprite, item._position, null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.FlipVertically, 0f);
             }
-            // отрисовка nps  
-            _nps.ForEach(i => _spriteBatch.Draw(i._current_sprite, i._position, Color.White));
-            /// тест текста
-            Color color = new Color(0, 0, 0); // цвет желтый
-            if (_myShip != null)
-            {
-                _spriteBatch.DrawString(_text, $"X {_myShip._position.X} Y {_myShip._position.Y}",
-                     _text_pos, color);
-            } // рисуем текст
-            _spriteBatch.Draw(_myShip._current_sprite, _myShip._position, Color.White); // отрисовка корабля
+          
+           
 
         }
         // метод столкновения с островами
@@ -274,28 +280,56 @@ namespace Corsaries_by_VBUteamGKMI
                 if (R_ship.Intersects(R_island))
                 {
 
-                    if (ship._position.X > item._position.X
-                        && ship._position.X < (item._position.X + item._current_sprite.Width))
+
+
+                    if (ship._position.Y + (ship._current_sprite.Height / 2) > item._position.Y
+                        && ship._position.Y + (ship._current_sprite.Height / 2) < (item._position.Y + item._current_sprite.Height)
+                       && ship._position.X + (ship._current_sprite.Width / 2) > item._position.X
+                       && ship._position.X + (ship._current_sprite.Width / 2) < (item._position.X + item._current_sprite.Width))
                     {
 
-                        if (ship._position.Y > item._position.Y
-                            && ship._position.Y < (item._position.Y + item._current_sprite.Height))
+
+                        int x = (int)(ship._position.X + (ship._current_sprite.Width / 2) - item._position.X);
+                        int y =item._current_sprite.Height- (int)(ship._position.Y + (ship._current_sprite.Height / 2) - item._position.Y);
+                        try
                         {
-                            int x = (int)((ship._position.X + ship._current_sprite.Width - item._position.X));
-                            int y = (int)((ship._position.Y + ship._current_sprite.Height - item._position.Y));
-                            try
+                            System.Drawing.Color color = GetColorWaterIsland(item, x, y);
+                            if (_water_colorl.ToArgb() != color.ToArgb()
+                           && _water_colorl_2.ToArgb() != color.ToArgb())
+                             
                             {
-                                System.Drawing.Color color = GetColorWaterIsland(item, x, y);
-                                if (_water_colorl.ToArgb() != color.ToArgb())
-                                {
-                                    collide = true;
-                                }
+                                
+                                collide = true;
                             }
-                            catch (Exception) { return collide; }
-
-
                         }
+                        catch (Exception) { return collide; }
                     }
+
+                        
+                    
+                    
+                    //if (ship._position.X > item._position.X
+                    //&& ship._position.X < (item._position.X + item._current_sprite.Width))
+                    //{
+
+                    //    if (ship._position.Y > item._position.Y
+                    //        && ship._position.Y < (item._position.Y + item._current_sprite.Height))
+                    //    {
+                    //        int x = (int)((ship._position.X + ship._current_sprite.Width - item._position.X));
+                    //        int y = (int)((ship._position.Y + ship._current_sprite.Height - item._position.Y));
+                    //        try
+                    //        {
+                    //            System.Drawing.Color color = GetColorWaterIsland(item, x, y);
+                    //            if (_water_colorl.ToArgb() != color.ToArgb())
+                    //            {
+                    //                collide = true;
+                    //            }
+                    //        }
+                    //        catch (Exception) { return collide; }
+
+
+                    //    }
+                    //}
                 }
             }
 
@@ -318,11 +352,17 @@ namespace Corsaries_by_VBUteamGKMI
                         item._current_sprite.Width + 100, item._current_sprite.Height + 100);
                     if (R_ship.Intersects(nps))
                     {
+                        // коллекция вопросов при столкновении
+                        List<string> questions = new List<string> { "Напасть", "Разведка", "Уплыть" };
+                        int answer;
+                        do
+                        {
+                            answer = MessageBox.Show("Обнаружен корабыль", "Выбирете действие", questions).Result.Value;
+                            if (answer == 1)
+                                Show_Info_Ship(item);
+                        } while (answer == 1);                     
 
-                        System.Windows.Forms.DialogResult rez = System.Windows.Forms.MessageBox.Show($"Вы хотите вступить в бой с {item._name}", "Обнаружен корабыль",
-                            System.Windows.Forms.MessageBoxButtons.YesNo);
-
-                        if (rez == System.Windows.Forms.DialogResult.Yes) //если предложение о бое было принято
+                        if (answer == 0) //если предложение о бое было принято
                         {
                             // делаем врагом выбраного нпс
                             _enemyShip = item;
@@ -372,13 +412,14 @@ namespace Corsaries_by_VBUteamGKMI
             catch (InvalidOperationException) { return; }
 
         }
-
+        // показать инфо о корадбях запуск формы
+        private void Show_Info_Ship(Ship ship)=> new Info_Form(ship).ShowDialog();
 
         #endregion
 
         #region In Battle
 
-       // обновленние данных при состояние игры бой
+        // обновленние данных при состояние игры бой
         private void In_Battle_Update(GameTime gameTime)
         {
             // кнопка збежать с боя

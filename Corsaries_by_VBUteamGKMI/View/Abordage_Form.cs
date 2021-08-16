@@ -152,5 +152,7 @@ namespace Corsaries_by_VBUteamGKMI.View
             { this.Close(); }
 
         }
+
+       
     }
 }

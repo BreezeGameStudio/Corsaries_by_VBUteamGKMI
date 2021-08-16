@@ -184,6 +184,7 @@ namespace Corsaries_by_VBUteamGKMI.View
             this.My_HP.Size = new System.Drawing.Size(34, 15);
             this.My_HP.TabIndex = 60;
             this.My_HP.Text = "none";
+           
             // 
             // My_Hp_bar
             // 
@@ -191,6 +192,7 @@ namespace Corsaries_by_VBUteamGKMI.View
             this.My_Hp_bar.Name = "My_Hp_bar";
             this.My_Hp_bar.Size = new System.Drawing.Size(161, 23);
             this.My_Hp_bar.TabIndex = 59;
+          
             // 
             // My_creed
             // 
@@ -200,6 +202,7 @@ namespace Corsaries_by_VBUteamGKMI.View
             this.My_creed.Size = new System.Drawing.Size(34, 15);
             this.My_creed.TabIndex = 57;
             this.My_creed.Text = "none";
+          
             // 
             // My_deff
             // 
@@ -209,6 +212,7 @@ namespace Corsaries_by_VBUteamGKMI.View
             this.My_deff.Size = new System.Drawing.Size(34, 15);
             this.My_deff.TabIndex = 55;
             this.My_deff.Text = "none";
+          
             // 
             // My_damag
             // 
@@ -218,6 +222,7 @@ namespace Corsaries_by_VBUteamGKMI.View
             this.My_damag.Size = new System.Drawing.Size(34, 15);
             this.My_damag.TabIndex = 54;
             this.My_damag.Text = "none";
+         
             // 
             // label2
             // 
@@ -272,6 +277,7 @@ namespace Corsaries_by_VBUteamGKMI.View
             this.label8.Size = new System.Drawing.Size(59, 15);
             this.label8.TabIndex = 45;
             this.label8.Text = "Здоровье";
+       
             // 
             // label7
             // 
@@ -281,6 +287,7 @@ namespace Corsaries_by_VBUteamGKMI.View
             this.label7.Size = new System.Drawing.Size(38, 15);
             this.label7.TabIndex = 44;
             this.label7.Text = "Урон ";
+        
             // 
             // label6
             // 
@@ -290,6 +297,7 @@ namespace Corsaries_by_VBUteamGKMI.View
             this.label6.Size = new System.Drawing.Size(62, 15);
             this.label6.TabIndex = 43;
             this.label6.Text = "Защита %";
+         
             // 
             // label5
             // 
@@ -299,6 +307,7 @@ namespace Corsaries_by_VBUteamGKMI.View
             this.label5.Size = new System.Drawing.Size(112, 15);
             this.label5.TabIndex = 42;
             this.label5.Text = "Шанс уклонения %";
+          
             // 
             // label4
             // 
@@ -308,6 +317,7 @@ namespace Corsaries_by_VBUteamGKMI.View
             this.label4.Size = new System.Drawing.Size(112, 15);
             this.label4.TabIndex = 41;
             this.label4.Text = "Шанс крит удара %";
+      
             // 
             // label1
             // 
@@ -339,6 +349,7 @@ namespace Corsaries_by_VBUteamGKMI.View
             this.My_dodge.Size = new System.Drawing.Size(34, 15);
             this.My_dodge.TabIndex = 77;
             this.My_dodge.Text = "none";
+       
             // 
             // Abordage_Form
             // 
