@@ -117,18 +117,58 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
         }
         public void Move_in_Battle(Ship enemy)
         {
-            if (_ready_shoot_right)
-            { 
-
-            }
-            if (_ready_shoot_left)
+            if(_ready_shoot_right||_ready_shoot_left)
             {
-
-            }
-            else
-                Move();
+                if (_cannon._range*_cannon._speed/2 < Distance(_position, enemy._position))
+                    Move_to_Enemy(enemy);
+                else
+                {
+                    if (_ready_shoot_right)
+                    {
+                        Shoot_Right();
+                    }
+                    if (_ready_shoot_left)
+                    {
+                        Shoot_Left();
+                    }
+                }
+                
+            }            
+            else { Move(); }
+               
 
         }
+
+        // нахождение растояния к врагу
+        private int Distance(Vector2 a,Vector2 b ) => Convert.ToInt32(Math.Sqrt(
+               Math.Pow(Convert.ToDouble(a.X - b.X), 2)
+             + Math.Pow(Convert.ToDouble(a.Y - b.Y), 2)));
+        //движение к врагу
+        private void Move_to_Enemy(Ship enemy)
+        {
+            if (_position.X > enemy._position.X && _position.Y > enemy._position.Y)
+            { Go_UL(); return; }
+            if (_position.X < enemy._position.X && _position.Y < enemy._position.Y)
+            { Go_DR(); return; }
+            if (_position.X > enemy._position.X && _position.Y < enemy._position.Y)
+            { Go_DL(); return; }
+            if (_position.X < enemy._position.X && _position.Y > enemy._position.Y)
+            { Go_UR(); return; }
+            if (_position.X < enemy._position.X)
+            { Go_R(); return; }
+            if (_position.X > enemy._position.X)
+            { Go_L(); return; }
+            if (_position.Y < enemy._position.Y)
+            { Go_D(); return; }
+            if (_position.Y < enemy._position.Y)
+            { Go_U(); return; }
+        }
+    
+
+
+
+
+
         public override void Shoot_Left()
         {
             if (_ready_shoot_left)

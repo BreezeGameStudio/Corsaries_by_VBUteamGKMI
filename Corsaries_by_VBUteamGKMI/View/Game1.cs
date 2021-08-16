@@ -440,7 +440,8 @@ namespace Corsaries_by_VBUteamGKMI
             if (Keyboard.GetState().IsKeyDown(Keys.Q))
                 Boarding(_myShip,_enemyShip);
 
-            _enemyShip.Move();
+
+            _enemyShip.Move_in_Battle(_myShip);
             // стрелять лево
             if (Mouse.GetState().LeftButton == ButtonState.Pressed)
                 _myShip.Shoot_Left();
