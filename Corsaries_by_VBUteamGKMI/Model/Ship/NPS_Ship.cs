@@ -11,11 +11,7 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
 {
     public class NPS_Ship : Ship
     {
-        private Random _random = new Random(); // рандом для смены направления движения
-                                               // список направлений движений
-
-        Rectangle _left_attack_zone;
-        Rectangle _right_attack_zone;
+        private Random _random = new Random(); // рандом для смены направления движения      
         public NPS_Ship(Ship_type ship_Type, Microsoft.Xna.Framework.Content.ContentManager content) : base(ship_Type, content)
         {
             // выгружаем срайты корабля
@@ -82,10 +78,10 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
                 }
             }
         }
-
+       // шаг назад при столкновении
         public void Step_Back_Position() => _position = _old_position;
         public void Next_Move() => _direction = (Direction)_random.Next(7);
-        public void Move()
+        public void Move_Random()
         {                 
             switch (_direction)
             {
@@ -115,6 +111,7 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
                     break;
             }
         }
+        // движение в сражении
         public void Move_in_Battle(Ship enemy)
         {
             if(_ready_shoot_right||_ready_shoot_left)
@@ -190,7 +187,7 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
                 }
 
             }
-            else { Move(); }
+            else { Move_Random(); }
 
 
         }
@@ -228,12 +225,6 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
             }
            
         }
-    
-
-
-
-
-
         public override void Shoot_Left()
         {
             if (_ready_shoot_left)
