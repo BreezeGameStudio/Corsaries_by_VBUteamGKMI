@@ -33,7 +33,7 @@ namespace Corsaries_by_VBUteamGKMI
         private List<Island> _islands = new List<Island>(); // коллекция островов
         private List<Vector2> _island_positions = new List<Vector2>() { new Vector2(1000, 2500), new Vector2(2000, 1500), new Vector2(3000, 1500), new Vector2(4500, 2500), new Vector2(3500, 4000), new Vector2(2500, 4000) };
         // камера
-        Camera2d _camera = new Camera2d();
+        public  Camera2d _camera = new Camera2d();
         //текущий монитор   
         public static System.Drawing.Size _size_screen = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Size;
         public static GraphicsDeviceManager _graphics; // графика
@@ -210,6 +210,9 @@ namespace Corsaries_by_VBUteamGKMI
                 (int)_camera._pos.Y + (_size_screen.Height / 2));
             // задаём состояние игры
             _game_state = Game_Sate.In_Battle;
+            _my_hp_bar = new HP_Bar(GraphicsDevice, _myShip);
+            _enemy_hp_bar =new HP_Bar(GraphicsDevice, _enemyShip);
+
         }
 
 
@@ -419,6 +422,10 @@ namespace Corsaries_by_VBUteamGKMI
 
         #region In Battle
 
+        public HP_Bar _my_hp_bar;
+        public HP_Bar _enemy_hp_bar;
+
+
         // обновленние данных при состояние игры бой
         private void In_Battle_Update(GameTime gameTime)
         {
@@ -450,19 +457,26 @@ namespace Corsaries_by_VBUteamGKMI
             // проверка на конец боя
             if (EndBattle())
                 Set_In_World_GS();
-
+            // обновление хп бара
+            _my_hp_bar.Update();
+            _enemy_hp_bar.Update();
 
 
         }
-       // отрисовка данных при состояние игры бой
+        // отрисовка данных при состояние игры бой
         private void In_Battle_Draw(GameTime gameTime)
         {
             _spriteBatch.Draw(_myShip._current_sprite, _myShip._position, Color.White); // отрисовка корабля
             _spriteBatch.Draw(_enemyShip._current_sprite, _enemyShip._position, Color.White); // отрисовка врага
             _my_cannonballs.ForEach(i => _spriteBatch.Draw(i._current_sprite, i._position, Color.White)); // отрисовка снаряда 
+                                                                                                          // отрисовка хп бара
+
+            _my_hp_bar.Draw(_spriteBatch, new Vector2(_myShip._position.X - 30, _myShip._position.Y - 30));
+            _enemy_hp_bar.Draw(_spriteBatch, new Vector2(_enemyShip._position.X - 30, _enemyShip._position.Y - 30));
+
 
         }
-       // сбежать с боя
+        // сбежать с боя
         private void Escape_Battle()
         {
             System.Windows.Forms.DialogResult rez = System.Windows.Forms.MessageBox.Show($"Вы хотите сбежать с боя с {_enemyShip._name}", "Струсил?",
