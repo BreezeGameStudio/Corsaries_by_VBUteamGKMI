@@ -241,35 +241,35 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
             }
             for (int i = 0; i < 3; i++)
             {
-                // инициализируем в нашей колекции места пот продукты
+                // инициализируем в нашей колекции матросов
                 _sailors.Add(new Sailor((Sailor_type)i));
             }
         }
-
+        // перезарядка с права
         private void _cooldown_timer_right_Tick(object sender, EventArgs e)
         {
             _ready_shoot_right = true;
             _cooldown_timer_right.Stop();
         }
-
+        // перезарядка с лева
         private void _cooldown_timer_left_Tick(object sender, EventArgs e)
         {
             _ready_shoot_left = true;
             _cooldown_timer_left.Stop();
         }
-
+        // выстре с лева
         public virtual void Shoot_Left() 
         {
             for (int i = 0; i < _count_cannon / 2; i++)
             { MediaPlayer.Play(_shoot_song); }
         }
-        
+        // выстрел с права
         public virtual void Shoot_Right() 
         {
             for (int i = 0; i < _count_cannon / 2; i++)
             { MediaPlayer.Play(_shoot_song); }
         }
-        
+        // получение урона
         public void GetDamaged(Cannon cannon)
         {
             

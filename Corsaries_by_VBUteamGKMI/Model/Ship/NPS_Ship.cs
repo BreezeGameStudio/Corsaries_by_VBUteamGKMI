@@ -30,7 +30,27 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
             // // заполняем коллекцию матросов матросов =)
             SetSailorsList();
             // оживляем капитана
-            _captain = new Captain(_sailors);
+            switch (_ship_type)
+            {
+                case Ship_type.Boat: _captain = new Captain(_sailors,_random.Next(50,150));
+                    break;
+                case Ship_type.Schooner: _captain = new Captain(_sailors, _random.Next(100, 200));
+                    break;
+                case Ship_type.Caravel:_captain = new Captain(_sailors, _random.Next(200, 300));
+                    break;
+                case Ship_type.Brig: _captain = new Captain(_sailors, _random.Next(300, 400));
+                    break;
+                case Ship_type.Frigate: _captain = new Captain(_sailors, _random.Next(400, 500));
+                    break;
+                case Ship_type.Galleon: _captain = new Captain(_sailors, _random.Next(500, 650));
+                    break;
+                case Ship_type.Corvette:  _captain = new Captain(_sailors, _random.Next(600, 750));
+                    break;
+                case Ship_type.Battleship: _captain = new Captain(_sailors, _random.Next(700, 850));
+                    break;
+               
+            }
+       
             // заполняем коллекцию продуктов продуктами =)
             SetProductList();
         }

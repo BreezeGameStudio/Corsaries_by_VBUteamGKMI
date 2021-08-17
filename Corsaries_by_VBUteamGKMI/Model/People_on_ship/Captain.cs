@@ -6,16 +6,18 @@ namespace Corsaries_by_VBUteamGKMI.Model.People_on_ship
 {
     public class Captain
     {
+        public int _money; // деньги у капитана
         public int _current_hp ;   // текущее  здоровья капитана
         public int _max_hp ;   //  здоровья капитана
         public int _damag ;  //  урона капитана
         public int _deff ;  //  защиты капитана
         public int _dodge ;  //   уворота капитана
         public int _critical ; //  шанса крит удара капитана
-        public Captain(List<Sailor> sailors) => Set_Cap_Prop(sailors);
+        public Captain(List<Sailor> sailors, int money) => Set_Cap_Prop(sailors, money);
         // метод для задавания параметров капитана
-        public void Set_Cap_Prop(List<Sailor> sailors)
+        public void Set_Cap_Prop(List<Sailor> sailors, int money)
         {
+            _money = money;
             _max_hp = 0;   //  здоровья капитана
             _damag = 0;   //  урона капитана
             _deff = 0;  //  защиты капитана

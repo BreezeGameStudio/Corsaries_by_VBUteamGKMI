@@ -533,6 +533,7 @@ namespace Corsaries_by_VBUteamGKMI
             {
                 try { new Abordage_Form(My_ship._captain, Enemy_ship._captain).ShowDialog(); }
                 catch (Exception) { }
+                new Get_Loot_View(My_ship,Enemy_ship).ShowDialog();
             }
            
             

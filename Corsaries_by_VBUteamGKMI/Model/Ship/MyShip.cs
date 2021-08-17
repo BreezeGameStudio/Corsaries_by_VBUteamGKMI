@@ -34,13 +34,14 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
 
             //тест капитана 
             SetSailorsList(Sailor_type.Sea_wolf, 40);
-            _captain = new Captain(_sailors);
+            _captain = new Captain(_sailors,300);
         }
 
         // метод назначения продуктов
         public void SetProductList(Product_type product_Type , int count) => _products.Find(i => i._product_Type == product_Type)._count = count;
         // метод назначения моряков
-        public void SetSailorsList(Sailor_type sailor_Type, int count) => _sailors.Find(i => i._sailor_Type == sailor_Type)._count = count;
+        public void SetSailorsList(Sailor_type sailor_Type, int count)
+        { _sailors.Find(i => i._sailor_Type == sailor_Type)._count = count; _current_count_sailors = count; }
 
         public void Step_Back_Position() => _position = _old_position;
 

@@ -32,6 +32,7 @@ namespace Corsaries_by_VBUteamGKMI.View
             _ship_MATROS_BAR.Maximum = ship._max_count_sailors;
             _ship_MATROS_BAR.Value = ship._current_count_sailors;
             _ship_MATROS.Text = ship._sailors[0]._sailor_Type.ToString();
+            _ship_MATROS_count.Text = ship._current_count_sailors.ToString();
             _ship_HP_BAR.Maximum = ship._max_hp;
             _ship_HP_BAR.Value = ship._current_hp;
             _ship_HP.Text = ship._current_hp.ToString();
@@ -45,6 +46,7 @@ namespace Corsaries_by_VBUteamGKMI.View
             _capitan_DEF.Text = ship._captain._deff.ToString();
             _capitan_DMG.Text = ship._captain._damag.ToString();
             _capitan_HP.Text = ship._captain._current_hp.ToString();
+            _capitan_money.Text = ship._captain._money.ToString();
 
         }
        
