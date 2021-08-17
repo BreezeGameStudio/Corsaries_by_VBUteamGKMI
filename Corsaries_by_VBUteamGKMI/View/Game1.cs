@@ -257,27 +257,27 @@ namespace Corsaries_by_VBUteamGKMI
             _text_pos.Y = _camera.Pos.Y - (_size_screen.Height / 2);
             _text_pos.X = _camera.Pos.X - (_size_screen.Width / 2);
             // НПС ДВИЖЕНИЕ
-            _nps.ForEach(i => i.Move());
+            _nps.ForEach(i => i.Move_Random());
 
         }
         // отрисовка данных при состояние игры игровой мир
         private void In_World_Draw(GameTime gameTime)
         {
-            if (_myShip != null)
-            {
-                _spriteBatch.DrawString(_text, $"X {_myShip._position.X} Y {_myShip._position.Y}",
-                     _text_pos, new Color(0, 0, 0));
-            } // рисуем текст
             // отрисовка островов   
             foreach (var item in _islands)
             {
                 _spriteBatch.Draw(item._current_sprite, item._position, null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.FlipVertically, 0f);
+              // отрисовка кораблей в цикле отрисовки островов что бы корабли рисовались поверх островов
+                _spriteBatch.Draw(_myShip._current_sprite, _myShip._position, Color.White); // отрисовка корабля
+                     // отрисовка nps  
+                _nps.ForEach(i => _spriteBatch.Draw(i._current_sprite, i._position, Color.White));
             }
-            // отрисовка nps 
-            _nps.ForEach(i => i._position = new Vector2(2000, 2000));
-            _nps.ForEach(i => _spriteBatch.Draw(i._current_sprite, i._position, Color.White));
-            _spriteBatch.Draw(_myShip._current_sprite, _myShip._position, Color.White); // отрисовка корабля
-
+            // рисуем текст
+            if (_myShip != null)
+            {
+                _spriteBatch.DrawString(_text, $"X {_myShip._position.X} Y {_myShip._position.Y}",
+                     _text_pos, new Color(0, 0, 0));
+            } 
         }
         // метод столкновения с островами
         protected bool Collision_island(Ship ship)
@@ -351,6 +351,7 @@ namespace Corsaries_by_VBUteamGKMI
 
             return collide;
         }
+       // получение цвета пикселей острова для колизии с островами
         private System.Drawing.Color GetColorWaterIsland(Island island, int x, int y) => island._bitmap.GetPixel(x, y);
       // проверка столкновений с НПС
         protected void Collision_NPS(Ship ship)
@@ -504,7 +505,7 @@ namespace Corsaries_by_VBUteamGKMI
             {
                 for (int i = 0; i < 3; i++)
                 {
-                    _enemyShip.Move();
+                    _enemyShip.Move_Random();
                 }
                 Set_In_World_GS();
             }
@@ -604,7 +605,7 @@ namespace Corsaries_by_VBUteamGKMI
             if (Keyboard.GetState().IsKeyDown(Keys.Q))
                 Boarding(_myShip, _enemyShip);
 
-            _enemyShip.Move();
+            _enemyShip.Move_Random();
             // стрелять лево
             if (Mouse.GetState().LeftButton == ButtonState.Pressed)
                 _myShip.Shoot_Left();

@@ -11,11 +11,7 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
 {
     public class NPS_Ship : Ship
     {
-        private Random _random = new Random(); // рандом для смены направления движения
-                                               // список направлений движений
-
-        Rectangle _left_attack_zone;
-        Rectangle _right_attack_zone;
+        private Random _random = new Random(); // рандом для смены направления движения      
         public NPS_Ship(Ship_type ship_Type, Microsoft.Xna.Framework.Content.ContentManager content) : base(ship_Type, content)
         {
             // выгружаем срайты корабля
@@ -82,10 +78,10 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
                 }
             }
         }
-
+       // шаг назад при столкновении
         public void Step_Back_Position() => _position = _old_position;
         public void Next_Move() => _direction = (Direction)_random.Next(7);
-        public void Move()
+        public void Move_Random()
         {                 
             switch (_direction)
             {
@@ -115,6 +111,7 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
                     break;
             }
         }
+        // движение в сражении
         public void Move_in_Battle(Ship enemy)
         {
             if(_ready_shoot_right||_ready_shoot_left)
@@ -125,17 +122,73 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
                 {
                     if (_ready_shoot_right)
                     {
+                        switch (_direction)
+                        {
+                            case Direction.up:
+                                Go_L();
+                                break;
+                            case Direction.up_right:
+                                Go_UL();
+                                break;
+                            case Direction.right:
+                                Go_U();
+                                break;
+                            case Direction.right_down:
+                                Go_UR();
+                                break;
+                            case Direction.down:
+                                Go_L();
+                                break;
+                            case Direction.down_left:
+                                Go_UR();
+                                break;
+                            case Direction.left:
+                                Go_D();
+                                break;
+                            case Direction.left_up:
+                                Go_DL();
+                                break;
+                            default: break;
+                        }
                         Shoot_Right();
                     }
                     if (_ready_shoot_left)
                     {
+                        switch (_direction)
+                        {
+                            case Direction.up:
+                                Go_D();
+                                break;
+                            case Direction.up_right:
+                                Go_UL();
+                                break;
+                            case Direction.right:
+                                Go_L();
+                                break;
+                            case Direction.right_down:
+                                Go_UL();
+                                break;
+                            case Direction.down:
+                                Go_U();
+                                break;
+                            case Direction.down_left:
+                                Go_UR();
+                                break;
+                            case Direction.left:
+                                Go_R();
+                                break;
+                            case Direction.left_up:
+                                Go_DR();
+                                break;
+                            default: break;
+                        }
                         Shoot_Left();
                     }
                 }
-                
-            }            
-            else { Move(); }
-               
+
+            }
+            else { Move_Random(); }
+
 
         }
 
@@ -146,29 +199,32 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
         //движение к врагу
         private void Move_to_Enemy(Ship enemy)
         {
-            if (_position.X > enemy._position.X && _position.Y > enemy._position.Y)
+            if (_position.X > enemy._position.X-_speed && _position.X > enemy._position.X + _speed 
+                && _position.Y > enemy._position.Y+_speed &&   _position.Y > enemy._position.Y - _speed)
             { Go_UL(); return; }
-            if (_position.X < enemy._position.X && _position.Y < enemy._position.Y)
+            if (_position.X < enemy._position.X-_speed && _position.X < enemy._position.X + _speed
+                && _position.Y < enemy._position.Y-_speed && _position.Y < enemy._position.Y + _speed)
             { Go_DR(); return; }
-            if (_position.X > enemy._position.X && _position.Y < enemy._position.Y)
+
+            if (_position.X > enemy._position.X -_speed&& _position.X > enemy._position.X  +_speed
+                && _position.Y < enemy._position.Y+_speed&& _position.Y < enemy._position.Y - _speed)
             { Go_DL(); return; }
-            if (_position.X < enemy._position.X && _position.Y > enemy._position.Y)
+            if (_position.X < enemy._position.X+_speed && _position.X < enemy._position.X - _speed
+                && _position.Y > enemy._position.Y+_speed && _position.Y > enemy._position.Y - _speed)
             { Go_UR(); return; }
-            if (_position.X < enemy._position.X)
-            { Go_R(); return; }
-            if (_position.X > enemy._position.X)
-            { Go_L(); return; }
-            if (_position.Y < enemy._position.Y)
-            { Go_D(); return; }
-            if (_position.Y < enemy._position.Y)
-            { Go_U(); return; }
+            else
+            {
+                if (_position.X < enemy._position.X-_speed&& _position.X < enemy._position.X + _speed)
+                { Go_R(); return; }
+                if (_position.X > enemy._position.X - _speed && _position.X > enemy._position.X + _speed)
+                { Go_L(); return; }
+                if (_position.Y < enemy._position.Y-_speed&& _position.Y < enemy._position.Y + _speed )
+                { Go_D(); return; }
+                if (_position.Y > enemy._position.Y - _speed && _position.Y > enemy._position.Y + _speed)
+                { Go_U(); return; }
+            }
+           
         }
-    
-
-
-
-
-
         public override void Shoot_Left()
         {
             if (_ready_shoot_left)
@@ -218,7 +274,7 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
                 {
                     for (int i = 0; i < _count_cannon / 2; i++)
                     {
-                        Game1._my_cannonballs.Add(new Cannonball(_cannon, Cannonball_side.Left,
+                        Game1._enemy_cannonballs.Add(new Cannonball(_cannon, Cannonball_side.Left,
                            new Vector2(
                               (_position.X + _current_sprite.Width) - ((_current_sprite.Width / (_count_cannon / 2)) * i), // позиция по Х
                                  _position.Y + ((_current_sprite.Height / (_count_cannon / 2)) * i)    // позиция по У
@@ -282,7 +338,7 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
                 {
                     for (int i = 0; i < _count_cannon / 2; i++)
                     {
-                        Game1._my_cannonballs.Add(new Cannonball(_cannon, Cannonball_side.Right,
+                        Game1._enemy_cannonballs.Add(new Cannonball(_cannon, Cannonball_side.Right,
                             new Vector2(
                                (_position.X + _current_sprite.Width) - ((_current_sprite.Width / (_count_cannon / 2)) * i), // позиция по Х
                                   _position.Y + ((_current_sprite.Height / (_count_cannon / 2)) * i)    // позиция по У
@@ -300,6 +356,7 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
         {
             if (_position.Y > Game1._game_ground._y_b)
             {
+                _direction = Direction.up;
                 _old_position = _position; // перезапись памяти позиции
                 _position.Y -= _speed;
                 _current_sprite = _ship_sprites[2];
@@ -313,6 +370,7 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
             if (_position.Y > Game1._game_ground._y_b
                 && _position.X > Game1._game_ground._x_b)
             {
+                _direction = Direction.left_up;
                 _old_position = _position;
                 _position.Y -= _speed;
                 _position.X -= _speed;
@@ -326,6 +384,7 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
             if (_position.Y > Game1._game_ground._y_b
                 && _position.X < Game1._game_ground._x_e - _current_sprite.Width)
             {
+                _direction = Direction.up_right;
                 _old_position = _position;
                 _position.Y -= _speed;
                 _position.X += _speed;
@@ -339,6 +398,7 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
         {
             if (_position.Y < Game1._game_ground._y_e - _current_sprite.Height)
             {
+                _direction = Direction.down;
                 _old_position = _position;
                 _position.Y += _speed;
                 _current_sprite = _ship_sprites[3];
@@ -351,6 +411,7 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
             if (_position.Y < Game1._game_ground._y_e - _current_sprite.Height
                 && _position.X > Game1._game_ground._x_b)
             {
+                _direction = Direction.down_left;
                 _old_position = _position;
                 _position.Y += _speed;
                 _position.X -= _speed;
@@ -364,6 +425,7 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
             if (_position.Y < Game1._game_ground._y_e - _current_sprite.Height
                   && _position.X < Game1._game_ground._x_e - _current_sprite.Width)
             {
+                _direction = Direction.right_down;
                 _old_position = _position;
                 _position.Y += _speed;
                 _position.X += _speed;
@@ -376,6 +438,7 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
         {
             if (_position.X > Game1._game_ground._x_b)
             {
+                _direction = Direction.left;
                 _old_position = _position;
                 _position.X -= _speed;
                 _current_sprite = _ship_sprites[1];
@@ -387,6 +450,7 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
         {
             if (_position.X < Game1._game_ground._x_e - _current_sprite.Width)
             {
+                _direction = Direction.right;
                 _old_position = _position;
                 _position.X += _speed;
                 _current_sprite = _ship_sprites[0];
