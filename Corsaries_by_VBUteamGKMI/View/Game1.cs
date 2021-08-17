@@ -32,6 +32,8 @@ namespace Corsaries_by_VBUteamGKMI
         Vector2 _text_pos; // позиция
         private List<Island> _islands = new List<Island>(); // коллекция островов
         private List<Vector2> _island_positions = new List<Vector2>() { new Vector2(1000, 2500), new Vector2(2000, 1500), new Vector2(3000, 1500), new Vector2(4500, 2500), new Vector2(3500, 4000), new Vector2(2500, 4000) };
+        private List<Vector2> _edge_island_positions = new List<Vector2>() { new Vector2(2000, 0), new Vector2(2500, 4500) };
+        private List<Vector2> _continent_positions = new List<Vector2>() { new Vector2(_game_ground_X_Y - 500, 0), new Vector2(0,0), new Vector2(0, _game_ground_X_Y-500), new Vector2(_game_ground_X_Y - 500, _game_ground_X_Y - 500) };
         // камера
         public  Camera2d _camera = new Camera2d();
         //текущий монитор   
@@ -84,7 +86,16 @@ namespace Corsaries_by_VBUteamGKMI
             {
                 _islands.Add(new Island(Content, item, Content.Load<Texture2D>($"island_{_island_positions.IndexOf(item) + 1}")));
             }
-            _myShip = new MyShip(Ship_type.Corvette, Content, 500, 500);
+            foreach (var item in _edge_island_positions)
+            {
+                _islands.Add(new Island(Content, item, Content.Load<Texture2D>($"edge_island_{_edge_island_positions.IndexOf(item) + 1}")));
+            }
+            foreach (var item in _continent_positions)
+            {
+                _islands.Add(new Island(Content, item, Content.Load<Texture2D>($"continent_{_continent_positions.IndexOf(item) + 1}")));
+            }
+            _islands.Add(new Island(Content, new Vector2(2250, 2250), Content.Load<Texture2D>("center_island")));
+            _myShip = new MyShip(Ship_type.Corvette, Content, 2000, 2000);
 
             // получаем цвет воды
              _water_colorl = GetColorWaterIsland(_islands[0], 1, 1);
@@ -211,7 +222,7 @@ namespace Corsaries_by_VBUteamGKMI
             // задаём состояние игры
             _game_state = Game_Sate.In_Battle;
             _my_hp_bar = new HP_Bar(GraphicsDevice, _myShip);
-            _enemy_hp_bar =new HP_Bar(GraphicsDevice, _enemyShip);
+            _enemy_hp_bar = new HP_Bar(GraphicsDevice, _enemyShip);
             // чистим снаряды
             _enemy_cannonballs.Clear();
             _my_cannonballs.Clear();
