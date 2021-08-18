@@ -29,11 +29,10 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
             _current_sprite = _ship_sprites[0];
            
 
-
             //тест капитана 
             SetSailorsList(Sailor_type.Sea_wolf, 40);
             _captain = new Captain(_sailors,300);
-        }
+        }      
 
         // метод назначения продуктов
         public void SetProductList(Product_type product_Type , int count) => _products.Find(i => i._product_Type == product_Type)._count = count;

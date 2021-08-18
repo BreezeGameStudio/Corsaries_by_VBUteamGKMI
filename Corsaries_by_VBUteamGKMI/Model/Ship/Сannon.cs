@@ -7,6 +7,7 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
     public enum Cannon_type { small, medium, big }
     public class Cannon
     {
+        public string _name;// имя пушки
        public Cannon_type _cunnon_type; // тип пушки 
         public int _damage; // урон пушки
         public int _speed; // скорость снаряда
@@ -14,25 +15,32 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
         public Cannon(Ship_type ship_Type, Cannon_type cunnon_Type) => Set_Cunnon_Type(ship_Type, cunnon_Type);
         public void Set_Cunnon_Type(Ship_type ship_Type, Cannon_type cunnon_Type)
         {
+            switch (_cunnon_type)
+            {
+                case Cannon_type.small: _name = "Маленькие"; break;
+                case Cannon_type.medium: _name = "Средние"; break;
+                case Cannon_type.big:  _name = "Большие"; break;
+                default: break;
+            }
             _cunnon_type = cunnon_Type;
             switch (ship_Type)
             {
                 case Ship_type.Boat:
                     switch (cunnon_Type)
                     {
-                        case Cannon_type.small:
+                        case Cannon_type.small:                         
                             _damage = 10;
                             _speed = 4;
                             _range = 20;
 
                             break;
-                        case Cannon_type.medium:
+                        case Cannon_type.medium:                          
                             _damage = 20;
                             _speed = 4;
                             _range = 25;
 
                             break;
-                        case Cannon_type.big:
+                        case Cannon_type.big:                        
                             _damage = 30;
                             _speed = 4;
                             _range = 25;

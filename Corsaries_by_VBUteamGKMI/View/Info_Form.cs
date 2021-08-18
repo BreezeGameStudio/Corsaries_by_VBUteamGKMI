@@ -25,7 +25,7 @@ namespace Corsaries_by_VBUteamGKMI.View
             _ship_CANNON_SPEED.Text = ship._cannon._speed.ToString();
             _ship_DMG.Text = ship._cannon._damage.ToString();
             _ship_cannon_count.Text = ship._count_cannon.ToString();
-            _ship_CANNON_TYPE.Text = ship._cannon._cunnon_type.ToString();
+            _ship_CANNON_TYPE.Text = ship._cannon._name;
             _ship_DODGE.Text = ship._dodge_chance.ToString();
             _ship_DEF.Text = ship._protection.ToString();
             _ship_SPEED.Text = ship._speed.ToString();
