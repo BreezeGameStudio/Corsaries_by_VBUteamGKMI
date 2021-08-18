@@ -23,11 +23,8 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
             _ship_sprites.Add(content.Load<Texture2D>("ship_UR"));
             _ship_sprites.Add(content.Load<Texture2D>("ship_DL"));
             _ship_sprites.Add(content.Load<Texture2D>("ship_DR"));
-            _current_sprite = _ship_sprites[0];
-           /* //создаём прямоугольник корабля 
-            _rectangle = new Rectangle((int)_position.X, (int)_position.Y,
-                 _current_sprite.Width, _current_sprite.Height);*/
-            // // заполняем коллекцию матросов матросов =)
+            _current_sprite = _ship_sprites[0];          
+             // заполняем коллекцию матросов матросов =)
             SetSailorsList();
             // оживляем капитана
             switch (_ship_type)
@@ -50,10 +47,9 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
                     break;
                
             }
-       
             // заполняем коллекцию продуктов продуктами =)
             SetProductList();
-        }
+        }       
         // заполняем коллекцию матросов матромаит =)
         private void SetSailorsList()
         {

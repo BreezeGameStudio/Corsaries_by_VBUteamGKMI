@@ -14,6 +14,12 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
     public enum Direction { up, up_right, right, right_down, down, down_left, left, left_up }
     public abstract class Ship
     {
+        public bool _activity = true; // переменная которая отвечает за готовность 
+                                      // взаимодействовать с нпс
+                                      // таймер перезарядки взаимодействия с другими нпс
+        public System.Windows.Forms.Timer _timer_activity = new System.Windows.Forms.Timer();
+        // перезарядка активности
+        private int _cooldown_activity = 500;
         private Song _hit_song;
         private Song _shoot_song;
         public bool _ready_shoot_left = true;
@@ -142,6 +148,10 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
 
         public void Set_Ship_Type(Ship_type ship_Type, Microsoft.Xna.Framework.Content.ContentManager content)
         {
+            // таймер перезарядки взаимодействия с другими нпс
+            _timer_activity.Interval = _cooldown_activity;
+            _timer_activity.Tick += _timer_activity_Tick;
+
             _hit_song = content.Load<Song>("hit");
             _shoot_song = content.Load<Song>("shoot");
             _cooldown_timer_left.Tick += _cooldown_timer_left_Tick;
@@ -246,6 +256,12 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
                 // инициализируем в нашей колекции матросов
                 _sailors.Add(new Sailor((Sailor_type)i));
             }
+        }
+        // иент перезарядки взаимодействия с другими нпс
+        private void _timer_activity_Tick(object sender, EventArgs e)
+        {
+            _activity = true;
+            _timer_activity.Stop();
         }
         // перезарядка с права
         private void _cooldown_timer_right_Tick(object sender, EventArgs e)

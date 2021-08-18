@@ -203,9 +203,6 @@ namespace Corsaries_by_VBUteamGKMI
             base.Draw(gameTime);
         }
 
-
-
-
         // установка стостояния игры в открытом мире
         public void Set_In_World_GS()
         {
@@ -231,8 +228,6 @@ namespace Corsaries_by_VBUteamGKMI
             _my_cannonballs.Clear();
 
         }
-
-
         #region In_World
         // обновленние данных при состояние игры игровой мир
         private void In_World_Update(GameTime gameTime)
@@ -278,13 +273,14 @@ namespace Corsaries_by_VBUteamGKMI
                 _spriteBatch.Draw(_myShip._current_sprite, _myShip._position, Color.White); // отрисовка корабля
                      // отрисовка nps  
                 _nps.ForEach(i => _spriteBatch.Draw(i._current_sprite, i._position, Color.White));
+                // рисуем координаты
+                if (_myShip != null)
+                {
+                    _spriteBatch.DrawString(_text, $"X {_myShip._position.X} Y {_myShip._position.Y}",
+                         _text_pos, new Color(0, 0, 0));
+                }
             }
-            // рисуем текст
-            if (_myShip != null)
-            {
-                _spriteBatch.DrawString(_text, $"X {_myShip._position.X} Y {_myShip._position.Y}",
-                     _text_pos, new Color(0, 0, 0));
-            } 
+            
         }
         // метод столкновения с островами
         protected bool Collision_island(Ship ship)
@@ -334,81 +330,55 @@ namespace Corsaries_by_VBUteamGKMI
         }
        // получение цвета пикселей острова для колизии с островами
         private System.Drawing.Color GetColorWaterIsland(Island island, int x, int y) => island._bitmap.GetPixel(x, y);
-      // проверка столкновений с НПС
+        // проверка столкновений с НПС
         protected void Collision_NPS(Ship ship)
         {
-            //создаём прямоугольник корабля 
-            Rectangle R_ship = new Rectangle((int)ship._position.X, (int)ship._position.Y,
-                   ship._current_sprite.Width, ship._current_sprite.Height);
-            //бежим по колекции NPS и проверяем на столкновение
-            try
+            if (ship._activity)
             {
-                foreach (var item in _nps)
+                //создаём прямоугольник корабля 
+                Rectangle R_ship = new Rectangle((int)ship._position.X, (int)ship._position.Y,
+                       ship._current_sprite.Width, ship._current_sprite.Height);
+                //бежим по колекции NPS и проверяем на столкновение
+                try
                 {
-                    // создаём прямоугольник NPS
-                    Rectangle nps = new Rectangle((int)item._position.X - 100, (int)item._position.Y - 100,
-                        item._current_sprite.Width + 100, item._current_sprite.Height + 100);
-                    if (R_ship.Intersects(nps))
+                    foreach (var item in _nps)
                     {
-                        // коллекция вопросов при столкновении
-                        List<string> questions = new List<string> { "Напасть", "Разведка", "Уплыть" };
-                        int answer;
-                        do
+                        // создаём прямоугольник NPS
+                        Rectangle nps = new Rectangle((int)item._position.X - 100, (int)item._position.Y - 100,
+                            item._current_sprite.Width + 100, item._current_sprite.Height + 100);
+                        if (R_ship.Intersects(nps))
                         {
-                            answer = MessageBox.Show("Обнаружен корабыль", "Выбирете действие", questions).Result.Value;
-                            if (answer == 1)
-                                Show_Info_Ship(item);
-                        } while (answer == 1);                     
-
-                        if (answer == 0) //если предложение о бое было принято
-                        {
-                            // делаем врагом выбраного нпс
-                            _enemyShip = item;
-                            // даём игре состояние битвы
-                            Set_In_Battle_GS();
-
-                        }
-                        else //если форма была закрыта или предложение о бое было отклонено
-                        {
-                            //проверка направления NPS и перемещение нашего корабля в противоположном направлении
-                            switch (item._direction)
+                            // коллекция вопросов при столкновении
+                            List<string> questions = new List<string> { "Напасть", "Разведка", "Уплыть" };
+                            int answer;
+                            do
                             {
-                                case Direction.up:
-                                    ship._position = new Vector2(nps.X + nps.Width / 2, nps.Y + nps.Height + ship._rectangle.Height);
-                                    break;
-                                case Direction.up_right:
-                                    ship._position = new Vector2(nps.X - ship._rectangle.Width, nps.Y + nps.Height);
-                                    break;
-                                case Direction.right:
-                                    ship._position = new Vector2(nps.X - ship._rectangle.Width, nps.Y + nps.Height / 2);
-                                    break;
-                                case Direction.right_down:
-                                    ship._position = new Vector2(nps.X - ship._rectangle.Width, nps.Y - ship._rectangle.Height);
-                                    break;
-                                case Direction.down:
-                                    ship._position = new Vector2(nps.X + nps.Width / 2, nps.Y - ship._rectangle.Height);
-                                    break;
-                                case Direction.down_left:
-                                    ship._position = new Vector2(nps.X + nps.Width, nps.Y - ship._rectangle.Height);
-                                    break;
-                                case Direction.left:
-                                    ship._position = new Vector2(nps.X + nps.Width, nps.Y + nps.Height / 2);
-                                    break;
-                                case Direction.left_up:
-                                    ship._position = new Vector2(nps.X + nps.Width, nps.Y + nps.Height);
-                                    break;
-                                default:
-                                    break;
+                                answer = MessageBox.Show("Обнаружен корабыль", "Выбирете действие", questions).Result.Value;
+                                if (answer == 1)
+                                    Show_Info_Ship(item);
+                            } while (answer == 1);
+
+                            if (answer == 0) //если предложение о бое было принято
+                            {
+                                // делаем врагом выбраного нпс
+                                _enemyShip = item;
+                                // даём игре состояние битвы
+                                Set_In_Battle_GS();
+
+                            }
+                            else //если форма была закрыта или предложение о бое было отклонено
+                            {
+                                ship._activity = false;
+                                ship._timer_activity.Start();
                             }
 
                         }
-
                     }
+
                 }
+                catch (InvalidOperationException) { return; }
 
             }
-            catch (InvalidOperationException) { return; }
-
         }
         // показать инфо о корадбях запуск формы
         private void Show_Info_Ship(Ship ship)=> new Info_Form(ship).ShowDialog();
