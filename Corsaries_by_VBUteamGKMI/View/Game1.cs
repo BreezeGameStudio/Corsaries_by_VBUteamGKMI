@@ -177,7 +177,7 @@ namespace Corsaries_by_VBUteamGKMI
             GraphicsDevice.Clear(Color.CornflowerBlue);
             // обязательный метод начала отрисовки в который передают камеру
             _spriteBatch.Begin(SpriteSortMode.BackToFront,
-                        BlendState.AlphaBlend, null, null, null, null,
+                        BlendState.AlphaBlend, SamplerState.PointClamp, null, null, null,
                         _camera.get_transformation(GraphicsDevice));
 
             // отрисовка в зависимости от состояния игры
@@ -215,10 +215,10 @@ namespace Corsaries_by_VBUteamGKMI
         public void Set_In_Battle_GS()
         {
             // задаём размеры боевого поля 
-            _game_ground = new Game_ground((int)_camera._pos.X - (_size_screen.Width / 2),
-                (int)_camera._pos.X + (_size_screen.Width / 2),
-                (int)_camera._pos.Y - (_size_screen.Height / 2),
-                (int)_camera._pos.Y + (_size_screen.Height / 2));
+            _game_ground = new Game_ground(Convert.ToInt32(_camera._pos.X - (_size_screen.Width / (2*_camera.Zoom))),
+                Convert.ToInt32(_camera._pos.X + (_size_screen.Width / (2 * _camera.Zoom))),
+                Convert.ToInt32(_camera._pos.Y - (_size_screen.Height / (2 * _camera.Zoom))),
+                Convert.ToInt32(_camera._pos.Y + (_size_screen.Height / (2 * _camera.Zoom))));
             // задаём состояние игры
             _game_state = Game_Sate.In_Battle;
             _my_hp_bar = new HP_Bar(GraphicsDevice, _myShip);
@@ -254,8 +254,8 @@ namespace Corsaries_by_VBUteamGKMI
             Collision_NPS(_myShip); // столкновение меня и нпс
             // даём камере позицию корабля
             _camera.SetPosition(_myShip);
-            _text_pos.Y = _camera.Pos.Y - (_size_screen.Height / 2);
-            _text_pos.X = _camera.Pos.X - (_size_screen.Width / 2);
+            _text_pos.Y = _camera.Pos.Y - (190*(2/_camera.Zoom));
+            _text_pos.X = _camera.Pos.X - (340*(2/_camera.Zoom));
             // НПС ДВИЖЕНИЕ
             _nps.ForEach(i => i.Move_Random());
 

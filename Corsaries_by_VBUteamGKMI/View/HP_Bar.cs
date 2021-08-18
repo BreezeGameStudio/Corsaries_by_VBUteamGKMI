@@ -29,9 +29,9 @@ namespace Corsaries_by_VBUteamGKMI
         public HP_Bar(GraphicsDevice graphicsDevice,Ship ship)
         {
             _border_width = ship._current_sprite.Width*2;
-            _border_heght = 20;
+            _border_heght = ship._current_sprite.Height;
             _hp_width = (ship._current_sprite.Width*2) - 10;
-            _hp_heght = 10;
+            _hp_heght = ship._current_sprite.Height - 10;
 
             _graphicsDevice = graphicsDevice;
             _current_ship = ship;
