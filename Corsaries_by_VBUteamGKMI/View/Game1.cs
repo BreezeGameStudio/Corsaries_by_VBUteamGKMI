@@ -60,7 +60,7 @@ namespace Corsaries_by_VBUteamGKMI
             _camera.Pos = new Vector2(500.0f, 200.0f);
 
             // задаём размер игрового окна с отступами        
-            _graphics.IsFullScreen = false;
+            //_graphics.IsFullScreen = false;
             //
             _graphics.PreferredBackBufferHeight = _size_screen.Height;
             _graphics.PreferredBackBufferWidth = _size_screen.Width;
