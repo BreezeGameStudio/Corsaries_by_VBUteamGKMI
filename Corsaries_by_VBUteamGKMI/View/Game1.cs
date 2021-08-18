@@ -15,6 +15,12 @@ namespace Corsaries_by_VBUteamGKMI
     public enum Game_Sate { In_Menu,In_World,In_Battle,In_Port}
     public class Game1 : Game
     {
+        // переменная для хранения игровой даты
+        DateTime _gameTime = new DateTime(1500, 1, 1);
+        SpriteFont _sprite_gameTime; // игровая дата спрайт
+        Vector2 _sprite_gameTime_pos; //игровая дата  позиция
+        // таймер для игрового времени
+        public System.Windows.Forms.Timer _gameTime_timer = new System.Windows.Forms.Timer();
         // мои снаряды
         public static List<Cannonball> _my_cannonballs = new List<Cannonball>();
         //снаряды врага
@@ -28,8 +34,8 @@ namespace Corsaries_by_VBUteamGKMI
         public static List<NPS_Ship> _nps = new List<NPS_Ship>(); // коллекция нпс
         //таймер смены направления движения нпс
         System.Windows.Forms.Timer _timer = new System.Windows.Forms.Timer();
-        SpriteFont _text;
-        Vector2 _text_pos; // позиция
+        SpriteFont _coordinates; // координаты спрайт
+        Vector2 _coordinates_pos; //координаты  позиция
         private List<Island> _islands = new List<Island>(); // коллекция островов
         private List<Vector2> _island_positions = new List<Vector2>() { new Vector2(1000, 2500), new Vector2(2000, 1500), new Vector2(3000, 1500), new Vector2(4500, 2500), new Vector2(3500, 4000), new Vector2(2500, 4000) };
         private List<Vector2> _edge_island_positions = new List<Vector2>() { new Vector2(2000, 0), new Vector2(2500, 4500) };
@@ -43,7 +49,7 @@ namespace Corsaries_by_VBUteamGKMI
         private MyShip _myShip; // мой кораблик
         private NPS_Ship _enemyShip;
 
-
+        
 
         public Game1()
         {
@@ -74,7 +80,12 @@ namespace Corsaries_by_VBUteamGKMI
             // TODO: Add your initialization logic here
 
             base.Initialize();
-            
+
+            // игровой таймер
+            _gameTime_timer.Interval = 30000;
+            _gameTime_timer.Tick += _gameTime_timer_Tick;
+            _gameTime_timer.Start();
+
             // добавляем острова
             _islands.Clear(); //очищаем коллекцию чтобы при перезапуске не становилось больше островов
             foreach (var item in _island_positions)
@@ -105,14 +116,20 @@ namespace Corsaries_by_VBUteamGKMI
             _water_colorl_2 =  System.Drawing.Color.FromArgb(255,101,148,236);
           
 
-            // тестовый текст
-            _text = Content.Load<SpriteFont>("testtext");
+            //  текст координат
+            _coordinates = Content.Load<SpriteFont>("testtext");
+            _sprite_gameTime = Content.Load<SpriteFont>("testtext");
+
+
 
         }
+
+
+
         protected override void LoadContent() => _spriteBatch = new SpriteBatch(GraphicsDevice);
         protected override void Update(GameTime gameTime)
         {
-
+           
             if (this.IsActive)
             {
 
@@ -173,7 +190,7 @@ namespace Corsaries_by_VBUteamGKMI
                 }
                 base.Update(gameTime);
             }
-        }
+        }    
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.SetRenderTarget(null);
@@ -202,7 +219,6 @@ namespace Corsaries_by_VBUteamGKMI
             _spriteBatch.End();// обязательный метод 
             base.Draw(gameTime);
         }
-
         // установка стостояния игры в открытом мире
         public void Set_In_World_GS()
         {
@@ -228,10 +244,18 @@ namespace Corsaries_by_VBUteamGKMI
             _my_cannonballs.Clear();
 
         }
-        #region In_World
+
+
+        #region In_World            
+        // метод изменения дня
+        private void _gameTime_timer_Tick(object sender, EventArgs e)
+        {
+            _gameTime = _gameTime.AddDays(1);
+        }
         // обновленние данных при состояние игры игровой мир
         private void In_World_Update(GameTime gameTime)
-        {
+        {           
+            // кнопка выхода
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
             // кнопка проверки своего судна
@@ -256,11 +280,15 @@ namespace Corsaries_by_VBUteamGKMI
             Collision_NPS(_myShip); // столкновение меня и нпс
             // даём камере позицию корабля
             _camera.SetPosition(_myShip);
-            _text_pos.Y = _camera.Pos.Y - (190*(2/_camera.Zoom));
-            _text_pos.X = _camera.Pos.X - (340*(2/_camera.Zoom));
+            // даём положение координатам на экране
+            _coordinates_pos.Y = _camera.Pos.Y - (190*(2/_camera.Zoom));
+            _coordinates_pos.X = _camera.Pos.X - (340*(2/_camera.Zoom));
+            // даём положение игровому времени на экране
+            _sprite_gameTime_pos.Y = _camera.Pos.Y - (190*(2/_camera.Zoom));
+            _sprite_gameTime_pos.X = _camera.Pos.X + (270*(2/_camera.Zoom));
             // НПС ДВИЖЕНИЕ
             _nps.ForEach(i => i.Move_Random());
-
+            
         }
         // отрисовка данных при состояние игры игровой мир
         private void In_World_Draw(GameTime gameTime)
@@ -275,9 +303,11 @@ namespace Corsaries_by_VBUteamGKMI
                 _nps.ForEach(i => _spriteBatch.Draw(i._current_sprite, i._position, Color.White));
                 // рисуем координаты
                 if (_myShip != null)
-                {
-                    _spriteBatch.DrawString(_text, $"X {_myShip._position.X} Y {_myShip._position.Y}",
-                         _text_pos, new Color(0, 0, 0));
+                {         
+                    _spriteBatch.DrawString(_coordinates, $" X:{_myShip._position.X} Y:{ _myShip._position.Y}",
+                         _coordinates_pos, new Color(0, 0, 0));
+                    _spriteBatch.DrawString(_sprite_gameTime, $"{_gameTime.Day}:{_gameTime.Month}:{_gameTime.Year}",
+                        _sprite_gameTime_pos, new Color(0, 0, 0));
                 }
             }
             
@@ -549,6 +579,7 @@ namespace Corsaries_by_VBUteamGKMI
             catch (Exception) { }
         }
         #endregion
+
 
         private void In_Menu_Update(GameTime gameTime)
         {
