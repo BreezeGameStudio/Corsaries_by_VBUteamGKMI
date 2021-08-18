@@ -31,7 +31,8 @@ namespace Corsaries_by_VBUteamGKMI.View
             _ship_SPEED.Text = ship._speed.ToString();
             _ship_MATROS_BAR.Maximum = ship._max_count_sailors;
             _ship_MATROS_BAR.Value = ship._current_count_sailors;
-            _ship_MATROS.Text = ship._sailors[0]._sailor_Type.ToString();
+            //_ship_MATROS.Text = ship._sailors[0]._sailor_Type.ToString();
+            _ship_MATROS.Text = ship._sailors.Find(i => i._count > 0)._name;
             _ship_MATROS_count.Text = ship._current_count_sailors.ToString();
             _ship_HP_BAR.Maximum = ship._max_hp;
             _ship_HP_BAR.Value = ship._current_hp;
