@@ -34,6 +34,9 @@ namespace Corsaries_by_VBUteamGKMI
         public static List<NPS_Ship> _nps = new List<NPS_Ship>(); // коллекция нпс
         //таймер смены направления движения нпс
         System.Windows.Forms.Timer _timer = new System.Windows.Forms.Timer();
+        SpriteFont _text;
+        Vector2 _text_pos; // позиция
+        Vector2 _pos_in_world;
         SpriteFont _coordinates; // координаты спрайт
         Vector2 _coordinates_pos; //координаты  позиция
         private List<Island> _islands = new List<Island>(); // коллекция островов
@@ -222,6 +225,7 @@ namespace Corsaries_by_VBUteamGKMI
         // установка стостояния игры в открытом мире
         public void Set_In_World_GS()
         {
+            _myShip._position = _pos_in_world;
             // задаём размеры игрового поля 
             _game_ground = new Game_ground(_game_ground_X_Y, _game_ground_X_Y);
             // задаём состояние игры
@@ -391,6 +395,7 @@ namespace Corsaries_by_VBUteamGKMI
                             if (answer == 0) //если предложение о бое было принято
                             {
                                 // делаем врагом выбраного нпс
+                                _pos_in_world = _myShip._position;
                                 _enemyShip = item;
                                 // даём игре состояние битвы
                                 Set_In_Battle_GS();
