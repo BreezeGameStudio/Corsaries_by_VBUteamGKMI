@@ -41,7 +41,7 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
         public int _current_capacity = 0; //  показывет сколько места на корабле занято
         public int _max_hp; // максимальное количество здоровья
         public int _current_hp;// текущее количество хп
-        public int _speed; // скорость корабля
+        public float _speed; // скорость корабля
         public Cannon _cannon; // пушки корабля       
         public int _count_cannon; // количество пушек
         public int _protection; // защита корабля от выстрела в процентах
@@ -168,7 +168,7 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
                     _name = "Шлюпка";
                     _max_capacity = 100; // всестимость
                     _max_hp = 500; // максимальное количество здоровья 
-                    _speed = 1; // скорость               
+                    _speed = 0.25f; // скорость               
                     _count_cannon = 4; // количество пушке
                     _max_count_sailors = 10; // максимальное количество матросов
                     _protection = 10;// защит от выстрела в процентах
@@ -178,7 +178,7 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
                     _name = "Шхуна";
                     _max_capacity = 150; // всестимость
                     _max_hp = 1000; // максимальное количество здоровья 
-                    _speed = 2; // скорость               
+                    _speed = 0.5f; // скорость               
                     _count_cannon = 6; // количество пушке
                     _max_count_sailors = 20; // максимальное количество матросов
                     _protection = 15;// защит от выстрела в процентах
@@ -188,7 +188,7 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
                     _name = "Каравелла";
                     _max_capacity = 200; // всестимость
                     _max_hp = 2000; // максимальное количество здоровья 
-                    _speed = 3; // скорость               
+                    _speed = 0.75f; // скорость               
                     _count_cannon = 8; // количество пушке
                     _max_count_sailors = 25; // максимальное количество матросов
                     _protection = 25;// защит от выстрела в процентах
@@ -198,7 +198,7 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
                     _name = "Бриг";
                     _max_capacity = 250; // всестимость
                     _max_hp = 2300; // максимальное количество здоровья 
-                    _speed = 3; // скорость               
+                    _speed = 0.75f; // скорость               
                     _count_cannon = 8; // количество пушке
                     _max_count_sailors = 30; // максимальное количество матросов
                     _protection = 30;// защит от выстрела в процентах
@@ -208,7 +208,7 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
                     _name = "Фрегат";
                     _max_capacity = 300; // всестимость
                     _max_hp = 4000; // максимальное количество здоровья 
-                    _speed = 4; // скорость               
+                    _speed = 1f; // скорость               
                     _count_cannon = 10; // количество пушке
                     _max_count_sailors = 40; // максимальное количество матросов
                     _protection = 30;// защит от выстрела в процентах
@@ -218,7 +218,7 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
                     _name = "Галеон";
                     _max_capacity = 400; // всестимость
                     _max_hp = 6500; // максимальное количество здоровья 
-                    _speed = 5; // скорость               
+                    _speed = 1.25f; // скорость               
                     _count_cannon = 12; // количество пушке
                     _max_count_sailors = 50; // максимальное количество матросов
                     _protection = 35;// защит от выстрела в процентах
@@ -228,7 +228,7 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
                     _name = "Корвет";
                     _max_capacity = 350; // всестимость
                     _max_hp = 6700; // максимальное количество здоровья 
-                    _speed = 8; // скорость               
+                    _speed = 2f; // скорость               
                     _count_cannon = 10; // количество пушке
                     _max_count_sailors = 40; // максимальное количество матросов
                     _protection = 20;// защит от выстрела в процентах
@@ -238,7 +238,7 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
                     _name = "Линкор";
                     _max_capacity = 500; // всестимость
                     _max_hp = 10000; // максимальное количество здоровья 
-                    _speed = 6; // скорость               
+                    _speed = 1.5f; // скорость               
                     _count_cannon = 12; // количество пушке
                     _max_count_sailors = 70; // максимальное количество матросов
                     _protection = 60;// защит от выстрела в процентах
