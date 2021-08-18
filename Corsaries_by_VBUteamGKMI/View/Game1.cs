@@ -344,8 +344,8 @@ namespace Corsaries_by_VBUteamGKMI
                     foreach (var item in _nps)
                     {
                         // создаём прямоугольник NPS
-                        Rectangle nps = new Rectangle((int)item._position.X - 100, (int)item._position.Y - 100,
-                            item._current_sprite.Width + 100, item._current_sprite.Height + 100);
+                        Rectangle nps = new Rectangle(Convert.ToInt32(item._position.X - (100 / _camera.Zoom)), Convert.ToInt32(item._position.Y - ((100 / _camera.Zoom))),
+                            item._current_sprite.Width + Convert.ToInt32(100 / _camera.Zoom), item._current_sprite.Height + Convert.ToInt32(100 / _camera.Zoom));
                         if (R_ship.Intersects(nps))
                         {
                             // коллекция вопросов при столкновении
