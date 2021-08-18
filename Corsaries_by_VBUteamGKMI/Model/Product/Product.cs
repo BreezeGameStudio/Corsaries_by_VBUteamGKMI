@@ -25,7 +25,7 @@ namespace Corsaries_by_VBUteamGKMI.Model.Products
 
                     break;
                 case Product_type.Silk:
-                    _name = "Шёлк";
+                    _name = "Шелк";
                     _weight = 2;
                     _price = 50;
                     

@@ -31,6 +31,7 @@ namespace Corsaries_by_VBUteamGKMI.View
         {
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this._info_ship = new System.Windows.Forms.TabPage();
+            this._ship_MATROS_count = new System.Windows.Forms.Label();
             this._ship_HP = new System.Windows.Forms.Label();
             this._ship_HP_BAR = new System.Windows.Forms.ProgressBar();
             this._ship_MATROS = new System.Windows.Forms.Label();
@@ -76,6 +77,8 @@ namespace Corsaries_by_VBUteamGKMI.View
             this.label7 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this._info_capitan = new System.Windows.Forms.TabPage();
+            this._capitan_money = new System.Windows.Forms.Label();
+            this.label27 = new System.Windows.Forms.Label();
             this._capitan_HP_BAR = new System.Windows.Forms.ProgressBar();
             this._capitan_CRIT = new System.Windows.Forms.Label();
             this._capitan_DODGE = new System.Windows.Forms.Label();
@@ -107,6 +110,7 @@ namespace Corsaries_by_VBUteamGKMI.View
             // 
             // _info_ship
             // 
+            this._info_ship.Controls.Add(this._ship_MATROS_count);
             this._info_ship.Controls.Add(this._ship_HP);
             this._info_ship.Controls.Add(this._ship_HP_BAR);
             this._info_ship.Controls.Add(this._ship_MATROS);
@@ -139,6 +143,16 @@ namespace Corsaries_by_VBUteamGKMI.View
             this._info_ship.Text = "Характеристики";
             this._info_ship.UseVisualStyleBackColor = true;
             // 
+            // _ship_MATROS_count
+            // 
+            this._ship_MATROS_count.AutoSize = true;
+            this._ship_MATROS_count.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this._ship_MATROS_count.Location = new System.Drawing.Point(160, 71);
+            this._ship_MATROS_count.Name = "_ship_MATROS_count";
+            this._ship_MATROS_count.Size = new System.Drawing.Size(35, 15);
+            this._ship_MATROS_count.TabIndex = 24;
+            this._ship_MATROS_count.Text = "none";
+            // 
             // _ship_HP
             // 
             this._ship_HP.AutoSize = true;
@@ -160,7 +174,7 @@ namespace Corsaries_by_VBUteamGKMI.View
             // 
             this._ship_MATROS.AutoSize = true;
             this._ship_MATROS.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this._ship_MATROS.Location = new System.Drawing.Point(136, 71);
+            this._ship_MATROS.Location = new System.Drawing.Point(102, 70);
             this._ship_MATROS.Name = "_ship_MATROS";
             this._ship_MATROS.Size = new System.Drawing.Size(35, 15);
             this._ship_MATROS.TabIndex = 21;
@@ -591,6 +605,8 @@ namespace Corsaries_by_VBUteamGKMI.View
             // 
             // _info_capitan
             // 
+            this._info_capitan.Controls.Add(this._capitan_money);
+            this._info_capitan.Controls.Add(this.label27);
             this._info_capitan.Controls.Add(this._capitan_HP_BAR);
             this._info_capitan.Controls.Add(this._capitan_CRIT);
             this._info_capitan.Controls.Add(this._capitan_DODGE);
@@ -608,6 +624,26 @@ namespace Corsaries_by_VBUteamGKMI.View
             this._info_capitan.TabIndex = 2;
             this._info_capitan.Text = "Капитан";
             this._info_capitan.UseVisualStyleBackColor = true;
+            // 
+            // _capitan_money
+            // 
+            this._capitan_money.AutoSize = true;
+            this._capitan_money.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this._capitan_money.Location = new System.Drawing.Point(291, 180);
+            this._capitan_money.Name = "_capitan_money";
+            this._capitan_money.Size = new System.Drawing.Size(35, 15);
+            this._capitan_money.TabIndex = 12;
+            this._capitan_money.Text = "none";
+            // 
+            // label27
+            // 
+            this.label27.AutoSize = true;
+            this.label27.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.label27.Location = new System.Drawing.Point(29, 180);
+            this.label27.Name = "label27";
+            this.label27.Size = new System.Drawing.Size(50, 15);
+            this.label27.TabIndex = 11;
+            this.label27.Text = "Деньги";
             // 
             // _capitan_HP_BAR
             // 
@@ -630,7 +666,7 @@ namespace Corsaries_by_VBUteamGKMI.View
             // 
             this._capitan_DODGE.AutoSize = true;
             this._capitan_DODGE.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this._capitan_DODGE.Location = new System.Drawing.Point(291, 254);
+            this._capitan_DODGE.Location = new System.Drawing.Point(291, 270);
             this._capitan_DODGE.Name = "_capitan_DODGE";
             this._capitan_DODGE.Size = new System.Drawing.Size(35, 15);
             this._capitan_DODGE.TabIndex = 8;
@@ -640,7 +676,7 @@ namespace Corsaries_by_VBUteamGKMI.View
             // 
             this._capitan_DEF.AutoSize = true;
             this._capitan_DEF.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this._capitan_DEF.Location = new System.Drawing.Point(291, 198);
+            this._capitan_DEF.Location = new System.Drawing.Point(291, 228);
             this._capitan_DEF.Name = "_capitan_DEF";
             this._capitan_DEF.Size = new System.Drawing.Size(35, 15);
             this._capitan_DEF.TabIndex = 7;
@@ -650,7 +686,7 @@ namespace Corsaries_by_VBUteamGKMI.View
             // 
             this._capitan_DMG.AutoSize = true;
             this._capitan_DMG.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this._capitan_DMG.Location = new System.Drawing.Point(291, 144);
+            this._capitan_DMG.Location = new System.Drawing.Point(291, 129);
             this._capitan_DMG.Name = "_capitan_DMG";
             this._capitan_DMG.Size = new System.Drawing.Size(35, 15);
             this._capitan_DMG.TabIndex = 6;
@@ -680,7 +716,7 @@ namespace Corsaries_by_VBUteamGKMI.View
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.label4.Location = new System.Drawing.Point(29, 254);
+            this.label4.Location = new System.Drawing.Point(29, 270);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(117, 15);
             this.label4.TabIndex = 3;
@@ -690,7 +726,7 @@ namespace Corsaries_by_VBUteamGKMI.View
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.label3.Location = new System.Drawing.Point(29, 198);
+            this.label3.Location = new System.Drawing.Point(29, 228);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(63, 15);
             this.label3.TabIndex = 2;
@@ -700,7 +736,7 @@ namespace Corsaries_by_VBUteamGKMI.View
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.label2.Location = new System.Drawing.Point(29, 144);
+            this.label2.Location = new System.Drawing.Point(29, 129);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(38, 15);
             this.label2.TabIndex = 1;
@@ -722,6 +758,7 @@ namespace Corsaries_by_VBUteamGKMI.View
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(395, 379);
             this.Controls.Add(this.tabControl1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Name = "Info_Form";
             this.Text = "Информация о корабле";
             this.tabControl1.ResumeLayout(false);
@@ -795,5 +832,8 @@ namespace Corsaries_by_VBUteamGKMI.View
         private System.Windows.Forms.Label _ship_CANNON_RANGE;
         private System.Windows.Forms.Label _ship_name;
         private System.Windows.Forms.Label label25;
+        private System.Windows.Forms.Label _capitan_money;
+        private System.Windows.Forms.Label label27;
+        private System.Windows.Forms.Label _ship_MATROS_count;
     }
 }
