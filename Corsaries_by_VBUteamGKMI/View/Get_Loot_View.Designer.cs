@@ -76,6 +76,7 @@ namespace Corsaries_by_VBUteamGKMI.View
             this.Silk_count = new System.Windows.Forms.Label();
             this.label37 = new System.Windows.Forms.Label();
             this.Silk_bar = new System.Windows.Forms.HScrollBar();
+            this.btn_get_loot = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
@@ -84,9 +85,9 @@ namespace Corsaries_by_VBUteamGKMI.View
             this.label1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.label1.Location = new System.Drawing.Point(82, 9);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(93, 15);
+            this.label1.Size = new System.Drawing.Size(120, 15);
             this.label1.TabIndex = 0;
-            this.label1.Text = "Загруженость :";
+            this.label1.Text = "Моя загруженость :";
             // 
             // _capacity_txt
             // 
@@ -102,7 +103,7 @@ namespace Corsaries_by_VBUteamGKMI.View
             // 
             this.Money_bar.Location = new System.Drawing.Point(21, 66);
             this.Money_bar.Name = "Money_bar";
-            this.Money_bar.Size = new System.Drawing.Size(360, 17);
+            this.Money_bar.Size = new System.Drawing.Size(360, 11);
             this.Money_bar.TabIndex = 2;
             // 
             // label2
@@ -189,7 +190,7 @@ namespace Corsaries_by_VBUteamGKMI.View
             // 
             this.Water_bar.Location = new System.Drawing.Point(21, 120);
             this.Water_bar.Name = "Water_bar";
-            this.Water_bar.Size = new System.Drawing.Size(360, 17);
+            this.Water_bar.Size = new System.Drawing.Size(360, 12);
             this.Water_bar.TabIndex = 7;
             // 
             // Food_value
@@ -236,7 +237,7 @@ namespace Corsaries_by_VBUteamGKMI.View
             // 
             this.Food_bar.Location = new System.Drawing.Point(21, 170);
             this.Food_bar.Name = "Food_bar";
-            this.Food_bar.Size = new System.Drawing.Size(360, 17);
+            this.Food_bar.Size = new System.Drawing.Size(360, 12);
             this.Food_bar.TabIndex = 12;
             // 
             // Wood_value
@@ -283,7 +284,7 @@ namespace Corsaries_by_VBUteamGKMI.View
             // 
             this.Wood_bar.Location = new System.Drawing.Point(21, 220);
             this.Wood_bar.Name = "Wood_bar";
-            this.Wood_bar.Size = new System.Drawing.Size(360, 17);
+            this.Wood_bar.Size = new System.Drawing.Size(360, 10);
             this.Wood_bar.TabIndex = 17;
             // 
             // Coffee_value
@@ -330,7 +331,7 @@ namespace Corsaries_by_VBUteamGKMI.View
             // 
             this.Coffee_bar.Location = new System.Drawing.Point(21, 274);
             this.Coffee_bar.Name = "Coffee_bar";
-            this.Coffee_bar.Size = new System.Drawing.Size(360, 17);
+            this.Coffee_bar.Size = new System.Drawing.Size(360, 10);
             this.Coffee_bar.TabIndex = 22;
             // 
             // Rum_value
@@ -377,7 +378,7 @@ namespace Corsaries_by_VBUteamGKMI.View
             // 
             this.Rum_bar.Location = new System.Drawing.Point(21, 331);
             this.Rum_bar.Name = "Rum_bar";
-            this.Rum_bar.Size = new System.Drawing.Size(360, 17);
+            this.Rum_bar.Size = new System.Drawing.Size(360, 11);
             this.Rum_bar.TabIndex = 27;
             // 
             // Tobacco_value
@@ -424,7 +425,7 @@ namespace Corsaries_by_VBUteamGKMI.View
             // 
             this.Tobacco_bar.Location = new System.Drawing.Point(21, 385);
             this.Tobacco_bar.Name = "Tobacco_bar";
-            this.Tobacco_bar.Size = new System.Drawing.Size(360, 17);
+            this.Tobacco_bar.Size = new System.Drawing.Size(360, 10);
             this.Tobacco_bar.TabIndex = 32;
             // 
             // Leather_value
@@ -471,7 +472,7 @@ namespace Corsaries_by_VBUteamGKMI.View
             // 
             this.Leather_bar.Location = new System.Drawing.Point(21, 438);
             this.Leather_bar.Name = "Leather_bar";
-            this.Leather_bar.Size = new System.Drawing.Size(360, 17);
+            this.Leather_bar.Size = new System.Drawing.Size(360, 10);
             this.Leather_bar.TabIndex = 37;
             // 
             // Silk_value
@@ -518,15 +519,26 @@ namespace Corsaries_by_VBUteamGKMI.View
             // 
             this.Silk_bar.Location = new System.Drawing.Point(21, 494);
             this.Silk_bar.Name = "Silk_bar";
-            this.Silk_bar.Size = new System.Drawing.Size(360, 17);
+            this.Silk_bar.Size = new System.Drawing.Size(360, 10);
             this.Silk_bar.TabIndex = 42;
+            // 
+            // btn_get_loot
+            // 
+            this.btn_get_loot.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.btn_get_loot.Location = new System.Drawing.Point(105, 526);
+            this.btn_get_loot.Name = "btn_get_loot";
+            this.btn_get_loot.Size = new System.Drawing.Size(194, 29);
+            this.btn_get_loot.TabIndex = 47;
+            this.btn_get_loot.Text = "Ограбить!";
+            this.btn_get_loot.UseVisualStyleBackColor = true;
             // 
             // Get_Loot_View
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(429, 520);
+            this.ClientSize = new System.Drawing.Size(429, 567);
+            this.Controls.Add(this.btn_get_loot);
             this.Controls.Add(this.Silk_value);
             this.Controls.Add(this.label35);
             this.Controls.Add(this.Silk_count);
@@ -574,7 +586,9 @@ namespace Corsaries_by_VBUteamGKMI.View
             this.Controls.Add(this.Money_bar);
             this.Controls.Add(this._capacity_txt);
             this.Controls.Add(this.label1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Name = "Get_Loot_View";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Добыча";
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -630,5 +644,6 @@ namespace Corsaries_by_VBUteamGKMI.View
         private System.Windows.Forms.Label Silk_count;
         private System.Windows.Forms.Label label37;
         private System.Windows.Forms.HScrollBar Silk_bar;
+        private System.Windows.Forms.Button btn_get_loot;
     }
 }

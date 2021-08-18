@@ -24,9 +24,9 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
             _ship_sprites.Add(content.Load<Texture2D>("ship_DL"));
             _ship_sprites.Add(content.Load<Texture2D>("ship_DR"));
             _current_sprite = _ship_sprites[0];
-            //создаём прямоугольник корабля 
+           /* //создаём прямоугольник корабля 
             _rectangle = new Rectangle((int)_position.X, (int)_position.Y,
-                 _current_sprite.Width, _current_sprite.Height);
+                 _current_sprite.Width, _current_sprite.Height);*/
             // // заполняем коллекцию матросов матросов =)
             SetSailorsList();
             // оживляем капитана
@@ -210,6 +210,26 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
             else { Move_Random(); }
 
 
+        }
+
+
+        // установка стартовой позиции
+        public void Set_Spawn_Position(List<Island> islands)
+        {
+            bool collide = false;
+
+            do
+            {
+                _position = new Vector2(_random.Next(600,Game1._game_ground_X_Y), _random.Next(600,Game1._game_ground_X_Y));
+                _rectangle = new Rectangle((int)_position.X, (int)_position.Y,
+                _current_sprite.Width, _current_sprite.Height);
+                foreach (var item in islands)
+                {
+                    collide = item._rectangle.Intersects(_rectangle);                  
+                }
+                if (_position.X == 0 && _position.Y == 0)
+                    collide = true;
+            } while (collide);
         }
 
         // нахождение растояния к врагу

@@ -31,6 +31,7 @@ namespace Corsaries_by_VBUteamGKMI.View
         {
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this._info_ship = new System.Windows.Forms.TabPage();
+            this._ship_MATROS_count = new System.Windows.Forms.Label();
             this._ship_HP = new System.Windows.Forms.Label();
             this._ship_HP_BAR = new System.Windows.Forms.ProgressBar();
             this._ship_MATROS = new System.Windows.Forms.Label();
@@ -89,7 +90,6 @@ namespace Corsaries_by_VBUteamGKMI.View
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this._ship_MATROS_count = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this._info_ship.SuspendLayout();
             this._info_hold.SuspendLayout();
@@ -142,6 +142,16 @@ namespace Corsaries_by_VBUteamGKMI.View
             this._info_ship.TabIndex = 0;
             this._info_ship.Text = "Характеристики";
             this._info_ship.UseVisualStyleBackColor = true;
+            // 
+            // _ship_MATROS_count
+            // 
+            this._ship_MATROS_count.AutoSize = true;
+            this._ship_MATROS_count.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this._ship_MATROS_count.Location = new System.Drawing.Point(160, 71);
+            this._ship_MATROS_count.Name = "_ship_MATROS_count";
+            this._ship_MATROS_count.Size = new System.Drawing.Size(35, 15);
+            this._ship_MATROS_count.TabIndex = 24;
+            this._ship_MATROS_count.Text = "none";
             // 
             // _ship_HP
             // 
@@ -742,22 +752,13 @@ namespace Corsaries_by_VBUteamGKMI.View
             this.label1.TabIndex = 0;
             this.label1.Text = "Здоровье";
             // 
-            // _ship_MATROS_count
-            // 
-            this._ship_MATROS_count.AutoSize = true;
-            this._ship_MATROS_count.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this._ship_MATROS_count.Location = new System.Drawing.Point(160, 71);
-            this._ship_MATROS_count.Name = "_ship_MATROS_count";
-            this._ship_MATROS_count.Size = new System.Drawing.Size(35, 15);
-            this._ship_MATROS_count.TabIndex = 24;
-            this._ship_MATROS_count.Text = "none";
-            // 
             // Info_Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(395, 379);
             this.Controls.Add(this.tabControl1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Name = "Info_Form";
             this.Text = "Информация о корабле";
             this.tabControl1.ResumeLayout(false);

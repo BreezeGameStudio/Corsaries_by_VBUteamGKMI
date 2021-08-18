@@ -27,9 +27,7 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
             _ship_sprites.Add(content.Load<Texture2D>("ship_DL"));
             _ship_sprites.Add(content.Load<Texture2D>("ship_DR"));
             _current_sprite = _ship_sprites[0];
-            //создаём прямоугольник корабля 
-            _rectangle = new Rectangle((int)_position.X, (int)_position.Y,
-                 _current_sprite.Width, _current_sprite.Height);
+           
 
 
             //тест капитана 

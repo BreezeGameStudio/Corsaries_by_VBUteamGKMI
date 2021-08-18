@@ -60,7 +60,7 @@ namespace Corsaries_by_VBUteamGKMI
             _camera.Pos = new Vector2(500.0f, 200.0f);
 
             // задаём размер игрового окна с отступами        
-            //_graphics.IsFullScreen = true;
+            _graphics.IsFullScreen = false;
             //
             _graphics.PreferredBackBufferHeight = _size_screen.Height;
             _graphics.PreferredBackBufferWidth = _size_screen.Width;
@@ -74,12 +74,7 @@ namespace Corsaries_by_VBUteamGKMI
             // TODO: Add your initialization logic here
 
             base.Initialize();
-            // добавляем нпс
-            _nps.Clear(); //очищаем коллекцию чтобы при перезапуске не становилось больше NPS
-            for (int i = 0; i < 5; i++)
-            {
-                _nps.Add(new NPS_Ship((Ship_type)new Random().Next(0, 7), Content));
-            }
+            
             // добавляем острова
             _islands.Clear(); //очищаем коллекцию чтобы при перезапуске не становилось больше островов
             foreach (var item in _island_positions)
@@ -95,10 +90,18 @@ namespace Corsaries_by_VBUteamGKMI
                 _islands.Add(new Island(Content, item, Content.Load<Texture2D>($"continent_{_continent_positions.IndexOf(item) + 1}")));
             }
             _islands.Add(new Island(Content, new Vector2(2250, 2250), Content.Load<Texture2D>("center_island")));
-            _myShip = new MyShip(Ship_type.Corvette, Content, 2000, 2000);
+            _myShip = new MyShip(Ship_type.Corvette, Content, 1000, 1000);
+
+            // добавляем нпс
+            _nps.Clear(); //очищаем коллекцию чтобы при перезапуске не становилось больше NPS
+            for (int i = 0; i < 20; i++)
+            {
+                _nps.Add(new NPS_Ship((Ship_type)new Random().Next(0, 7), Content));
+            }
+           
 
             // получаем цвет воды
-             _water_colorl = GetColorWaterIsland(_islands[0], 1, 1);
+            _water_colorl = GetColorWaterIsland(_islands[0], 1, 1);
             _water_colorl_2 =  System.Drawing.Color.FromArgb(255,101,148,236);
           
 
@@ -239,6 +242,10 @@ namespace Corsaries_by_VBUteamGKMI
             // кнопка проверки своего судна
             if (Keyboard.GetState().IsKeyDown(Keys.Q))
                 Show_Info_Ship(_myShip);
+            // задаём НПС позицию
+            _nps.FindAll(i=> i._position.X==0&&i._position.Y==0)
+                .ForEach(i => i.Set_Spawn_Position(_islands));
+
             // проверка столкнованеий моего корабля с островом
             if (Collision_island(_myShip))
                 _myShip.Step_Back_Position(); // возвращение к старой позиции при столкновениее
@@ -319,33 +326,7 @@ namespace Corsaries_by_VBUteamGKMI
                             }
                         }
                         catch (Exception) { return collide; }
-                    }
-
-                        
-                    
-                    
-                    //if (ship._position.X > item._position.X
-                    //&& ship._position.X < (item._position.X + item._current_sprite.Width))
-                    //{
-
-                    //    if (ship._position.Y > item._position.Y
-                    //        && ship._position.Y < (item._position.Y + item._current_sprite.Height))
-                    //    {
-                    //        int x = (int)((ship._position.X + ship._current_sprite.Width - item._position.X));
-                    //        int y = (int)((ship._position.Y + ship._current_sprite.Height - item._position.Y));
-                    //        try
-                    //        {
-                    //            System.Drawing.Color color = GetColorWaterIsland(item, x, y);
-                    //            if (_water_colorl.ToArgb() != color.ToArgb())
-                    //            {
-                    //                collide = true;
-                    //            }
-                    //        }
-                    //        catch (Exception) { return collide; }
-
-
-                    //    }
-                    //}
+                    }                 
                 }
             }
 

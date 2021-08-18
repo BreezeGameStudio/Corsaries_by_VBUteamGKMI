@@ -14,8 +14,8 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
     public enum Direction { up, up_right, right, right_down, down, down_left, left, left_up }
     public abstract class Ship
     {
-        Song _hit_song;
-        Song _shoot_song;
+        private Song _hit_song;
+        private Song _shoot_song;
         public bool _ready_shoot_left = true;
         public bool _ready_shoot_right = true;
         private int _cooldown = 3000;// перезарядка
@@ -150,6 +150,8 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
             _cooldown_timer_right.Interval = _cooldown;
             _ship_type = ship_Type; // задаём тип корабля
             _cannon = new Cannon(_ship_type, Cannon_type.small); // даём ему пушки
+                                                                 //создаём прямоугольник корабля 
+           
             switch (_ship_type)
             {
                 case Ship_type.Boat: // шлюшка
