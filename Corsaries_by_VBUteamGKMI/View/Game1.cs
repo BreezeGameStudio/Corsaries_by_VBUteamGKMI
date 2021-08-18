@@ -273,13 +273,14 @@ namespace Corsaries_by_VBUteamGKMI
                 _spriteBatch.Draw(_myShip._current_sprite, _myShip._position, Color.White); // отрисовка корабля
                      // отрисовка nps  
                 _nps.ForEach(i => _spriteBatch.Draw(i._current_sprite, i._position, Color.White));
+                // рисуем координаты
+                if (_myShip != null)
+                {
+                    _spriteBatch.DrawString(_text, $"X {_myShip._position.X} Y {_myShip._position.Y}",
+                         _text_pos, new Color(0, 0, 0));
+                }
             }
-            // рисуем текст
-            if (_myShip != null)
-            {
-                _spriteBatch.DrawString(_text, $"X {_myShip._position.X} Y {_myShip._position.Y}",
-                     _text_pos, new Color(0, 0, 0));
-            } 
+            
         }
         // метод столкновения с островами
         protected bool Collision_island(Ship ship)
