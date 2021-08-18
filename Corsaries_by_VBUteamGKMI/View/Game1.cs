@@ -30,6 +30,7 @@ namespace Corsaries_by_VBUteamGKMI
         System.Windows.Forms.Timer _timer = new System.Windows.Forms.Timer();
         SpriteFont _text;
         Vector2 _text_pos; // позиция
+        Vector2 _pos_in_world;
         private List<Island> _islands = new List<Island>(); // коллекция островов
         private List<Vector2> _island_positions = new List<Vector2>() { new Vector2(1000, 2500), new Vector2(2000, 1500), new Vector2(3000, 1500), new Vector2(4500, 2500), new Vector2(3500, 4000), new Vector2(2500, 4000) };
         private List<Vector2> _edge_island_positions = new List<Vector2>() { new Vector2(2000, 0), new Vector2(2500, 4500) };
@@ -206,6 +207,7 @@ namespace Corsaries_by_VBUteamGKMI
         // установка стостояния игры в открытом мире
         public void Set_In_World_GS()
         {
+            _myShip._position = _pos_in_world;
             // задаём размеры игрового поля 
             _game_ground = new Game_ground(_game_ground_X_Y, _game_ground_X_Y);
             // задаём состояние игры
@@ -361,6 +363,7 @@ namespace Corsaries_by_VBUteamGKMI
                             if (answer == 0) //если предложение о бое было принято
                             {
                                 // делаем врагом выбраного нпс
+                                _pos_in_world = _myShip._position;
                                 _enemyShip = item;
                                 // даём игре состояние битвы
                                 Set_In_Battle_GS();
