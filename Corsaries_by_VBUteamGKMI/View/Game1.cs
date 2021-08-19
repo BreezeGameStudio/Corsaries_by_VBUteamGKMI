@@ -239,6 +239,8 @@ namespace Corsaries_by_VBUteamGKMI
             _game_state = Game_Sate.In_Battle;
             _my_hp_bar = new HP_Bar(GraphicsDevice, _myShip,Color.GreenYellow);
             _enemy_hp_bar = new HP_Bar(GraphicsDevice, _enemyShip,Color.Red);
+            _my_sailor_bar = new Sailor_Bar(GraphicsDevice, _myShip,Color.Aqua);
+            _enemy_sailor_bar = new Sailor_Bar(GraphicsDevice, _enemyShip,Color.Aqua);
             // чистим снаряды
             _enemy_cannonballs.Clear();
             _my_cannonballs.Clear();
@@ -438,6 +440,8 @@ namespace Corsaries_by_VBUteamGKMI
 
         public HP_Bar _my_hp_bar;
         public HP_Bar _enemy_hp_bar;
+        public Sailor_Bar _my_sailor_bar;
+        public Sailor_Bar _enemy_sailor_bar;
 
 
         // обновленние данных при состояние игры бой
@@ -479,6 +483,8 @@ namespace Corsaries_by_VBUteamGKMI
             // обновление хп бара
             _my_hp_bar.Update();
             _enemy_hp_bar.Update();
+            _my_sailor_bar.Update();
+            _enemy_sailor_bar.Update();
 
 
         }
@@ -490,8 +496,10 @@ namespace Corsaries_by_VBUteamGKMI
             _my_cannonballs.ForEach(i => _spriteBatch.Draw(i._current_sprite, i._position, Color.White)); // отрисовка снаряда 
             _enemy_cannonballs.ForEach(i => _spriteBatch.Draw(i._current_sprite, i._position, Color.White)); //  отрисовка снаряда врага                                                                              // отрисовка хп бара
 
-            _my_hp_bar.Draw(_spriteBatch,_my_hp_bar._position );
-            _enemy_hp_bar.Draw(_spriteBatch,_enemy_hp_bar._position );
+            _my_hp_bar.Draw(_spriteBatch );
+            _enemy_hp_bar.Draw(_spriteBatch );
+            _my_sailor_bar.Draw(_spriteBatch );
+            _enemy_sailor_bar.Draw(_spriteBatch );
 
 
         }
