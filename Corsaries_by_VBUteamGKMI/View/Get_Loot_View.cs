@@ -107,23 +107,23 @@ namespace Corsaries_by_VBUteamGKMI.View
         }
         private void Btn_get_loot_Click(object sender, EventArgs e)
         {
-            if(_new_current_capacity+ _loot_capacity > _my_ship._max_capacity)
+            if (_new_current_capacity + _loot_capacity > _my_ship._max_capacity)
             {
                 MessageBox.Show("Вам столько не влезет", "ПЕРЕГРУЗ!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            _my_ship._current_capacity = _new_current_capacity+ _loot_capacity;
+            _my_ship._current_capacity = _new_current_capacity + _loot_capacity;
             _my_ship._captain._money += Money_bar.Value;
-            _my_ship._products.Find(i => i._product_Type == Product_type.Rum)._count += Rum_bar.Value;
-            _my_ship._products.Find(i => i._product_Type == Product_type.Silk)._count += Silk_bar.Value;
-            _my_ship._products.Find(i => i._product_Type == Product_type.Water)._count += Water_bar.Value;
-            _my_ship._products.Find(i => i._product_Type == Product_type.Food)._count += Food_bar.Value;
-            _my_ship._products.Find(i => i._product_Type == Product_type.Leather)._count += Leather_bar.Value;
-            _my_ship._products.Find(i => i._product_Type == Product_type.Wood)._count += Wood_bar.Value;
-            _my_ship._products.Find(i => i._product_Type == Product_type.Tobacco)._count += Tobacco_bar.Value;
-            _my_ship._products.Find(i => i._product_Type == Product_type.Coffee)._count += Coffee_bar.Value;
-           Close();
-        }       
+            _my_ship.AddProduct(Product_type.Rum, Rum_bar.Value);
+            _my_ship.AddProduct(Product_type.Silk, Silk_bar.Value);
+            _my_ship.AddProduct(Product_type.Water, Water_bar.Value);
+            _my_ship.AddProduct(Product_type.Food, Food_bar.Value);
+            _my_ship.AddProduct(Product_type.Leather, Leather_bar.Value);
+            _my_ship.AddProduct(Product_type.Wood, Wood_bar.Value);
+            _my_ship.AddProduct(Product_type.Tobacco, Tobacco_bar.Value);
+            _my_ship.AddProduct(Product_type.Coffee, Coffee_bar.Value);
+            Close();
+        }     
         private void Money_bar_Scroll(object sender, ScrollEventArgs e) => Money_value.Text = Money_bar.Value.ToString();
         private void Rum_bar_Scroll(object sender, ScrollEventArgs e)
         {

@@ -15,18 +15,18 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
         public Cannon(Ship_type ship_Type, Cannon_type cunnon_Type) => Set_Cunnon_Type(ship_Type, cunnon_Type);
         public void Set_Cunnon_Type(Ship_type ship_Type, Cannon_type cunnon_Type)
         {
+            _cunnon_type = cunnon_Type;
             switch (_cunnon_type)
             {
                 case Cannon_type.small: _name = "Маленькие"; break;
                 case Cannon_type.medium: _name = "Средние"; break;
                 case Cannon_type.big:  _name = "Большие"; break;
                 default: break;
-            }
-            _cunnon_type = cunnon_Type;
+            }         
             switch (ship_Type)
             {
                 case Ship_type.Boat:
-                    switch (cunnon_Type)
+                    switch (_cunnon_type)
                     {
                         case Cannon_type.small:                         
                             _damage = 10;

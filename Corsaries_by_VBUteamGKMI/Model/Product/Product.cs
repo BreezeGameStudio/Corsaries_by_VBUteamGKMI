@@ -19,7 +19,7 @@ namespace Corsaries_by_VBUteamGKMI.Model.Products
             {
                 case Product_type.Rum:
                     _name = "Ром";
-                    _weight = 5;
+                    _weight = 1;
                     _price = 20;
                     
 
@@ -33,14 +33,14 @@ namespace Corsaries_by_VBUteamGKMI.Model.Products
                     break;
                 case Product_type.Water:
                     _name = "Вода";
-                    _weight = 5;
+                    _weight = 1;
                     _price = 5;
                     
 
                     break;
                 case Product_type.Food:
                     _name = "Еда";
-                    _weight = 7;
+                    _weight = 1;
                     _price = 10;
                     
 

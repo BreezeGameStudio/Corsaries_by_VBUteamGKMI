@@ -34,8 +34,6 @@ namespace Corsaries_by_VBUteamGKMI
         public static List<NPS_Ship> _nps = new List<NPS_Ship>(); // коллекция нпс
         //таймер смены направления движения нпс0
         System.Windows.Forms.Timer _timer = new System.Windows.Forms.Timer();
-        SpriteFont _text;
-        Vector2 _text_pos; // позиция
         Vector2 _pos_in_world;
         SpriteFont _coordinates; // координаты спрайт
         Vector2 _coordinates_pos; //координаты  позиция
@@ -87,7 +85,7 @@ namespace Corsaries_by_VBUteamGKMI
             base.Initialize();
 
             // игровой таймер
-            _gameTime_timer.Interval = 30000;
+            _gameTime_timer.Interval = 60000;
             _gameTime_timer.Tick += _gameTime_timer_Tick;
             _gameTime_timer.Start();
 
@@ -115,7 +113,7 @@ namespace Corsaries_by_VBUteamGKMI
 
             // добавляем нпс
             _nps.Clear(); //очищаем коллекцию чтобы при перезапуске не становилось больше NPS
-            for (int i = 0; i < 20; i++)
+            for (int i = 0; i < 50; i++)
             {
                 _nps.Add(new NPS_Ship((Ship_type)new Random().Next(0, 7), Content));
             }
@@ -133,8 +131,6 @@ namespace Corsaries_by_VBUteamGKMI
 
 
         }
-
-
 
         protected override void LoadContent() => _spriteBatch = new SpriteBatch(GraphicsDevice);
         protected override void Update(GameTime gameTime)
@@ -248,20 +244,40 @@ namespace Corsaries_by_VBUteamGKMI
                 Convert.ToInt32(_camera._pos.Y + (_size_screen.Height / (2 * _camera.Zoom))));
             // задаём состояние игры
             _game_state = Game_Sate.In_Battle;
-            _my_hp_bar = new HP_Bar(GraphicsDevice, _myShip);
-            _enemy_hp_bar = new HP_Bar(GraphicsDevice, _enemyShip);
+            _my_hp_bar = new HP_Bar(GraphicsDevice, _myShip,Color.GreenYellow);
+            _enemy_hp_bar = new HP_Bar(GraphicsDevice, _enemyShip,Color.Red);
+            _my_sailor_bar = new Sailor_Bar(GraphicsDevice, _myShip,Color.Aqua);
+            _enemy_sailor_bar = new Sailor_Bar(GraphicsDevice, _enemyShip,Color.Aqua);
             // чистим снаряды
             _enemy_cannonballs.Clear();
             _my_cannonballs.Clear();
 
         }
 
-
         #region In_World            
         // метод изменения дня
         private void _gameTime_timer_Tick(object sender, EventArgs e)
         {
             _gameTime = _gameTime.AddDays(1);
+            // кушаем еду
+            try { _myShip.Food_consumption(); }
+
+            catch (Exception ex)
+            {
+                if (_myShip._current_count_warning < MyShip._max_count_warning)
+                    MessageBox.Show("У нас проблемы!", ex.Message, new List<string>() { "Ок" });
+                else
+                {
+                    MessageBox.Show("У нас проблемы!", ex.Message, new List<string>() { "Ок" });
+                    var answer =  MessageBox.Show("Игра окончена",
+                        "Команда взбунтовалась против нас\r\n и выбросила нас за борт =(",
+                        new List<string>() { "Перезапустить?","Выйти?" }).Result.Value;
+                    if (answer == 0)
+                        Initialize();
+                    else
+                        Exit();
+                }
+            }
         }
         // обновленние данных при состояние игры игровой мир
         private void In_World_Update(GameTime gameTime)
@@ -331,7 +347,7 @@ namespace Corsaries_by_VBUteamGKMI
                 _seaports.ForEach(i => _spriteBatch.Draw(i._current_sprite, i._position, Color.White));
                 // рисуем координаты
                 if (_myShip != null)
-                {         
+                {
                     _spriteBatch.DrawString(_coordinates, $" X:{_myShip._position.X} Y:{ _myShip._position.Y}",
                          _coordinates_pos, new Color(0, 0, 0));
                     string data = $"{_gameTime.Day}:{_gameTime.Month}:{_gameTime.Year}";
@@ -456,6 +472,8 @@ namespace Corsaries_by_VBUteamGKMI
 
         public HP_Bar _my_hp_bar;
         public HP_Bar _enemy_hp_bar;
+        public Sailor_Bar _my_sailor_bar;
+        public Sailor_Bar _enemy_sailor_bar;
 
 
         // обновленние данных при состояние игры бой
@@ -497,19 +515,24 @@ namespace Corsaries_by_VBUteamGKMI
             // обновление хп бара
             _my_hp_bar.Update();
             _enemy_hp_bar.Update();
+            _my_sailor_bar.Update();
+            _enemy_sailor_bar.Update();
 
 
         }
         // отрисовка данных при состояние игры бой
         private void In_Battle_Draw(GameTime gameTime)
-        {
+        {           
+
             _spriteBatch.Draw(_myShip._current_sprite, _myShip._position, Color.White); // отрисовка корабля
             _spriteBatch.Draw(_enemyShip._current_sprite, _enemyShip._position, Color.White); // отрисовка врага
             _my_cannonballs.ForEach(i => _spriteBatch.Draw(i._current_sprite, i._position, Color.White)); // отрисовка снаряда 
             _enemy_cannonballs.ForEach(i => _spriteBatch.Draw(i._current_sprite, i._position, Color.White)); //  отрисовка снаряда врага                                                                              // отрисовка хп бара
 
-            _my_hp_bar.Draw(_spriteBatch, new Vector2(_myShip._position.X - 30, _myShip._position.Y - 30));
-            _enemy_hp_bar.Draw(_spriteBatch, new Vector2(_enemyShip._position.X - 30, _enemyShip._position.Y - 30));
+            _my_hp_bar.Draw(_spriteBatch );
+            _enemy_hp_bar.Draw(_spriteBatch );
+            _my_sailor_bar.Draw(_spriteBatch );
+            _enemy_sailor_bar.Draw(_spriteBatch );
 
 
         }
@@ -560,7 +583,7 @@ namespace Corsaries_by_VBUteamGKMI
                         Enemy_ship._current_sprite.Width + 100, Enemy_ship._current_sprite.Height + 100);
             if (R_ship.Intersects(nps))
             {
-                try { new Abordage_Form(My_ship._captain, Enemy_ship._captain).ShowDialog(); }
+                try { new Abordage_Form(My_ship, Enemy_ship).ShowDialog(); }
                 catch (Exception) { }
                 new Get_Loot_View(My_ship,Enemy_ship).ShowDialog();
             }

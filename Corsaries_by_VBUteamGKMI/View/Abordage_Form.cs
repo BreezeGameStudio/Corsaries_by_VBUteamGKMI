@@ -1,10 +1,5 @@
 ﻿using Corsaries_by_VBUteamGKMI.Model.Ship;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
 using Corsaries_by_VBUteamGKMI.Model.People_on_ship;
 
@@ -16,15 +11,22 @@ namespace Corsaries_by_VBUteamGKMI.View
         private Random rdn = new Random();
         public Captain _My_Capitan { get; }
         public Captain _Enemy_Capitan { get; }
-        public Abordage_Form(Captain My_Capitan, Captain Enemy_Capitan)
+        Ship _My_Ship;
+        public Abordage_Form(Ship My_Ship, Ship Enemy_Ship)
         {
             InitializeComponent();
-            _My_Capitan = My_Capitan;
+
+            _My_Ship = My_Ship;
+
+
+            _My_Capitan = My_Ship._captain;
+            _My_Capitan.Set_Cap_Prop(My_Ship._sailors,_My_Capitan._money);
             My_Hp_bar.Maximum = _My_Capitan._max_hp;
             My_Hp_bar.Minimum = 0;
 
 
-            _Enemy_Capitan = Enemy_Capitan;
+            _Enemy_Capitan = Enemy_Ship._captain;
+            _Enemy_Capitan.Set_Cap_Prop(Enemy_Ship._sailors, _Enemy_Capitan._money);
             Enemy_HP_bar.Maximum = _Enemy_Capitan._max_hp;
             Enemy_HP_bar.Minimum = 0;
 
@@ -38,7 +40,10 @@ namespace Corsaries_by_VBUteamGKMI.View
         private void Btn_Attack_Click(object sender, EventArgs e)
         {
             if (Attack())
+            {
+                _My_Capitan.Set_Cap_Prop(_My_Ship._sailors, _My_Capitan._money);
                 this.Close();
+            }
         }
         // метод аттаки возвращает true если бой закончен false если бой не закончен
         public bool Attack()

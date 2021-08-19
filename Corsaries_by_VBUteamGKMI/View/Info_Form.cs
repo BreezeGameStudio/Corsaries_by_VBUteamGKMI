@@ -30,8 +30,13 @@ namespace Corsaries_by_VBUteamGKMI.View
             _ship_DEF.Text = ship._protection.ToString();
             _ship_SPEED.Text = ship._speed.ToString();
             _ship_MATROS_BAR.Maximum = ship._max_count_sailors;
-            _ship_MATROS_BAR.Value = ship._current_count_sailors;
-            _ship_MATROS.Text = ship._sailors[0]._sailor_Type.ToString();
+            _ship_MATROS_BAR.Value = ship._current_count_sailors;            
+            _ship_MATROS_name1.Text = ship._sailors[0]._name;
+            _ship_MATROS_name2.Text = ship._sailors[1]._name;
+            _ship_MATROS_name3.Text = ship._sailors[2]._name;
+            _ship_MATROS_name1_count.Text = ship._sailors[0]._count.ToString();
+            _ship_MATROS_name2_count.Text = ship._sailors[1]._count.ToString(); 
+            _ship_MATROS_name3_count.Text = ship._sailors[2]._count.ToString();
             _ship_MATROS_count.Text = ship._current_count_sailors.ToString();
             _ship_HP_BAR.Maximum = ship._max_hp;
             _ship_HP_BAR.Value = ship._current_hp;
@@ -60,7 +65,7 @@ namespace Corsaries_by_VBUteamGKMI.View
             _hold_leazer.Text = ship._products[5]._count.ToString();
             _hold_tobaco.Text = ship._products[6]._count.ToString();
             _hold_koffee.Text = ship._products[7]._count.ToString();
-            _hold_capasity.Text = ship._max_capacity.ToString();
+            _hold_capasity.Text =$"{ship._current_capacity}/{ship._max_capacity}" ;
             _hold_BAR.Maximum = ship._max_capacity;
             _hold_BAR.Value = ship._current_capacity;
 
