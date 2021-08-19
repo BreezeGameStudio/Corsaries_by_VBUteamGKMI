@@ -14,6 +14,7 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
     public enum Direction { up, up_right, right, right_down, down, down_left, left, left_up }
     public abstract class Ship
     {
+        public Random _random = new Random(); // рандом для смены направления движения      
         public bool _activity = true; // переменная которая отвечает за готовность 
                                       // взаимодействовать с нпс
                                       // таймер перезарядки взаимодействия с другими нпс
@@ -53,7 +54,33 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
         public Vector2 _position; // позицыя
         public Vector2 _old_position; // память старой позиции на случай столкновения     
         #endregion
-        protected Ship(Ship_type ship_Type, Microsoft.Xna.Framework.Content.ContentManager content) => Set_Ship_Type(ship_Type, content);
+        protected Ship(Ship_type ship_Type, Microsoft.Xna.Framework.Content.ContentManager content)
+        {
+            // таймер перезарядки взаимодействия с другими нпс
+            _timer_activity.Interval = _cooldown_activity;
+            _timer_activity.Tick += _timer_activity_Tick;
+            // выгружаем срайты корабля
+            _ship_sprites.Add(content.Load<Texture2D>("ship_R"));
+            _ship_sprites.Add(content.Load<Texture2D>("ship_L"));
+            _ship_sprites.Add(content.Load<Texture2D>("ship_U"));
+            _ship_sprites.Add(content.Load<Texture2D>("ship_D"));
+            _ship_sprites.Add(content.Load<Texture2D>("ship_UL"));
+            _ship_sprites.Add(content.Load<Texture2D>("ship_UR"));
+            _ship_sprites.Add(content.Load<Texture2D>("ship_DL"));
+            _ship_sprites.Add(content.Load<Texture2D>("ship_DR"));
+            _current_sprite = _ship_sprites[0];
+            // выгружаем зуки выстрелов
+            _hit_song = content.Load<Song>("hit");
+            _shoot_song = content.Load<Song>("shoot");
+            _cooldown_timer_left.Tick += _cooldown_timer_left_Tick;
+            _cooldown_timer_right.Tick += _cooldown_timer_right_Tick;
+            _cooldown_timer_left.Interval = _cooldown;
+            _cooldown_timer_right.Interval = _cooldown;
+            _cannon = new Cannon(_ship_type, Cannon_type.small); // даём ему пушки
+                                                                 //создаём прямоугольник корабля 
+            Set_Ship_Type(ship_Type);
+        }
+       
         #region методы перемещения
         public virtual void Go_U() // вверх
         {
@@ -145,28 +172,14 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
         }
         #endregion
         // метода задавания типа корабля паблик так ак нужен будет в классах наследниках 
-
-        public void Set_Ship_Type(Ship_type ship_Type, Microsoft.Xna.Framework.Content.ContentManager content)
+        public void Set_Ship_Type(Ship_type ship_Type)
         {
-            // таймер перезарядки взаимодействия с другими нпс
-            _timer_activity.Interval = _cooldown_activity;
-            _timer_activity.Tick += _timer_activity_Tick;
-
-            _hit_song = content.Load<Song>("hit");
-            _shoot_song = content.Load<Song>("shoot");
-            _cooldown_timer_left.Tick += _cooldown_timer_left_Tick;
-            _cooldown_timer_right.Tick += _cooldown_timer_right_Tick;
-            _cooldown_timer_left.Interval = _cooldown;
-            _cooldown_timer_right.Interval = _cooldown;
-            _ship_type = ship_Type; // задаём тип корабля
-            _cannon = new Cannon(_ship_type, Cannon_type.small); // даём ему пушки
-                                                                 //создаём прямоугольник корабля 
-           
+            _ship_type = ship_Type; // задаём тип корабля                   
             switch (_ship_type)
             {
                 case Ship_type.Boat: // шлюшка
                     _name = "Шлюпка";
-                    _max_capacity = 100; // всестимость
+                    _max_capacity = 350; // всестимость
                     _max_hp = 500; // максимальное количество здоровья 
                     _speed = 0.25f; // скорость               
                     _count_cannon = 4; // количество пушке
@@ -176,7 +189,7 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
                     break;
                 case Ship_type.Schooner:
                     _name = "Шхуна";
-                    _max_capacity = 150; // всестимость
+                    _max_capacity = 650; // всестимость
                     _max_hp = 1000; // максимальное количество здоровья 
                     _speed = 0.5f; // скорость               
                     _count_cannon = 6; // количество пушке
@@ -186,7 +199,7 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
                     break;
                 case Ship_type.Caravel:
                     _name = "Каравелла";
-                    _max_capacity = 200; // всестимость
+                    _max_capacity = 800; // всестимость
                     _max_hp = 2000; // максимальное количество здоровья 
                     _speed = 0.75f; // скорость               
                     _count_cannon = 8; // количество пушке
@@ -196,7 +209,7 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
                     break;
                 case Ship_type.Brig:
                     _name = "Бриг";
-                    _max_capacity = 250; // всестимость
+                    _max_capacity = 950; // всестимость
                     _max_hp = 2300; // максимальное количество здоровья 
                     _speed = 0.75f; // скорость               
                     _count_cannon = 8; // количество пушке
@@ -206,7 +219,7 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
                     break;
                 case Ship_type.Frigate:
                     _name = "Фрегат";
-                    _max_capacity = 300; // всестимость
+                    _max_capacity = 1250; // всестимость
                     _max_hp = 4000; // максимальное количество здоровья 
                     _speed = 1f; // скорость               
                     _count_cannon = 10; // количество пушке
@@ -216,7 +229,7 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
                     break;
                 case Ship_type.Galleon:
                     _name = "Галеон";
-                    _max_capacity = 400; // всестимость
+                    _max_capacity = 1550; // всестимость
                     _max_hp = 6500; // максимальное количество здоровья 
                     _speed = 1.25f; // скорость               
                     _count_cannon = 12; // количество пушке
@@ -226,7 +239,7 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
                     break;
                 case Ship_type.Corvette:
                     _name = "Корвет";
-                    _max_capacity = 350; // всестимость
+                    _max_capacity = 1250; // всестимость
                     _max_hp = 6700; // максимальное количество здоровья 
                     _speed = 2f; // скорость               
                     _count_cannon = 10; // количество пушке
@@ -236,7 +249,7 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
                     break;
                 case Ship_type.Battleship:
                     _name = "Линкор";
-                    _max_capacity = 500; // всестимость
+                    _max_capacity = 2200; // всестимость
                     _max_hp = 10000; // максимальное количество здоровья 
                     _speed = 1.5f; // скорость               
                     _count_cannon = 12; // количество пушке
@@ -246,16 +259,14 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
                     break;
             }
             _current_hp = _max_hp; // присваиваем макс хп к текущему хп
+           
+            // инициализируем в нашей колекции места пот продукты
             for (int i = 0; i < 8; i++)
-            {
-                // инициализируем в нашей колекции места пот продукты
                 _products.Add(new Product((Product_type)i));
-            }
+            // инициализируем в нашей колекции матросов
             for (int i = 0; i < 3; i++)
-            {
-                // инициализируем в нашей колекции матросов
                 _sailors.Add(new Sailor((Sailor_type)i));
-            }
+          
         }
         // иент перезарядки взаимодействия с другими нпс
         private void _timer_activity_Tick(object sender, EventArgs e)
@@ -309,8 +320,12 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
             else
             {  }
         }
+        // метод добавления продуктов
+        public void AddProduct(Product_type product_Type, int count) => _products.Find(i => i._product_Type == product_Type)._count += count;
+        // шаг назад при столкновении
+        public void Step_Back_Position() => _position = _old_position;
     }
-    
+
 }
 
 

@@ -34,8 +34,6 @@ namespace Corsaries_by_VBUteamGKMI
         public static List<NPS_Ship> _nps = new List<NPS_Ship>(); // коллекция нпс
         //таймер смены направления движения нпс
         System.Windows.Forms.Timer _timer = new System.Windows.Forms.Timer();
-        SpriteFont _text;
-        Vector2 _text_pos; // позиция
         Vector2 _pos_in_world;
         SpriteFont _coordinates; // координаты спрайт
         Vector2 _coordinates_pos; //координаты  позиция
@@ -85,7 +83,7 @@ namespace Corsaries_by_VBUteamGKMI
             base.Initialize();
 
             // игровой таймер
-            _gameTime_timer.Interval = 30000;
+            _gameTime_timer.Interval = 60000;
             _gameTime_timer.Tick += _gameTime_timer_Tick;
             _gameTime_timer.Start();
 
@@ -108,7 +106,7 @@ namespace Corsaries_by_VBUteamGKMI
 
             // добавляем нпс
             _nps.Clear(); //очищаем коллекцию чтобы при перезапуске не становилось больше NPS
-            for (int i = 0; i < 20; i++)
+            for (int i = 0; i < 50; i++)
             {
                 _nps.Add(new NPS_Ship((Ship_type)new Random().Next(0, 7), Content));
             }
@@ -255,6 +253,25 @@ namespace Corsaries_by_VBUteamGKMI
         private void _gameTime_timer_Tick(object sender, EventArgs e)
         {
             _gameTime = _gameTime.AddDays(1);
+
+            try { _myShip.Food_consumption(); }
+
+            catch (Exception ex)
+            {
+                if (_myShip._current_count_warning < MyShip._max_count_warning)
+                    MessageBox.Show("У нас проблемы!", ex.Message, new List<string>() { "Ок" });
+                else
+                {
+                    MessageBox.Show("У нас проблемы!", ex.Message, new List<string>() { "Ок" });
+                    var answer =  MessageBox.Show("Игра окончена",
+                        "Команда взбунтовалась против нас\r\n и выбросила нас за борт =(",
+                        new List<string>() { "Перезапустить?","Выйти?" }).Result.Value;
+                    if (answer == 0)
+                        Initialize();
+                    else
+                        Exit();
+                }
+            }
         }
         // обновленние данных при состояние игры игровой мир
         private void In_World_Update(GameTime gameTime)

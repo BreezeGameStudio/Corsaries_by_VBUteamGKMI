@@ -11,19 +11,9 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
 {
     public class NPS_Ship : Ship
     {
-        private Random _random = new Random(); // рандом для смены направления движения      
+      
         public NPS_Ship(Ship_type ship_Type, Microsoft.Xna.Framework.Content.ContentManager content) : base(ship_Type, content)
-        {
-            // выгружаем срайты корабля
-            _ship_sprites.Add(content.Load<Texture2D>("ship_R"));
-            _ship_sprites.Add(content.Load<Texture2D>("ship_L"));
-            _ship_sprites.Add(content.Load<Texture2D>("ship_U"));
-            _ship_sprites.Add(content.Load<Texture2D>("ship_D"));
-            _ship_sprites.Add(content.Load<Texture2D>("ship_UL"));
-            _ship_sprites.Add(content.Load<Texture2D>("ship_UR"));
-            _ship_sprites.Add(content.Load<Texture2D>("ship_DL"));
-            _ship_sprites.Add(content.Load<Texture2D>("ship_DR"));
-            _current_sprite = _ship_sprites[0];          
+        {            
              // заполняем коллекцию матросов матросов =)
             SetSailorsList();
             // оживляем капитана
@@ -51,7 +41,7 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
             SetProductList();
         }       
         // заполняем коллекцию матросов матромаит =)
-        private void SetSailorsList()
+        public void SetSailorsList()
         {
 
             while (_current_count_sailors < _max_count_sailors)
@@ -68,7 +58,7 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
         }
 
         // заполняем коллекцию продуктов продуктами =)
-        private void SetProductList()
+        public void SetProductList()
         {
             // даём нпс по 30 штук каждого продукта
             _products.ForEach(i => i._count = _random.Next(30));
@@ -94,8 +84,7 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
                 }
             }
         }
-       // шаг назад при столкновении
-        public void Step_Back_Position() => _position = _old_position;
+       
         public void Next_Move() => _direction = (Direction)_random.Next(7);
         public void Move_Random()
         {                 
@@ -207,8 +196,6 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
 
 
         }
-
-
         // установка стартовой позиции
         public void Set_Spawn_Position(List<Island> islands)
         {

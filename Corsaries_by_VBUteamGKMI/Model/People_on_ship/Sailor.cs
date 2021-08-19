@@ -14,6 +14,7 @@ namespace Corsaries_by_VBUteamGKMI.Model.People_on_ship
         public double _deff_boost { get; set; } // увеличение защиты капитана
         public double _dodge_boost { get; set; }// увеличение  уворота капитана
         public double _critical_boost { get; set; }// увеличение шанса крит удара капитана
+        public int _food_consumption { get; set; } // количество потребляемой провизии
         public int _price { get; set; }// цена за матроса
         public int _count = 0; // доступное количество
         public Sailor(Sailor_type sailor_Type)
@@ -29,15 +30,17 @@ namespace Corsaries_by_VBUteamGKMI.Model.People_on_ship
                     _dodge_boost = 0.1;
                     _critical_boost = 0.15;
                     _price = 1;
+                    _food_consumption = 1;
                     break;
                 case Sailor_type.Experienced:
-                    _name = "Опытный";
+                    _name = "Бывалй";
                     _hp_boost = 2;
                     _damag_boost = 0.6;
                     _deff_boost = 0.2;
                     _dodge_boost = 0.2;
                     _critical_boost = 0.2;
                     _price = 2;
+                    _food_consumption = 2;
                     break;
                 case Sailor_type.Sea_wolf:
                     _name = "Морской волк";
@@ -47,6 +50,7 @@ namespace Corsaries_by_VBUteamGKMI.Model.People_on_ship
                     _dodge_boost = 0.3;
                     _critical_boost = 0.3;
                     _price = 3;
+                    _food_consumption = 3;
                     break;
             }
         }
