@@ -304,7 +304,7 @@ namespace Corsaries_by_VBUteamGKMI
                     item.Next_Move();
                 }
             }
-            //Collision_NPS(_myShip); // столкновение меня и нпс
+            Collision_NPS(_myShip); // столкновение меня и нпс
             // даём камере позицию корабля
             _camera.SetPosition(_myShip);
             // даём положение координатам на экране
