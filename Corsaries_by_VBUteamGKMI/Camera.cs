@@ -20,7 +20,7 @@ namespace Corsaries_by_VBUteamGKMI
 
         public Camera2d()
         {
-            _zoom = 1f;
+            _zoom = 2f;
             _rotation = 0.0f;
             _pos = Vector2.Zero;
         }
