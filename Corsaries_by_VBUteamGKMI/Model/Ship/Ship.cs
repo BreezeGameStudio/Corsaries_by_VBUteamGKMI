@@ -228,7 +228,7 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
                     _name = "Корвет";
                     _max_capacity = 350; // всестимость
                     _max_hp = 6700; // максимальное количество здоровья 
-                    _speed = 2f; // скорость               
+                    _speed = 10f; // скорость               
                     _count_cannon = 10; // количество пушке
                     _max_count_sailors = 40; // максимальное количество матросов
                     _protection = 20;// защит от выстрела в процентах
