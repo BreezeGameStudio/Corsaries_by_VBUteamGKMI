@@ -125,8 +125,6 @@ namespace Corsaries_by_VBUteamGKMI
 
         }
 
-
-
         protected override void LoadContent() => _spriteBatch = new SpriteBatch(GraphicsDevice);
         protected override void Update(GameTime gameTime)
         {
@@ -239,21 +237,20 @@ namespace Corsaries_by_VBUteamGKMI
                 Convert.ToInt32(_camera._pos.Y + (_size_screen.Height / (2 * _camera.Zoom))));
             // задаём состояние игры
             _game_state = Game_Sate.In_Battle;
-            _my_hp_bar = new HP_Bar(GraphicsDevice, _myShip);
-            _enemy_hp_bar = new HP_Bar(GraphicsDevice, _enemyShip);
+            _my_hp_bar = new HP_Bar(GraphicsDevice, _myShip,Color.GreenYellow);
+            _enemy_hp_bar = new HP_Bar(GraphicsDevice, _enemyShip,Color.Red);
             // чистим снаряды
             _enemy_cannonballs.Clear();
             _my_cannonballs.Clear();
 
         }
 
-
         #region In_World            
         // метод изменения дня
         private void _gameTime_timer_Tick(object sender, EventArgs e)
         {
             _gameTime = _gameTime.AddDays(1);
-
+            // кушаем еду
             try { _myShip.Food_consumption(); }
 
             catch (Exception ex)
@@ -493,8 +490,8 @@ namespace Corsaries_by_VBUteamGKMI
             _my_cannonballs.ForEach(i => _spriteBatch.Draw(i._current_sprite, i._position, Color.White)); // отрисовка снаряда 
             _enemy_cannonballs.ForEach(i => _spriteBatch.Draw(i._current_sprite, i._position, Color.White)); //  отрисовка снаряда врага                                                                              // отрисовка хп бара
 
-            _my_hp_bar.Draw(_spriteBatch, new Vector2(_myShip._position.X - 30, _myShip._position.Y - 30));
-            _enemy_hp_bar.Draw(_spriteBatch, new Vector2(_enemyShip._position.X - 30, _enemyShip._position.Y - 30));
+            _my_hp_bar.Draw(_spriteBatch,_my_hp_bar._position );
+            _enemy_hp_bar.Draw(_spriteBatch,_enemy_hp_bar._position );
 
 
         }
