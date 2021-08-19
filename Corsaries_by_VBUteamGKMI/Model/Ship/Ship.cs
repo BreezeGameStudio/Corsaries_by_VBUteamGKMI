@@ -76,9 +76,8 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
             _cooldown_timer_right.Tick += _cooldown_timer_right_Tick;
             _cooldown_timer_left.Interval = _cooldown;
             _cooldown_timer_right.Interval = _cooldown;
-            _cannon = new Cannon(_ship_type, Cannon_type.small); // даём ему пушки
-                                                                 //создаём прямоугольник корабля 
             Set_Ship_Type(ship_Type);
+            _cannon = new Cannon(_ship_type, Cannon_type.small); // даём ему пушки
         }
        
         #region методы перемещения
@@ -300,25 +299,41 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
         }
         // получение урона
         public void GetDamaged(Cannon cannon)
-        {
-            
-            Random rdn = new Random();
+        {                    
             // проверка на уворот
-            if (rdn.Next(100) > _dodge_chance)
+            if (_random.Next(100) > _dodge_chance)
             {
                 int current_damag = cannon._damage;
-                int protected_damag = 0;
+                int protected_damag;
                 // проверка на блокировку
-                if (rdn.Next(100) > _protection)
+                if (_random.Next(100) < _protection)
                 {
                     MediaPlayer.Play(_hit_song);
-                    protected_damag = cannon._damage / 100 * _protection;
+                    protected_damag = (cannon._damage / 100) * _protection;
                     _current_hp -= (current_damag - protected_damag);
                 }
-                else { _current_hp -= current_damag; MediaPlayer.Play(_hit_song); }                
+                else { _current_hp -= current_damag; MediaPlayer.Play(_hit_song); } 
+                // шанс попадания по матросам
+                if(_random.Next(100)<30)
+                {
+                    foreach (var sailor in _sailors)
+                    {
+                        for (int i = 0; i < sailor._count; i++)
+                        {
+                            if(_random.Next(100)<10)
+                            {
+                                if (sailor._count > 0 && _current_count_sailors > 0)
+                                {
+                                    sailor._count--;
+                                    _current_count_sailors--;
+                                }
+                            }
+                        }
+                    }
+                }
             }
-            else
-            {  }
+            else { }
+            
         }
         // метод добавления продуктов
         public void AddProduct(Product_type product_Type, int count) => _products.Find(i => i._product_Type == product_Type)._count += count;

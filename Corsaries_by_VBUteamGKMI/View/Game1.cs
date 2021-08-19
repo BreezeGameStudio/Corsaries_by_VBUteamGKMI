@@ -550,7 +550,7 @@ namespace Corsaries_by_VBUteamGKMI
                         Enemy_ship._current_sprite.Width + 100, Enemy_ship._current_sprite.Height + 100);
             if (R_ship.Intersects(nps))
             {
-                try { new Abordage_Form(My_ship._captain, Enemy_ship._captain).ShowDialog(); }
+                try { new Abordage_Form(My_ship, Enemy_ship).ShowDialog(); }
                 catch (Exception) { }
                 new Get_Loot_View(My_ship,Enemy_ship).ShowDialog();
             }
