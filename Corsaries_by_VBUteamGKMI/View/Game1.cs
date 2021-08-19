@@ -334,8 +334,15 @@ namespace Corsaries_by_VBUteamGKMI
                 {         
                     _spriteBatch.DrawString(_coordinates, $" X:{_myShip._position.X} Y:{ _myShip._position.Y}",
                          _coordinates_pos, new Color(0, 0, 0));
-                    _spriteBatch.DrawString(_sprite_gameTime, $"{_gameTime.Day}:{_gameTime.Month}:{_gameTime.Year}",
-                        _sprite_gameTime_pos, new Color(0, 0, 0));
+                    string data = $"{_gameTime.Day}:{_gameTime.Month}:{_gameTime.Year}";
+                    if (_gameTime.Day < 10)
+                        data = $"0{_gameTime.Day}:{_gameTime.Month}:{_gameTime.Year}";
+                    if (_gameTime.Month < 10)
+                        data = $"{_gameTime.Day}:0{_gameTime.Month}:{_gameTime.Year}";
+                    if (_gameTime.Day < 10 && _gameTime.Day < 10)
+                        data = $"0{_gameTime.Day}:0{_gameTime.Month}:{_gameTime.Year}";
+
+                    _spriteBatch.DrawString(_sprite_gameTime, data, _sprite_gameTime_pos, new Color(0, 0, 0));
                     //_spriteBatch.Draw(Content.Load<Texture2D>("frame"), _coordinates_pos, Color.White);
                 }
             }
