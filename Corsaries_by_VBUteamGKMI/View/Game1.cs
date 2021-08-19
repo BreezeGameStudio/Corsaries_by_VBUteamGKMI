@@ -305,7 +305,7 @@ namespace Corsaries_by_VBUteamGKMI
             _coordinates_pos.X = _camera.Pos.X - (340*(2/_camera.Zoom));
             // даём положение игровому времени на экране
             _sprite_gameTime_pos.Y = _camera.Pos.Y - (190*(2/_camera.Zoom));
-            _sprite_gameTime_pos.X = _camera.Pos.X + (270*(2/_camera.Zoom));
+            _sprite_gameTime_pos.X = _camera.Pos.X + (260*(2/_camera.Zoom));
             // НПС ДВИЖЕНИЕ
             _nps.ForEach(i => i.Move_Random());
             
@@ -323,11 +323,18 @@ namespace Corsaries_by_VBUteamGKMI
                 _nps.ForEach(i => _spriteBatch.Draw(i._current_sprite, i._position, Color.White));
                 // рисуем координаты
                 if (_myShip != null)
-                {         
+                {
                     _spriteBatch.DrawString(_coordinates, $" X:{_myShip._position.X} Y:{ _myShip._position.Y}",
                          _coordinates_pos, new Color(0, 0, 0));
-                    _spriteBatch.DrawString(_sprite_gameTime, $"{_gameTime.Day}:{_gameTime.Month}:{_gameTime.Year}",
-                        _sprite_gameTime_pos, new Color(0, 0, 0));
+                    string data = $"{_gameTime.Day}:{_gameTime.Month}:{_gameTime.Year}";
+                    if (_gameTime.Day < 10)
+                        data = $"0{_gameTime.Day}:{_gameTime.Month}:{_gameTime.Year}";
+                    if (_gameTime.Month < 10)
+                        data = $"{_gameTime.Day}:0{_gameTime.Month}:{_gameTime.Year}";
+                    if (_gameTime.Day < 10 && _gameTime.Day < 10)
+                        data = $"0{_gameTime.Day}:0{_gameTime.Month}:{_gameTime.Year}";
+
+                    _spriteBatch.DrawString(_sprite_gameTime, data, _sprite_gameTime_pos, new Color(0, 0, 0));
                 }
             }
             
@@ -490,7 +497,8 @@ namespace Corsaries_by_VBUteamGKMI
         }
         // отрисовка данных при состояние игры бой
         private void In_Battle_Draw(GameTime gameTime)
-        {
+        {           
+
             _spriteBatch.Draw(_myShip._current_sprite, _myShip._position, Color.White); // отрисовка корабля
             _spriteBatch.Draw(_enemyShip._current_sprite, _enemyShip._position, Color.White); // отрисовка врага
             _my_cannonballs.ForEach(i => _spriteBatch.Draw(i._current_sprite, i._position, Color.White)); // отрисовка снаряда 
