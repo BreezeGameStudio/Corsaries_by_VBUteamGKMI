@@ -52,7 +52,8 @@ namespace Corsaries_by_VBUteamGKMI
         private MyShip _myShip; // мой кораблик
         private NPS_Ship _enemyShip;
 
-        
+        private System.Media.SoundPlayer player;
+        private System.Windows.Forms.Timer auto_saver = new System.Windows.Forms.Timer();
 
         public Game1()
         {
@@ -69,7 +70,7 @@ namespace Corsaries_by_VBUteamGKMI
             _camera.Pos = new Vector2(500.0f, 200.0f);
 
             // задаём размер игрового окна с отступами        
-            //_graphics.IsFullScreen = false;
+            _graphics.IsFullScreen = false;
             //
             _graphics.PreferredBackBufferHeight = _size_screen.Height;
             _graphics.PreferredBackBufferWidth = _size_screen.Width;
@@ -80,7 +81,9 @@ namespace Corsaries_by_VBUteamGKMI
 
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
+            if(!Directory.Exists(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\Corsairs")){
+                Directory.CreateDirectory(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\Corsairs");
+            }
 
             base.Initialize();
 
@@ -228,6 +231,7 @@ namespace Corsaries_by_VBUteamGKMI
         // установка стостояния игры в открытом мире
         public void Set_In_World_GS()
         {
+            player.Stop();
             _myShip._position = _pos_in_world;
             // задаём размеры игрового поля 
             _game_ground = new Game_ground(_game_ground_X_Y, _game_ground_X_Y);
@@ -239,6 +243,8 @@ namespace Corsaries_by_VBUteamGKMI
         // установка стостояния игры в битве
         public void Set_In_Battle_GS()
         {
+            player = new System.Media.SoundPlayer(Environment.CurrentDirectory + "\\Content\\snd\\battle.wav");
+            player.PlayLooping();
             // задаём размеры боевого поля 
             _game_ground = new Game_ground(Convert.ToInt32(_camera._pos.X - (_size_screen.Width / (2*_camera.Zoom))),
                 Convert.ToInt32(_camera._pos.X + (_size_screen.Width / (2 * _camera.Zoom))),
@@ -394,7 +400,7 @@ namespace Corsaries_by_VBUteamGKMI
                 // рисуем координаты
                 if (_myShip != null)
                 {
-                    _spriteBatch.DrawString(_coordinates, $" X:{_myShip._position.X} Y:{ _myShip._position.Y}",
+                    _spriteBatch.DrawString(_coordinates, $" X:{(int)_myShip._position.X} Y:{(int)_myShip._position.Y}",
                          _coordinates_pos, new Color(0, 0, 0));
                     string data = $"{_gameTime.Day}:{_gameTime.Month}:{_gameTime.Year}";
                     if (_gameTime.Day < 10)
