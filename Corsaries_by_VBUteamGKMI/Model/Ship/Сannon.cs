@@ -10,6 +10,7 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
         public string _name;// имя пушки
        public Cannon_type _cunnon_type; // тип пушки 
         public int _damage; // урон пушки
+        public int _price =10; // цена пушки
         public int _speed; // скорость снаряда
         public int _range ;// дальность полёта
         public Cannon(Ship_type ship_Type, Cannon_type cunnon_Type) => Set_Cunnon_Type(ship_Type, cunnon_Type);

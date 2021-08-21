@@ -34,49 +34,50 @@ namespace Corsaries_by_VBUteamGKMI.View
             this.Money_bar = new System.Windows.Forms.HScrollBar();
             this.label2 = new System.Windows.Forms.Label();
             this.Money_count = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
+            this.qqq = new System.Windows.Forms.Label();
             this.Money_value = new System.Windows.Forms.Label();
             this.Water_value = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
+            this.water = new System.Windows.Forms.Label();
             this.Water_count = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.Water_bar = new System.Windows.Forms.HScrollBar();
             this.Food_value = new System.Windows.Forms.Label();
-            this.label11 = new System.Windows.Forms.Label();
+            this.food = new System.Windows.Forms.Label();
             this.Food_count = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
             this.Food_bar = new System.Windows.Forms.HScrollBar();
             this.Wood_value = new System.Windows.Forms.Label();
-            this.label15 = new System.Windows.Forms.Label();
+            this.wood = new System.Windows.Forms.Label();
             this.Wood_count = new System.Windows.Forms.Label();
             this.label17 = new System.Windows.Forms.Label();
             this.Wood_bar = new System.Windows.Forms.HScrollBar();
             this.Coffee_value = new System.Windows.Forms.Label();
-            this.label19 = new System.Windows.Forms.Label();
+            this.coffee = new System.Windows.Forms.Label();
             this.Coffee_count = new System.Windows.Forms.Label();
             this.label21 = new System.Windows.Forms.Label();
             this.Coffee_bar = new System.Windows.Forms.HScrollBar();
             this.Rum_value = new System.Windows.Forms.Label();
-            this.label23 = new System.Windows.Forms.Label();
+            this.rum = new System.Windows.Forms.Label();
             this.Rum_count = new System.Windows.Forms.Label();
             this.label25 = new System.Windows.Forms.Label();
             this.Rum_bar = new System.Windows.Forms.HScrollBar();
             this.Tobacco_value = new System.Windows.Forms.Label();
-            this.label27 = new System.Windows.Forms.Label();
+            this.tobacco = new System.Windows.Forms.Label();
             this.Tobacco_count = new System.Windows.Forms.Label();
             this.label29 = new System.Windows.Forms.Label();
             this.Tobacco_bar = new System.Windows.Forms.HScrollBar();
             this.Leather_value = new System.Windows.Forms.Label();
-            this.label31 = new System.Windows.Forms.Label();
+            this.leather = new System.Windows.Forms.Label();
             this.Leather_count = new System.Windows.Forms.Label();
             this.label33 = new System.Windows.Forms.Label();
             this.Leather_bar = new System.Windows.Forms.HScrollBar();
             this.Silk_value = new System.Windows.Forms.Label();
-            this.label35 = new System.Windows.Forms.Label();
+            this.shilk = new System.Windows.Forms.Label();
             this.Silk_count = new System.Windows.Forms.Label();
             this.label37 = new System.Windows.Forms.Label();
             this.Silk_bar = new System.Windows.Forms.HScrollBar();
             this.btn_get_loot = new System.Windows.Forms.Button();
+            this.select_all_btn = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
@@ -112,9 +113,9 @@ namespace Corsaries_by_VBUteamGKMI.View
             this.label2.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.label2.Location = new System.Drawing.Point(147, 41);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(56, 15);
+            this.label2.Size = new System.Drawing.Size(53, 15);
             this.label2.TabIndex = 3;
-            this.label2.Text = "Деньги :";
+            this.label2.Text = "Золото :";
             // 
             // Money_count
             // 
@@ -126,15 +127,15 @@ namespace Corsaries_by_VBUteamGKMI.View
             this.Money_count.TabIndex = 4;
             this.Money_count.Text = "none";
             // 
-            // label4
+            // qqq
             // 
-            this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.label4.Location = new System.Drawing.Point(21, 41);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(14, 15);
-            this.label4.TabIndex = 5;
-            this.label4.Text = "0";
+            this.qqq.AutoSize = true;
+            this.qqq.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.qqq.Location = new System.Drawing.Point(21, 41);
+            this.qqq.Name = "qqq";
+            this.qqq.Size = new System.Drawing.Size(14, 15);
+            this.qqq.TabIndex = 5;
+            this.qqq.Text = "0";
             // 
             // Money_value
             // 
@@ -156,15 +157,15 @@ namespace Corsaries_by_VBUteamGKMI.View
             this.Water_value.TabIndex = 11;
             this.Water_value.Text = "none";
             // 
-            // label7
+            // water
             // 
-            this.label7.AutoSize = true;
-            this.label7.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.label7.Location = new System.Drawing.Point(21, 95);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(14, 15);
-            this.label7.TabIndex = 10;
-            this.label7.Text = "0";
+            this.water.AutoSize = true;
+            this.water.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.water.Location = new System.Drawing.Point(21, 95);
+            this.water.Name = "water";
+            this.water.Size = new System.Drawing.Size(14, 15);
+            this.water.TabIndex = 10;
+            this.water.Text = "0";
             // 
             // Water_count
             // 
@@ -203,15 +204,15 @@ namespace Corsaries_by_VBUteamGKMI.View
             this.Food_value.TabIndex = 16;
             this.Food_value.Text = "none";
             // 
-            // label11
+            // food
             // 
-            this.label11.AutoSize = true;
-            this.label11.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.label11.Location = new System.Drawing.Point(21, 145);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(14, 15);
-            this.label11.TabIndex = 15;
-            this.label11.Text = "0";
+            this.food.AutoSize = true;
+            this.food.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.food.Location = new System.Drawing.Point(21, 145);
+            this.food.Name = "food";
+            this.food.Size = new System.Drawing.Size(14, 15);
+            this.food.TabIndex = 15;
+            this.food.Text = "0";
             // 
             // Food_count
             // 
@@ -250,15 +251,15 @@ namespace Corsaries_by_VBUteamGKMI.View
             this.Wood_value.TabIndex = 21;
             this.Wood_value.Text = "none";
             // 
-            // label15
+            // wood
             // 
-            this.label15.AutoSize = true;
-            this.label15.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.label15.Location = new System.Drawing.Point(21, 195);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(14, 15);
-            this.label15.TabIndex = 20;
-            this.label15.Text = "0";
+            this.wood.AutoSize = true;
+            this.wood.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.wood.Location = new System.Drawing.Point(21, 195);
+            this.wood.Name = "wood";
+            this.wood.Size = new System.Drawing.Size(14, 15);
+            this.wood.TabIndex = 20;
+            this.wood.Text = "0";
             // 
             // Wood_count
             // 
@@ -297,15 +298,15 @@ namespace Corsaries_by_VBUteamGKMI.View
             this.Coffee_value.TabIndex = 26;
             this.Coffee_value.Text = "none";
             // 
-            // label19
+            // coffee
             // 
-            this.label19.AutoSize = true;
-            this.label19.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.label19.Location = new System.Drawing.Point(21, 249);
-            this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(14, 15);
-            this.label19.TabIndex = 25;
-            this.label19.Text = "0";
+            this.coffee.AutoSize = true;
+            this.coffee.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.coffee.Location = new System.Drawing.Point(21, 249);
+            this.coffee.Name = "coffee";
+            this.coffee.Size = new System.Drawing.Size(14, 15);
+            this.coffee.TabIndex = 25;
+            this.coffee.Text = "0";
             // 
             // Coffee_count
             // 
@@ -344,15 +345,15 @@ namespace Corsaries_by_VBUteamGKMI.View
             this.Rum_value.TabIndex = 31;
             this.Rum_value.Text = "none";
             // 
-            // label23
+            // rum
             // 
-            this.label23.AutoSize = true;
-            this.label23.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.label23.Location = new System.Drawing.Point(21, 306);
-            this.label23.Name = "label23";
-            this.label23.Size = new System.Drawing.Size(14, 15);
-            this.label23.TabIndex = 30;
-            this.label23.Text = "0";
+            this.rum.AutoSize = true;
+            this.rum.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.rum.Location = new System.Drawing.Point(21, 306);
+            this.rum.Name = "rum";
+            this.rum.Size = new System.Drawing.Size(14, 15);
+            this.rum.TabIndex = 30;
+            this.rum.Text = "0";
             // 
             // Rum_count
             // 
@@ -391,15 +392,15 @@ namespace Corsaries_by_VBUteamGKMI.View
             this.Tobacco_value.TabIndex = 36;
             this.Tobacco_value.Text = "none";
             // 
-            // label27
+            // tobacco
             // 
-            this.label27.AutoSize = true;
-            this.label27.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.label27.Location = new System.Drawing.Point(21, 360);
-            this.label27.Name = "label27";
-            this.label27.Size = new System.Drawing.Size(14, 15);
-            this.label27.TabIndex = 35;
-            this.label27.Text = "0";
+            this.tobacco.AutoSize = true;
+            this.tobacco.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.tobacco.Location = new System.Drawing.Point(21, 360);
+            this.tobacco.Name = "tobacco";
+            this.tobacco.Size = new System.Drawing.Size(14, 15);
+            this.tobacco.TabIndex = 35;
+            this.tobacco.Text = "0";
             // 
             // Tobacco_count
             // 
@@ -438,15 +439,15 @@ namespace Corsaries_by_VBUteamGKMI.View
             this.Leather_value.TabIndex = 41;
             this.Leather_value.Text = "none";
             // 
-            // label31
+            // leather
             // 
-            this.label31.AutoSize = true;
-            this.label31.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.label31.Location = new System.Drawing.Point(21, 413);
-            this.label31.Name = "label31";
-            this.label31.Size = new System.Drawing.Size(14, 15);
-            this.label31.TabIndex = 40;
-            this.label31.Text = "0";
+            this.leather.AutoSize = true;
+            this.leather.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.leather.Location = new System.Drawing.Point(21, 413);
+            this.leather.Name = "leather";
+            this.leather.Size = new System.Drawing.Size(14, 15);
+            this.leather.TabIndex = 40;
+            this.leather.Text = "0";
             // 
             // Leather_count
             // 
@@ -485,15 +486,15 @@ namespace Corsaries_by_VBUteamGKMI.View
             this.Silk_value.TabIndex = 46;
             this.Silk_value.Text = "none";
             // 
-            // label35
+            // shilk
             // 
-            this.label35.AutoSize = true;
-            this.label35.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.label35.Location = new System.Drawing.Point(21, 469);
-            this.label35.Name = "label35";
-            this.label35.Size = new System.Drawing.Size(14, 15);
-            this.label35.TabIndex = 45;
-            this.label35.Text = "0";
+            this.shilk.AutoSize = true;
+            this.shilk.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.shilk.Location = new System.Drawing.Point(21, 469);
+            this.shilk.Name = "shilk";
+            this.shilk.Size = new System.Drawing.Size(14, 15);
+            this.shilk.TabIndex = 45;
+            this.shilk.Text = "0";
             // 
             // Silk_count
             // 
@@ -525,12 +526,22 @@ namespace Corsaries_by_VBUteamGKMI.View
             // btn_get_loot
             // 
             this.btn_get_loot.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.btn_get_loot.Location = new System.Drawing.Point(105, 526);
+            this.btn_get_loot.Location = new System.Drawing.Point(21, 526);
             this.btn_get_loot.Name = "btn_get_loot";
-            this.btn_get_loot.Size = new System.Drawing.Size(194, 29);
+            this.btn_get_loot.Size = new System.Drawing.Size(172, 29);
             this.btn_get_loot.TabIndex = 47;
             this.btn_get_loot.Text = "Ограбить!";
             this.btn_get_loot.UseVisualStyleBackColor = true;
+            // 
+            // select_all_btn
+            // 
+            this.select_all_btn.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.select_all_btn.Location = new System.Drawing.Point(247, 526);
+            this.select_all_btn.Name = "select_all_btn";
+            this.select_all_btn.Size = new System.Drawing.Size(168, 29);
+            this.select_all_btn.TabIndex = 48;
+            this.select_all_btn.Text = "Выбрать всё";
+            this.select_all_btn.UseVisualStyleBackColor = true;
             // 
             // Get_Loot_View
             // 
@@ -538,55 +549,56 @@ namespace Corsaries_by_VBUteamGKMI.View
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(429, 567);
+            this.Controls.Add(this.select_all_btn);
             this.Controls.Add(this.btn_get_loot);
             this.Controls.Add(this.Silk_value);
-            this.Controls.Add(this.label35);
+            this.Controls.Add(this.shilk);
             this.Controls.Add(this.Silk_count);
             this.Controls.Add(this.label37);
             this.Controls.Add(this.Silk_bar);
             this.Controls.Add(this.Leather_value);
-            this.Controls.Add(this.label31);
+            this.Controls.Add(this.leather);
             this.Controls.Add(this.Leather_count);
             this.Controls.Add(this.label33);
             this.Controls.Add(this.Leather_bar);
             this.Controls.Add(this.Tobacco_value);
-            this.Controls.Add(this.label27);
+            this.Controls.Add(this.tobacco);
             this.Controls.Add(this.Tobacco_count);
             this.Controls.Add(this.label29);
             this.Controls.Add(this.Tobacco_bar);
             this.Controls.Add(this.Rum_value);
-            this.Controls.Add(this.label23);
+            this.Controls.Add(this.rum);
             this.Controls.Add(this.Rum_count);
             this.Controls.Add(this.label25);
             this.Controls.Add(this.Rum_bar);
             this.Controls.Add(this.Coffee_value);
-            this.Controls.Add(this.label19);
+            this.Controls.Add(this.coffee);
             this.Controls.Add(this.Coffee_count);
             this.Controls.Add(this.label21);
             this.Controls.Add(this.Coffee_bar);
             this.Controls.Add(this.Wood_value);
-            this.Controls.Add(this.label15);
+            this.Controls.Add(this.wood);
             this.Controls.Add(this.Wood_count);
             this.Controls.Add(this.label17);
             this.Controls.Add(this.Wood_bar);
             this.Controls.Add(this.Food_value);
-            this.Controls.Add(this.label11);
+            this.Controls.Add(this.food);
             this.Controls.Add(this.Food_count);
             this.Controls.Add(this.label13);
             this.Controls.Add(this.Food_bar);
             this.Controls.Add(this.Water_value);
-            this.Controls.Add(this.label7);
+            this.Controls.Add(this.water);
             this.Controls.Add(this.Water_count);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.Water_bar);
             this.Controls.Add(this.Money_value);
-            this.Controls.Add(this.label4);
+            this.Controls.Add(this.qqq);
             this.Controls.Add(this.Money_count);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.Money_bar);
             this.Controls.Add(this._capacity_txt);
             this.Controls.Add(this.label1);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "Get_Loot_View";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Добыча";
@@ -602,48 +614,49 @@ namespace Corsaries_by_VBUteamGKMI.View
         private System.Windows.Forms.HScrollBar Money_bar;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label Money_count;
-        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label qqq;
         private System.Windows.Forms.Label Money_value;
         private System.Windows.Forms.Label Water_value;
-        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label water;
         private System.Windows.Forms.Label Water_count;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.HScrollBar Water_bar;
         private System.Windows.Forms.Label Food_value;
-        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Label food;
         private System.Windows.Forms.Label Food_count;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.HScrollBar Food_bar;
         private System.Windows.Forms.Label Wood_value;
-        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.Label wood;
         private System.Windows.Forms.Label Wood_count;
         private System.Windows.Forms.Label label17;
         private System.Windows.Forms.HScrollBar Wood_bar;
         private System.Windows.Forms.Label Coffee_value;
-        private System.Windows.Forms.Label label19;
+        private System.Windows.Forms.Label coffee;
         private System.Windows.Forms.Label Coffee_count;
         private System.Windows.Forms.Label label21;
         private System.Windows.Forms.HScrollBar Coffee_bar;
         private System.Windows.Forms.Label Rum_value;
-        private System.Windows.Forms.Label label23;
+        private System.Windows.Forms.Label rum;
         private System.Windows.Forms.Label Rum_count;
         private System.Windows.Forms.Label label25;
         private System.Windows.Forms.HScrollBar Rum_bar;
         private System.Windows.Forms.Label Tobacco_value;
-        private System.Windows.Forms.Label label27;
+        private System.Windows.Forms.Label tobacco;
         private System.Windows.Forms.Label Tobacco_count;
         private System.Windows.Forms.Label label29;
         private System.Windows.Forms.HScrollBar Tobacco_bar;
         private System.Windows.Forms.Label Leather_value;
-        private System.Windows.Forms.Label label31;
+        private System.Windows.Forms.Label leather;
         private System.Windows.Forms.Label Leather_count;
         private System.Windows.Forms.Label label33;
         private System.Windows.Forms.HScrollBar Leather_bar;
         private System.Windows.Forms.Label Silk_value;
-        private System.Windows.Forms.Label label35;
+        private System.Windows.Forms.Label shilk;
         private System.Windows.Forms.Label Silk_count;
         private System.Windows.Forms.Label label37;
         private System.Windows.Forms.HScrollBar Silk_bar;
         private System.Windows.Forms.Button btn_get_loot;
+        private System.Windows.Forms.Button select_all_btn;
     }
 }
