@@ -287,6 +287,7 @@ namespace Corsaries_by_VBUteamGKMI
                     else
                         Exit();
                 }
+                _seaports.ForEach(i => i.SetPortState());
             }
         }
         // обновленние данных при состояние игры игровой мир
@@ -400,7 +401,7 @@ namespace Corsaries_by_VBUteamGKMI
                 // рисуем координаты
                 if (_myShip != null)
                 {
-                    _spriteBatch.DrawString(_coordinates, $" X:{(int)_myShip._position.X} Y:{(int)_myShip._position.Y}",
+                    _spriteBatch.DrawString(_coordinates, $" X:{(int)_myShip._position.X} Y:{ (int)_myShip._position.Y}",
                          _coordinates_pos, new Color(0, 0, 0));
                     string data = $"{_gameTime.Day}:{_gameTime.Month}:{_gameTime.Year}";
                     if (_gameTime.Day < 10)
@@ -410,8 +411,7 @@ namespace Corsaries_by_VBUteamGKMI
                     if (_gameTime.Day < 10 && _gameTime.Day < 10)
                         data = $"0{_gameTime.Day}:0{_gameTime.Month}:{_gameTime.Year}";
 
-                    _spriteBatch.DrawString(_sprite_gameTime, data, _sprite_gameTime_pos, new Color(0, 0, 0));
-                    //_spriteBatch.Draw(Content.Load<Texture2D>("frame"), _coordinates_pos, Color.White);
+                    _spriteBatch.DrawString(_sprite_gameTime, data, _sprite_gameTime_pos, new Color(0, 0, 0));                  
                 }
             }
             
@@ -612,8 +612,9 @@ namespace Corsaries_by_VBUteamGKMI
             if ( IsEndBattle(_enemyShip._current_hp)|| IsEndBattle(_enemyShip._captain._current_hp))
             {
                 _nps.Remove(_enemyShip);
-                MessageBox.Show($"Это ПОБЕДА над {_enemyShip._name}", "Открывай ром!!!",new List<string>() { "ОК"});              
-                rez= true;
+                MessageBox.Show($"Это ПОБЕДА над {_enemyShip._name}", "Открывай ром!!!",new List<string>() { "ОК"});
+                new Get_Loot_View(_myShip, _enemyShip).ShowDialog();
+                rez = true;
             }
          
             if (IsEndBattle(_myShip._current_hp)|| IsEndBattle(_myShip._captain._current_hp))
@@ -638,8 +639,7 @@ namespace Corsaries_by_VBUteamGKMI
             if (R_ship.Intersects(nps))
             {
                 try { 
-                    new Abordage_Form(My_ship, Enemy_ship).ShowDialog();
-                    new Get_Loot_View(My_ship, Enemy_ship).ShowDialog();
+                    new Abordage_Form(My_ship, Enemy_ship).ShowDialog();                  
                 }
                 catch (Exception ex) { throw ex; }
                 

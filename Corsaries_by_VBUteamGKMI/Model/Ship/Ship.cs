@@ -36,7 +36,7 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
         public List<Sailor> _sailors = new List<Sailor>(); // колекция моряков
         #region параметры именяемые от типа корабля
         public string _name; // имя корабля
-        public int _price =5; // цена корабля
+        public int _price; // цена корабля
         public int _current_count_sailors = 0; // текущее количество матросов
         public int _max_count_sailors; // максимальное количество матросов
         public int _max_capacity; //  вместимость
@@ -198,6 +198,7 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
             {
                 case Ship_type.Boat: // шлюшка
                     _name = "Шлюпка";
+                    _price = 5000;
                     _max_capacity = 350; // всестимость
                     _max_hp = 500; // максимальное количество здоровья 
                     _speed = 0.25f; // скорость               
@@ -208,6 +209,7 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
                     break;
                 case Ship_type.Schooner:
                     _name = "Шхуна";
+                    _price = 10000;
                     _max_capacity = 650; // всестимость
                     _max_hp = 1000; // максимальное количество здоровья 
                     _speed = 0.5f; // скорость               
@@ -217,6 +219,7 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
                     _dodge_chance = 30; // шанс уворота в процентах
                     break;
                 case Ship_type.Caravel:
+                    _price = 15000;
                     _name = "Каравелла";
                     _max_capacity = 800; // всестимость
                     _max_hp = 2000; // максимальное количество здоровья 
@@ -228,6 +231,7 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
                     break;
                 case Ship_type.Brig:
                     _name = "Бриг";
+                    _price = 25000;
                     _max_capacity = 950; // всестимость
                     _max_hp = 2300; // максимальное количество здоровья 
                     _speed = 0.75f; // скорость               
@@ -237,6 +241,7 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
                     _dodge_chance = 20; // шанс уворота в процентах
                     break;
                 case Ship_type.Frigate:
+                    _price = 40000;
                     _name = "Фрегат";
                     _max_capacity = 1250; // всестимость
                     _max_hp = 4000; // максимальное количество здоровья 
@@ -247,6 +252,7 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
                     _dodge_chance = 20; // шанс уворота в процентах
                     break;
                 case Ship_type.Galleon:
+                    _price = 65000;
                     _name = "Галеон";
                     _max_capacity = 1550; // всестимость
                     _max_hp = 6500; // максимальное количество здоровья 
@@ -257,6 +263,7 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
                     _dodge_chance = 15; // шанс уворота в процентах
                     break;
                 case Ship_type.Corvette:
+                    _price = 100000;
                     _name = "Корвет";
                     _max_capacity = 1250; // всестимость
                     _max_hp = 6700; // максимальное количество здоровья 
@@ -267,6 +274,7 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
                     _dodge_chance = 40; // шанс уворота в процентах
                     break;
                 case Ship_type.Battleship:
+                    _price = 200000;
                     _name = "Линкор";
                     _max_capacity = 2200; // всестимость
                     _max_hp = 10000; // максимальное количество здоровья 

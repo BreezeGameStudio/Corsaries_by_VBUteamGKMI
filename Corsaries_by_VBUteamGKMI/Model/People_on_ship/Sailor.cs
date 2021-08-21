@@ -29,7 +29,7 @@ namespace Corsaries_by_VBUteamGKMI.Model.People_on_ship
                     _deff_boost = 0.1;
                     _dodge_boost = 0.1;
                     _critical_boost = 0.15;
-                    _price = 1;
+                    _price = 100;
                     _food_consumption = 1;
                     break;
                 case Sailor_type.Experienced:
@@ -39,7 +39,7 @@ namespace Corsaries_by_VBUteamGKMI.Model.People_on_ship
                     _deff_boost = 0.2;
                     _dodge_boost = 0.2;
                     _critical_boost = 0.2;
-                    _price = 2;
+                    _price = 300;
                     _food_consumption = 2;
                     break;
                 case Sailor_type.Sea_wolf:
@@ -49,7 +49,7 @@ namespace Corsaries_by_VBUteamGKMI.Model.People_on_ship
                     _deff_boost = 0.3;
                     _dodge_boost = 0.3;
                     _critical_boost = 0.3;
-                    _price = 3;
+                    _price = 900;
                     _food_consumption = 3;
                     break;
             }

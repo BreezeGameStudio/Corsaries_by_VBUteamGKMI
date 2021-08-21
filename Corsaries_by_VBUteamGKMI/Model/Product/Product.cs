@@ -54,7 +54,7 @@ namespace Corsaries_by_VBUteamGKMI.Model.Products
                     break;
                 case Product_type.Wood:
                     _name = "Дерево";
-                    _weight = 25;
+                    _weight = 20;
                     _price = 20;
                     
 
@@ -69,7 +69,7 @@ namespace Corsaries_by_VBUteamGKMI.Model.Products
                 case Product_type.Coffee:
                     _name = "Коффе";
                     _weight = 7;
-                    _price = 15;
+                    _price = 20;
                     
 
                     break;
