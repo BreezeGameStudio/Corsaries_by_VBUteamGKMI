@@ -281,6 +281,7 @@ namespace Corsaries_by_VBUteamGKMI
                     else
                         Exit();
                 }
+                _seaports.ForEach(i => i.SetPortState());
             }
         }
         // обновленние данных при состояние игры игровой мир
@@ -404,8 +405,7 @@ namespace Corsaries_by_VBUteamGKMI
                     if (_gameTime.Day < 10 && _gameTime.Day < 10)
                         data = $"0{_gameTime.Day}:0{_gameTime.Month}:{_gameTime.Year}";
 
-                    _spriteBatch.DrawString(_sprite_gameTime, data, _sprite_gameTime_pos, new Color(0, 0, 0));
-                    //_spriteBatch.Draw(Content.Load<Texture2D>("frame"), _coordinates_pos, Color.White);
+                    _spriteBatch.DrawString(_sprite_gameTime, data, _sprite_gameTime_pos, new Color(0, 0, 0));                  
                 }
             }
             

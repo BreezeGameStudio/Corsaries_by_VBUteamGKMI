@@ -19,13 +19,9 @@ namespace Corsaries_by_VBUteamGKMI.View
         public Cannon _temp_cannon;
         public Seaport _seaport;      
         public int _loot_capacity = 0; // текущее вес награбленого
-        public int _count_new_sailors = 0; //количество новых матросов
-        public int _price_1hp_cap; // цена за единицу выличеного хп
+        public int _count_new_sailors = 0; //количество новых матросов    
         public int _loot_price; // текущая цена награбленого
-        public int _sailor_price; // текущая цена всех матросов
-        public int _price_1_unga; // цена 1го юнгу
-        public int _price_1_Experienced; // цена 1го бывалого
-        public int _price_1_Sea_wolf; // цена 1го морского волка
+        public int _sailor_price; // текущая цена всех матросовa      
         Product my_rum, port_rum, my_Silk, port_Silk, my_Water,
             port_Water, my_Food, port_Food, my_Leather, port_Leather,
             my_Wood, port_Wood, my_Tobacco, port_Tobacco, my_Coffee, port_Coffee;
@@ -38,10 +34,7 @@ namespace Corsaries_by_VBUteamGKMI.View
            
             _ship = ship;
             _seaport = seaport;
-            _price_1hp_cap = seaport._price_1hp_cap;// цена за единицу выличеного хп
-            _price_1_unga = seaport._price_1_unga; // цена 1го юнгу
-            _price_1_Experienced = seaport._price_1_Experienced; // цена 1го бывалого
-            _price_1_Sea_wolf = seaport._price_1_Sea_wolf; // цена 1го морского волка
+            
 
             _temp_ship = new MyShip(_ship._ship_type, _ship._cannon._cunnon_type);
             _temp_cannon = new Cannon(_temp_ship._ship_type,_temp_ship._cannon._cunnon_type);
@@ -290,31 +283,31 @@ namespace Corsaries_by_VBUteamGKMI.View
             cap_hp_bar.Minimum = 0;
             cap_hp_bar.Maximum = _ship._captain._max_hp;
             cap_hp_bar.Value = _ship._captain._current_hp;
-            price_1hp.Text = $"{_price_1hp_cap} зотолых";
+            price_1hp.Text = $"{_seaport._price_1hp_cap} зотолых";
             scrol_hp.LargeChange = 1;
             scrol_hp.Minimum = 0;
             scrol_hp.Maximum = _ship._captain._max_hp- _ship._captain._current_hp;
             scrol_hp.Value = 0;
             scrol_hp.Scroll += Scrol_hp_Scroll;
-            price_helth.Text = $"{scrol_hp.Value * _price_1hp_cap}/{_ship._captain._money}";
+            price_helth.Text = $"{scrol_hp.Value * _seaport._price_1hp_cap}/{_ship._captain._money}";
             helth_hp.Text = $"{scrol_hp.Value} из {scrol_hp.Maximum}";
         }
 
         private void Helth_btn_Click(object sender, EventArgs e)
         {
-            if (scrol_hp.Value * _price_1hp_cap > _ship._captain._money)
+            if (scrol_hp.Value * _seaport._price_1hp_cap > _ship._captain._money)
             {
                 MessageBox.Show("Маловато золотишка =(", "ПРОСТИ!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            _ship._captain.SpendMoney(scrol_hp.Value * _price_1hp_cap);
+            _ship._captain.SpendMoney(scrol_hp.Value * _seaport._price_1hp_cap);
             _ship._captain._current_hp += scrol_hp.Value;
             SetSettingHospital();
         }
 
         private void Scrol_hp_Scroll(object sender, ScrollEventArgs e)
         {
-            price_helth.Text = $"{scrol_hp.Value * _price_1hp_cap}/{_ship._captain._money}";
+            price_helth.Text = $"{scrol_hp.Value * _seaport._price_1hp_cap}/{_ship._captain._money}";
             helth_hp.Text = $"{scrol_hp.Value} из {scrol_hp.Maximum}";
         }
         #endregion

@@ -10,7 +10,7 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
         public string _name;// имя пушки
        public Cannon_type _cunnon_type; // тип пушки 
         public int _damage; // урон пушки
-        public int _price =10; // цена пушки
+        public int _price; // цена пушки
         public int _speed; // скорость снаряда
         public int _range ;// дальность полёта
         public Cannon(Ship_type ship_Type, Cannon_type cunnon_Type) => Set_Cunnon_Type(ship_Type, cunnon_Type);
@@ -29,7 +29,8 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
                 case Ship_type.Boat:
                     switch (_cunnon_type)
                     {
-                        case Cannon_type.small:                         
+                        case Cannon_type.small:
+                            _price = 1000;
                             _damage = 10;
                             _speed = 4;
                             _range = 20;
@@ -37,11 +38,13 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
                             break;
                         case Cannon_type.medium:                          
                             _damage = 20;
+                            _price = 3000;
                             _speed = 4;
                             _range = 25;
 
                             break;
-                        case Cannon_type.big:                        
+                        case Cannon_type.big:
+                            _price = 5000;
                             _damage = 30;
                             _speed = 4;
                             _range = 25;
@@ -53,18 +56,21 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
                     switch (cunnon_Type)
                     {
                         case Cannon_type.small:
+                            _price = 5000;
                             _damage = 40;
                             _speed = 4;
                             _range = 25;
 
                             break;
                         case Cannon_type.medium:
+                            _price = 7000;
                             _damage = 50;
                             _speed = 5;
                             _range = 25;
 
                             break;
                         case Cannon_type.big:
+                            _price = 10000;
                             _damage = 60;
                             _speed = 5;
                             _range = 25;
@@ -76,18 +82,21 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
                     switch (cunnon_Type)
                     {
                         case Cannon_type.small:
+                            _price = 10000;
                             _damage = 70;
                             _speed = 5;
                             _range = 27;
 
                             break;
                         case Cannon_type.medium:
+                            _price = 13000;
                             _damage = 80;
                             _speed = 5;
                             _range = 27;
 
                             break;
                         case Cannon_type.big:
+                            _price = 15000;
                             _damage = 90;
                             _speed = 5;
                             _range = 27;
@@ -99,18 +108,21 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
                     switch (cunnon_Type)
                     {
                         case Cannon_type.small:
+                            _price = 15000;
                             _damage = 100;
                             _speed = 6;
                             _range = 30;
 
                             break;
                         case Cannon_type.medium:
+                            _price = 20000;
                             _damage = 110;
                             _speed = 6;
                             _range = 30;
 
                             break;
                         case Cannon_type.big:
+                            _price = 25000;
                             _damage = 120;
                             _speed = 6;
                             _range = 30;
@@ -122,18 +134,21 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
                     switch (cunnon_Type)
                     {
                         case Cannon_type.small:
+                            _price = 25000;
                             _damage = 130;
                             _speed = 6;
                             _range = 30;
 
                             break;
                         case Cannon_type.medium:
+                            _price = 35000;
                             _damage = 140;
                             _speed = 6;
                             _range = 30;
 
                             break;
                         case Cannon_type.big:
+                            _price = 40000;
                             _damage = 150;
                             _speed = 6;
                             _range = 30;
@@ -145,18 +160,21 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
                     switch (cunnon_Type)
                     {
                         case Cannon_type.small:
+                            _price = 40000;
                             _damage = 160;
                             _speed = 7;
                             _range = 35;
 
                             break;
                         case Cannon_type.medium:
+                            _price = 55000;
                             _damage = 170;
                             _speed = 7;
                             _range = 35;
 
                             break;
                         case Cannon_type.big:
+                            _price = 65000;
                             _damage = 180;
                             _speed = 7;
                             _range = 35;
@@ -168,18 +186,21 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
                     switch (cunnon_Type)
                     {
                         case Cannon_type.small:
+                            _price = 65000;
                             _damage = 190;
                             _speed = 7;
                             _range = 35;
 
                             break;
                         case Cannon_type.medium:
+                            _price = 85000;
                             _damage = 200;
                             _speed = 7;
                             _range = 35;
 
                             break;
                         case Cannon_type.big:
+                            _price = 100000;
                             _damage = 210;
                             _speed = 7;
                             _range = 35;
@@ -191,18 +212,21 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
                     switch (cunnon_Type)
                     {
                         case Cannon_type.small:
+                            _price = 100000;
                             _damage = 220;
                             _speed = 8;
                             _range = 40;
 
                             break;
                         case Cannon_type.medium:
+                            _price = 150000;
                             _damage = 230;
                             _speed = 8;
                             _range = 40;
 
                             break;
                         case Cannon_type.big:
+                            _price = 250000;
                             _damage = 240;
                             _speed = 8;
                             _range = 40;
