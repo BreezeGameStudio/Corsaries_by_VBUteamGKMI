@@ -8,6 +8,7 @@ using System.Threading;
 using System.Media;
 using System.Windows.Forms;
 using System.Drawing.Text;
+using Corsaries_by_VBUteamGKMI.Model;
 
 namespace Corsaries_by_VBUteamGKMI.View
 {
@@ -94,18 +95,16 @@ namespace Corsaries_by_VBUteamGKMI.View
 
         private void Play_btn_Click(object sender, EventArgs e)
         {
-            this.DialogResult = DialogResult.Abort;
+            this.DialogResult = DialogResult.OK;
             player.Stop();
             this.Close();     
         }
 
         private void Continue_btn_Click(object sender, EventArgs e)
         {
-            OpenFileDialog dialog = new OpenFileDialog();
-            if (dialog.ShowDialog() == DialogResult.OK)
-            {
-                
-            }
+            this.DialogResult = DialogResult.Yes;
+            this.Close();
+            
         }
 
         private void Exit_btn_Click(object sender, EventArgs e)

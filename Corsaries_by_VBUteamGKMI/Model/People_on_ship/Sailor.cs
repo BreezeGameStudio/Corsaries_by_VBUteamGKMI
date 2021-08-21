@@ -17,6 +17,12 @@ namespace Corsaries_by_VBUteamGKMI.Model.People_on_ship
         public int _food_consumption { get; set; } // количество потребляемой провизии
         public int _price { get; set; }// цена за матроса
         public int _count = 0; // доступное количество
+
+        private Sailor()
+        {
+
+        }
+
         public Sailor(Sailor_type sailor_Type)
         {
             _sailor_Type = sailor_Type;
@@ -53,6 +59,27 @@ namespace Corsaries_by_VBUteamGKMI.Model.People_on_ship
                     _food_consumption = 3;
                     break;
             }
+        }
+
+        public override string ToString()
+        {
+            return $"{_sailor_Type},{_name},{_hp_boost},{_damag_boost},{_deff_boost},{_dodge_boost},{_critical_boost},{_food_consumption},{_price},{_count}";
+        }
+
+        public static Sailor FromString(string data)
+        {
+            Sailor sailor = new Sailor();
+            sailor._sailor_Type = (Sailor_type)Enum.Parse(typeof(Sailor_type), data.Split(',')[0]);
+            sailor._name = data.Split(',')[1];
+            sailor._hp_boost = int.Parse(data.Split(',')[2]);
+            sailor._damag_boost = double.Parse(data.Split(',')[3]);
+            sailor._deff_boost = double.Parse(data.Split(',')[4]);
+            sailor._dodge_boost = double.Parse(data.Split(',')[5]);
+            sailor._critical_boost = double.Parse(data.Split(',')[6]);
+            sailor._food_consumption = int.Parse(data.Split(',')[7]);
+            sailor._price = int.Parse(data.Split(',')[8]);
+            sailor._count = int.Parse(data.Split(',')[9]);
+            return sailor;
         }
     }
 }

@@ -12,6 +12,12 @@ namespace Corsaries_by_VBUteamGKMI.Model.Products
         public int _weight; // вес продукта
         public int _price; // цена продукта
         public int _count =0; // доступное количество
+
+        private Product()
+        {
+
+        }
+
         public Product(Product_type product_Type)
         {
             _product_Type = product_Type;
@@ -74,6 +80,22 @@ namespace Corsaries_by_VBUteamGKMI.Model.Products
 
                     break;
             }
+        }
+
+        public override string ToString()
+        {
+            return $"{_product_Type},{_name},{_weight},{_price},{_count}";
+        }
+
+        public static Product FromString(string data)
+        {
+            Product product = new Product();
+            product._product_Type = (Product_type)Enum.Parse(typeof(Product_type), data.Split(',')[0]);
+            product._name = data.Split(',')[1];
+            product._weight = int.Parse(data.Split(',')[2]);
+            product._price = int.Parse(data.Split(',')[3]);
+            product._count = int.Parse(data.Split(',')[4]);
+            return product;
         }
     }
 }

@@ -236,7 +236,21 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
                     break;
             }
         }
-       
+
+        public override string ToString()
+        {
+            return $"{_name},{_cunnon_type},{_damage},{_price},{_speed},{_range}";
+        }
+
+        public void FromString(string data)
+        {
+            _name = data.Split(',')[0];
+            _cunnon_type = (Cannon_type)Enum.Parse(typeof(Cannon_type),data.Split(',')[1]);
+            _damage = int.Parse(data.Split(',')[2]);
+            _price = int.Parse(data.Split(',')[3]);
+            _speed = int.Parse(data.Split(',')[4]);
+            _range = int.Parse(data.Split(',')[5]);
+        }
     }
 }
    

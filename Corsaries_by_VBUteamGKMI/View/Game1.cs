@@ -1,4 +1,6 @@
 ﻿using Corsaries_by_VBUteamGKMI.Model;
+using Corsaries_by_VBUteamGKMI.Model.People_on_ship;
+using Corsaries_by_VBUteamGKMI.Model.Products;
 using Corsaries_by_VBUteamGKMI.Model.Ship;
 using Corsaries_by_VBUteamGKMI.View;
 using Microsoft.Xna.Framework;
@@ -16,6 +18,7 @@ namespace Corsaries_by_VBUteamGKMI
     public class Game1 : Game
     {
         // переменная для хранения игровой даты
+        Save _current_save = null;
         DateTime _gameTime = new DateTime(1500, 1, 1);
         SpriteFont _sprite_gameTime; // игровая дата спрайт
         Vector2 _sprite_gameTime_pos; //игровая дата  позиция
@@ -66,6 +69,10 @@ namespace Corsaries_by_VBUteamGKMI
             _timer.Tick += _timer_Tick; // событие тика
             _timer.Start();
 
+            auto_saver.Interval = 10000;
+            auto_saver.Tick += Auto_saver_Tick;
+            auto_saver.Start();
+
             // инициализируем камеру
             _camera.Pos = new Vector2(500.0f, 200.0f);
 
@@ -74,6 +81,38 @@ namespace Corsaries_by_VBUteamGKMI
             //
             _graphics.PreferredBackBufferHeight = _size_screen.Height;
             _graphics.PreferredBackBufferWidth = _size_screen.Width;
+        }
+
+        public Game1(Save current_save)
+        {
+            _current_save = current_save;
+            _game_state = Game_Sate.In_World;
+            _graphics = new GraphicsDeviceManager(this);
+            Content.RootDirectory = "Content"; // директория закачки контента
+            IsMouseVisible = true; // видимость мышки
+                                   // таймер 
+            _timer.Interval = 3000;// раз в 10 сек
+            _timer.Tick += _timer_Tick; // событие тика
+            _timer.Start();
+
+            auto_saver.Interval = 10000;
+            auto_saver.Tick += Auto_saver_Tick;
+            auto_saver.Start();
+
+            // инициализируем камеру
+            _camera.Pos = new Vector2(500.0f, 200.0f);
+
+            // задаём размер игрового окна с отступами        
+            _graphics.IsFullScreen = false;
+            //
+            _graphics.PreferredBackBufferHeight = _size_screen.Height;
+            _graphics.PreferredBackBufferWidth = _size_screen.Width;
+        }
+
+        private void Auto_saver_Tick(object sender, EventArgs e)
+        {
+            Save save = new Save(_myShip,_gameTime);
+            save.Save_Progress();
         }
 
         // тик таймера изменение движения нпс
@@ -112,7 +151,40 @@ namespace Corsaries_by_VBUteamGKMI
             {
                 _seaports.Add(new Seaport(Content, $"port_{random.Next(1, 4)}", item));
             }
-            _myShip = new MyShip(Ship_type.Corvette, Content, 1000, 1000);
+            if(_current_save == null)
+            {
+                _myShip = new MyShip(Ship_type.Boat, Content, 500, 500);
+            }
+            else
+            {
+                _myShip = new MyShip(Ship_type.Boat, Content, 500, 500);
+                _myShip._captain.FromString(_current_save.captain);
+                _myShip._ship_type = _current_save.ship_type;
+                _myShip._products.Clear();
+                foreach (var item in _current_save.products)
+                {
+                    _myShip._products.Add(Product.FromString(item));
+                }
+                _myShip._sailors.Clear();
+                foreach (var item in _current_save.sailors)
+                {
+                    _myShip._sailors.Add(Sailor.FromString(item));
+                }
+                _myShip._name = _current_save.name;
+                _myShip._price = _current_save.price;
+                _myShip._current_count_sailors = _current_save.current_count_sailors;
+                _myShip._max_count_sailors = _current_save.max_count_sailors;
+                _myShip._max_capacity = _current_save.max_capacity;
+                _myShip._max_hp = _current_save.max_hp;
+                _myShip._current_hp = _current_save.current_hp;
+                _myShip._speed = _current_save.speed;
+                _myShip._cannon.FromString(_current_save.cannon);
+                _myShip._count_cannon = _current_save.count_cannon;
+                _myShip._protection = _current_save.protection;
+                _myShip._dodge_chance = _current_save.dodge_chance;
+                _myShip._position = new Vector2(_current_save.position_x, _current_save.position_y);
+                _gameTime = DateTime.Parse(_current_save.gameTime);
+            }
 
             // добавляем нпс
             _nps.Clear(); //очищаем коллекцию чтобы при перезапуске не становилось больше NPS

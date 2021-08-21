@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
+using Corsaries_by_VBUteamGKMI.Model;
 using Corsaries_by_VBUteamGKMI.View;
 
 namespace Corsaries_by_VBUteamGKMI
@@ -11,25 +12,23 @@ namespace Corsaries_by_VBUteamGKMI
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Menu menu = new Menu();
-            Application.Run(menu);
-            
-            if(menu.DialogResult == DialogResult.Abort)
+            while (true)
             {
-                new Game1().Run();
-            }
-        }
+                Menu menu = new Menu();
+                Application.Run(menu);
 
-        public static void Run_Menu()
-        {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Menu menu = new Menu();
-            Application.Run(menu);
-
-            if (menu.DialogResult == DialogResult.None)
-            {
-                new Game1().Run();
+                if (menu.DialogResult == DialogResult.OK)
+                {
+                    new Game1().Run();
+                }
+                else if(menu.DialogResult == DialogResult.Yes)
+                {
+                    new Game1(Save.Load_Progress()).Run();
+                }
+                else
+                {
+                    break;
+                }
             }
         }
     }

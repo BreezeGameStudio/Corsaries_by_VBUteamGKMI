@@ -10,7 +10,7 @@ using Corsaries_by_VBUteamGKMI.Model.People_on_ship;
 namespace Corsaries_by_VBUteamGKMI.Model.Ship
 {
     
-    public partial class MyShip : Ship
+    public partial class MyShip : Ship, IDisposable
     {
         public const int _max_count_warning = 3;
         public int _current_count_warning = 0;
@@ -23,10 +23,10 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
         {
           _position = new Vector2(x_pos , y_pos);          
             //тест капитана 
-            AddSailors(Sailor_type.Sea_wolf, 40);
-            AddProducts(Product_type.Food, 120);
-            AddProducts(Product_type.Water, 120);
-            AddProducts(Product_type.Rum, 120);
+            AddSailors(Sailor_type.Jung, 3);
+            AddProducts(Product_type.Food, 30);
+            AddProducts(Product_type.Water, 30);
+            AddProducts(Product_type.Rum, 30);
             _captain = new Captain(_sailors, 300);
 
         }      
@@ -222,6 +222,11 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
             }
         }
         #endregion
+
+        public void Dispose()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
 

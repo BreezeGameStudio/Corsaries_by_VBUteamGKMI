@@ -48,5 +48,21 @@ namespace Corsaries_by_VBUteamGKMI.Model.People_on_ship
         // методы денег
         public void AddMoney( int count) => _money+= count;
         public void SpendMoney( int count) => _money-= count;
+
+        public override string ToString()
+        {
+            return $"{_money},{_current_hp},{_max_hp},{_damag},{_deff},{_dodge},{_critical}";
+        }
+
+        public void FromString(string data)
+        {
+            _money = int.Parse(data.Split(',')[0]);
+            _current_hp = int.Parse(data.Split(',')[1]);
+            _max_hp = int.Parse(data.Split(',')[2]);
+            _damag = int.Parse(data.Split(',')[3]);
+            _deff = int.Parse(data.Split(',')[4]);
+            _dodge = int.Parse(data.Split(',')[5]);
+            _critical = int.Parse(data.Split(',')[6]);
+        }
     }
 }
