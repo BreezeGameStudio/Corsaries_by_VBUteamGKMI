@@ -14,6 +14,9 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
     {
         public const int _max_count_warning = 3;
         public int _current_count_warning = 0;
+        // конструктор для создания пустышки
+        public MyShip(Ship_type ship_Type, Cannon_type cannon_Type) : base(ship_Type, cannon_Type) { }
+
         public MyShip(Ship_type ship_Type,
             Microsoft.Xna.Framework.Content.ContentManager content,
             float x_pos,float y_pos) : base(ship_Type, content)
@@ -23,7 +26,8 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
             AddSailors(Sailor_type.Sea_wolf, 40);
             AddProducts(Product_type.Food, 120);
             AddProducts(Product_type.Water, 120);
-            _captain = new Captain(_sailors,300);
+            AddProducts(Product_type.Rum, 120);
+            _captain = new Captain(_sailors, 300);
 
         }      
 

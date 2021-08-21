@@ -233,6 +233,8 @@ namespace Corsaries_by_VBUteamGKMI
             _game_ground = new Game_ground(_game_ground_X_Y, _game_ground_X_Y);
             // задаём состояние игры
             _game_state = Game_Sate.In_World;
+            //запускаем таймер игрового времени
+            _gameTime_timer.Start();
         }
         // установка стостояния игры в битве
         public void Set_In_Battle_GS()
@@ -251,6 +253,8 @@ namespace Corsaries_by_VBUteamGKMI
             // чистим снаряды
             _enemy_cannonballs.Clear();
             _my_cannonballs.Clear();
+            //останавливаем таймер игрового времени
+            _gameTime_timer.Stop();
 
         }
 
@@ -295,6 +299,9 @@ namespace Corsaries_by_VBUteamGKMI
             // проверка столкнованеий моего корабля с островом
             if (Collision_island(_myShip))
                 _myShip.Step_Back_Position(); // возвращение к старой позиции при столкновениее
+            // проверка столкнованеий моего корабля с Морскими портами
+            Collision_seaport(_myShip);
+           
             // проверка столкноваений НПС с островами
             foreach (var item in _nps)
             {
@@ -333,6 +340,45 @@ namespace Corsaries_by_VBUteamGKMI
             _nps.ForEach(i => i.Move_Random());
             
         }
+        // метод столкновения с морскими портами
+        private void Collision_seaport(Ship ship)
+        {
+            if (ship._activity)
+            {
+                //создаём прямоугольник корабля 
+                Rectangle R_ship = new Rectangle((int)ship._position.X, (int)ship._position.Y,
+                   ship._current_sprite.Width, ship._current_sprite.Height);
+                foreach (var item in _seaports)
+                {
+                    //создаём прямоугольник порта 
+                    Rectangle R_seaport = new Rectangle((int)item._position.X, (int)item._position.Y,
+                           item._current_sprite.Width, item._current_sprite.Height);
+                    //бежим по колекции островов и проверяем на столкновение
+                    if (R_ship.Intersects(R_seaport))
+                    {
+                        // коллекция вопросов при столкновении
+                        List<string> questions = new List<string> { "Причалить", "Уплыть" };
+                        int answer;
+                        answer = MessageBox.Show("Земля!!!", "Выбирете действие", questions).Result.Value;
+                        if (answer == 1)//если мы не хотим причаливать
+                        {
+                            ship._activity = false;
+                            ship._timer_activity.Start();
+                           
+                        }
+                        else 
+                        {
+                            _gameTime_timer.Stop(); // остановим время
+                            Enter_Seaport(ship, item); // зайдем в порт
+                            ship._activity = false; // выключим активность
+                            ship._timer_activity.Start(); // запустим перезарядку активности
+                            _gameTime_timer.Start(); // запустим игровое время
+                        }
+                    }
+                }
+            }
+        }
+
         // отрисовка данных при состояние игры игровой мир
         private void In_World_Draw(GameTime gameTime)
         {
@@ -465,6 +511,8 @@ namespace Corsaries_by_VBUteamGKMI
         }
         // показать инфо о корадбях запуск формы
         private void Show_Info_Ship(Ship ship)=> new Info_Form(ship).ShowDialog();
+        // метод входа в порт
+        private void Enter_Seaport(Ship ship, Seaport seaport) => new SeaportView(ship, seaport).ShowDialog();
 
         #endregion
 
@@ -583,9 +631,12 @@ namespace Corsaries_by_VBUteamGKMI
                         Enemy_ship._current_sprite.Width + 100, Enemy_ship._current_sprite.Height + 100);
             if (R_ship.Intersects(nps))
             {
-                try { new Abordage_Form(My_ship, Enemy_ship).ShowDialog(); }
-                catch (Exception) { }
-                new Get_Loot_View(My_ship,Enemy_ship).ShowDialog();
+                try { 
+                    new Abordage_Form(My_ship, Enemy_ship).ShowDialog();
+                    new Get_Loot_View(My_ship, Enemy_ship).ShowDialog();
+                }
+                catch (Exception ex) { throw ex; }
+                
             }
            
             

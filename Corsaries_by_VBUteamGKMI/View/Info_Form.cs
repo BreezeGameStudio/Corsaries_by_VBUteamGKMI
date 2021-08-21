@@ -40,7 +40,7 @@ namespace Corsaries_by_VBUteamGKMI.View
             _ship_MATROS_count.Text = ship._current_count_sailors.ToString();
             _ship_HP_BAR.Maximum = ship._max_hp;
             _ship_HP_BAR.Value = ship._current_hp;
-            _ship_HP.Text = ship._current_hp.ToString();
+            _ship_HP.Text = $"{ship._current_hp}/{ship._max_hp}";
         }
         private void Initalize_Capitan(Ship ship)
         {
