@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Windows.Forms;
+using Corsaries_by_VBUteamGKMI.View;
 
 namespace Corsaries_by_VBUteamGKMI
 {
@@ -7,8 +9,15 @@ namespace Corsaries_by_VBUteamGKMI
         [STAThread]
         static void Main()
         {
-            using (var game = new Game1())
-                game.Run();
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+            Menu menu = new Menu();
+            Application.Run(menu);
+            
+            if(menu.DialogResult == DialogResult.None)
+            {
+                new Game1().Run();
+            }
         }
     }
 }
