@@ -28,8 +28,6 @@ namespace Corsaries_by_VBUteamGKMI
         public static List<Cannonball> _my_cannonballs = new List<Cannonball>();
         //снаряды врага
         public static List<Cannonball> _enemy_cannonballs = new List<Cannonball>();
-        System.Drawing.Color _water_colorl;
-        System.Drawing.Color _water_colorl_2;
         public Game_Sate _game_state; //состояние игры
         public static int _game_ground_X_Y = 5000; // размер карты     
         // размеры игровой карты
@@ -192,13 +190,7 @@ namespace Corsaries_by_VBUteamGKMI
             {
                 _nps.Add(new NPS_Ship((Ship_type)new Random().Next(0, 7), Content));
             }
-           
-
-            // получаем цвет воды
-            _water_colorl = GetColorWaterIsland(_islands[0], 1, 1);
-            _water_colorl_2 =  System.Drawing.Color.FromArgb(255,101,148,236);
-          
-
+    
             //  текст координат
             _coordinates = Content.Load<SpriteFont>("testtext");
             _sprite_gameTime = Content.Load<SpriteFont>("testtext");
@@ -274,9 +266,12 @@ namespace Corsaries_by_VBUteamGKMI
         }    
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.SetRenderTarget(null);
             GraphicsDevice.Clear(Color.CornflowerBlue);
             // обязательный метод начала отрисовки в который передают камеру
+            _spriteBatch.Begin(SpriteSortMode.Deferred,
+                        null, SamplerState.LinearWrap,null,null,null, _camera.get_transformation(GraphicsDevice));
+            _spriteBatch.Draw(Content.Load<Texture2D>("water"), new Vector2(0,0), new Rectangle(0, 0, _game_ground_X_Y,_game_ground_X_Y),Color.White, 0, Vector2.Zero, Vector2.One, SpriteEffects.None, 0);
+            _spriteBatch.End();
             _spriteBatch.Begin(SpriteSortMode.BackToFront,
                         BlendState.AlphaBlend, SamplerState.PointClamp, null, null, null,
                         _camera.get_transformation(GraphicsDevice));
@@ -519,9 +514,7 @@ namespace Corsaries_by_VBUteamGKMI
                         try
                         {
                             System.Drawing.Color color = GetColorWaterIsland(item, x, y);
-                            if (_water_colorl.ToArgb() != color.ToArgb()
-                           && _water_colorl_2.ToArgb() != color.ToArgb())
-                             
+                            if (color != System.Drawing.Color.FromArgb(0,0,0))
                             {
                                 
                                 collide = true;
@@ -534,7 +527,7 @@ namespace Corsaries_by_VBUteamGKMI
 
             return collide;
         }
-       // получение цвета пикселей острова для колизии с островами
+        // получение цвета пикселей острова для колизии с островами
         private System.Drawing.Color GetColorWaterIsland(Island island, int x, int y) => island._bitmap.GetPixel(x, y);
         // проверка столкновений с НПС
         protected void Collision_NPS(Ship ship)
