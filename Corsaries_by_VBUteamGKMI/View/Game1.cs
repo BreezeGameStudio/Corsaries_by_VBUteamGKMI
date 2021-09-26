@@ -93,7 +93,7 @@ namespace Corsaries_by_VBUteamGKMI
             _timer.Tick += _timer_Tick; // событие тика
             _timer.Start();
 
-            auto_saver.Interval = 10000;
+            auto_saver.Interval = 4000;
             auto_saver.Tick += Auto_saver_Tick;
             auto_saver.Start();
 
@@ -391,8 +391,8 @@ namespace Corsaries_by_VBUteamGKMI
             // даём положение координатам на экране
             if(_size_screen.Width == 1366 && _size_screen.Height == 768)
             {
-                _coordinates_pos.Y = _camera.Pos.Y - (190 * (2 / _camera.Zoom));
-                _coordinates_pos.X = _camera.Pos.X - (340 * (2 / _camera.Zoom));
+                _coordinates_pos.Y = _camera.Pos.Y - (190 * (2 / _camera.Zoom)) + 5;
+                _coordinates_pos.X = _camera.Pos.X - (340 * (2 / _camera.Zoom)) + 50;
             }
             else if(_size_screen.Width == 1920 && _size_screen.Height == 1080)
             {
@@ -460,16 +460,17 @@ namespace Corsaries_by_VBUteamGKMI
             foreach (var item in _islands)
             {
                 _spriteBatch.Draw(item._current_sprite, item._position, null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.FlipVertically, 0f);
-              // отрисовка кораблей в цикле отрисовки островов что бы корабли рисовались поверх островов
-                _spriteBatch.Draw(_myShip._current_sprite, _myShip._position, Color.White); // отрисовка корабля
-                     // отрисовка nps  
-                _nps.ForEach(i => _spriteBatch.Draw(i._current_sprite, i._position, Color.White));
                 _seaports.ForEach(i => _spriteBatch.Draw(i._current_sprite, i._position, Color.White));
+                // отрисовка кораблей в цикле отрисовки островов что бы корабли рисовались поверх островов
+                _spriteBatch.Draw(_myShip._current_sprite, _myShip._position, Color.White); // отрисовка корабля
+                // отрисовка nps  
+                _nps.ForEach(i => _spriteBatch.Draw(i._current_sprite, i._position, Color.White));
                 // рисуем координаты
                 if (_myShip != null)
                 {
                     _spriteBatch.DrawString(_coordinates, $" X:{(int)_myShip._position.X} Y:{ (int)_myShip._position.Y}",
                          _coordinates_pos, new Color(0, 0, 0));
+                    _spriteBatch.Draw(Content.Load<Texture2D>("bar"), new Vector2(_coordinates_pos.X-50,_coordinates_pos.Y-5), Color.White);
                     string data = $"{_gameTime.Day}:{_gameTime.Month}:{_gameTime.Year}";
                     if (_gameTime.Day < 10)
                         data = $"0{_gameTime.Day}:{_gameTime.Month}:{_gameTime.Year}";
@@ -477,8 +478,8 @@ namespace Corsaries_by_VBUteamGKMI
                         data = $"{_gameTime.Day}:0{_gameTime.Month}:{_gameTime.Year}";
                     if (_gameTime.Day < 10 && _gameTime.Day < 10)
                         data = $"0{_gameTime.Day}:0{_gameTime.Month}:{_gameTime.Year}";
-
-                    _spriteBatch.DrawString(_sprite_gameTime, data, _sprite_gameTime_pos, new Color(0, 0, 0));                  
+                    _spriteBatch.DrawString(_sprite_gameTime, data, _sprite_gameTime_pos, new Color(0, 0, 0));
+                    _spriteBatch.Draw(Content.Load<Texture2D>("bar"), new Vector2(_sprite_gameTime_pos.X-100,_sprite_gameTime_pos.Y), Color.White);
                 }
             }
             
