@@ -31,6 +31,8 @@ namespace Corsaries_by_VBUteamGKMI.View
         {
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.shipyard = new System.Windows.Forms.TabPage();
+            this._ship_capacity = new System.Windows.Forms.Label();
+            this.label38 = new System.Windows.Forms.Label();
             this._ship_caunt_sailors = new System.Windows.Forms.Label();
             this.label36 = new System.Windows.Forms.Label();
             this._ship_price = new System.Windows.Forms.Label();
@@ -158,13 +160,24 @@ namespace Corsaries_by_VBUteamGKMI.View
             this.cap_hp_bar = new System.Windows.Forms.ProgressBar();
             this.cap_hp = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this._ship_capacity = new System.Windows.Forms.Label();
-            this.label38 = new System.Windows.Forms.Label();
+            this.workshop = new System.Windows.Forms.TabPage();
+            this.label31 = new System.Windows.Forms.Label();
+            this.prise_all_HP_Ship = new System.Windows.Forms.Label();
+            this.fix_btn = new System.Windows.Forms.Button();
+            this.label40 = new System.Windows.Forms.Label();
+            this.count_HP_FIX = new System.Windows.Forms.Label();
+            this.ship_hp_scrol = new System.Windows.Forms.HScrollBar();
+            this.price_1HP_ship = new System.Windows.Forms.Label();
+            this.label43 = new System.Windows.Forms.Label();
+            this.ship_hp_bar_workshop = new System.Windows.Forms.ProgressBar();
+            this.M_ship_HP = new System.Windows.Forms.Label();
+            this.label45 = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.shipyard.SuspendLayout();
             this.tavern.SuspendLayout();
             this.market.SuspendLayout();
             this.hospital.SuspendLayout();
+            this.workshop.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -173,6 +186,7 @@ namespace Corsaries_by_VBUteamGKMI.View
             this.tabControl1.Controls.Add(this.tavern);
             this.tabControl1.Controls.Add(this.market);
             this.tabControl1.Controls.Add(this.hospital);
+            this.tabControl1.Controls.Add(this.workshop);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
@@ -221,6 +235,26 @@ namespace Corsaries_by_VBUteamGKMI.View
             this.shipyard.TabIndex = 0;
             this.shipyard.Text = "Верфь";
             this.shipyard.UseVisualStyleBackColor = true;
+            // 
+            // _ship_capacity
+            // 
+            this._ship_capacity.AutoSize = true;
+            this._ship_capacity.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this._ship_capacity.Location = new System.Drawing.Point(415, 164);
+            this._ship_capacity.Name = "_ship_capacity";
+            this._ship_capacity.Size = new System.Drawing.Size(35, 15);
+            this._ship_capacity.TabIndex = 54;
+            this._ship_capacity.Text = "none";
+            // 
+            // label38
+            // 
+            this.label38.AutoSize = true;
+            this.label38.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.label38.Location = new System.Drawing.Point(32, 164);
+            this.label38.Name = "label38";
+            this.label38.Size = new System.Drawing.Size(84, 15);
+            this.label38.TabIndex = 53;
+            this.label38.Text = "Вместимость";
             // 
             // _ship_caunt_sailors
             // 
@@ -1553,25 +1587,129 @@ namespace Corsaries_by_VBUteamGKMI.View
             this.label2.TabIndex = 0;
             this.label2.Text = "Капитан :";
             // 
-            // _ship_capacity
+            // workshop
             // 
-            this._ship_capacity.AutoSize = true;
-            this._ship_capacity.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this._ship_capacity.Location = new System.Drawing.Point(415, 164);
-            this._ship_capacity.Name = "_ship_capacity";
-            this._ship_capacity.Size = new System.Drawing.Size(35, 15);
-            this._ship_capacity.TabIndex = 54;
-            this._ship_capacity.Text = "none";
+            this.workshop.Controls.Add(this.label31);
+            this.workshop.Controls.Add(this.prise_all_HP_Ship);
+            this.workshop.Controls.Add(this.fix_btn);
+            this.workshop.Controls.Add(this.label40);
+            this.workshop.Controls.Add(this.count_HP_FIX);
+            this.workshop.Controls.Add(this.ship_hp_scrol);
+            this.workshop.Controls.Add(this.price_1HP_ship);
+            this.workshop.Controls.Add(this.label43);
+            this.workshop.Controls.Add(this.ship_hp_bar_workshop);
+            this.workshop.Controls.Add(this.M_ship_HP);
+            this.workshop.Controls.Add(this.label45);
+            this.workshop.Location = new System.Drawing.Point(4, 24);
+            this.workshop.Name = "workshop";
+            this.workshop.Size = new System.Drawing.Size(499, 573);
+            this.workshop.TabIndex = 4;
+            this.workshop.Text = "Мастерская";
+            this.workshop.UseVisualStyleBackColor = true;
             // 
-            // label38
+            // label31
             // 
-            this.label38.AutoSize = true;
-            this.label38.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.label38.Location = new System.Drawing.Point(32, 164);
-            this.label38.Name = "label38";
-            this.label38.Size = new System.Drawing.Size(84, 15);
-            this.label38.TabIndex = 53;
-            this.label38.Text = "Вместимость";
+            this.label31.AutoSize = true;
+            this.label31.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.label31.Location = new System.Drawing.Point(35, 188);
+            this.label31.Name = "label31";
+            this.label31.Size = new System.Drawing.Size(43, 15);
+            this.label31.TabIndex = 21;
+            this.label31.Text = "Цена :";
+            // 
+            // prise_all_HP_Ship
+            // 
+            this.prise_all_HP_Ship.AutoSize = true;
+            this.prise_all_HP_Ship.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.prise_all_HP_Ship.Location = new System.Drawing.Point(305, 188);
+            this.prise_all_HP_Ship.Name = "prise_all_HP_Ship";
+            this.prise_all_HP_Ship.Size = new System.Drawing.Size(35, 15);
+            this.prise_all_HP_Ship.TabIndex = 20;
+            this.prise_all_HP_Ship.Text = "none";
+            // 
+            // fix_btn
+            // 
+            this.fix_btn.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.fix_btn.Location = new System.Drawing.Point(132, 339);
+            this.fix_btn.Name = "fix_btn";
+            this.fix_btn.Size = new System.Drawing.Size(224, 23);
+            this.fix_btn.TabIndex = 19;
+            this.fix_btn.Text = "ПОЧИНИТЬ!";
+            this.fix_btn.UseVisualStyleBackColor = true;
+            // 
+            // label40
+            // 
+            this.label40.AutoSize = true;
+            this.label40.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.label40.Location = new System.Drawing.Point(35, 225);
+            this.label40.Name = "label40";
+            this.label40.Size = new System.Drawing.Size(71, 15);
+            this.label40.TabIndex = 18;
+            this.label40.Text = "Починить :";
+            // 
+            // count_HP_FIX
+            // 
+            this.count_HP_FIX.AutoSize = true;
+            this.count_HP_FIX.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.count_HP_FIX.Location = new System.Drawing.Point(305, 225);
+            this.count_HP_FIX.Name = "count_HP_FIX";
+            this.count_HP_FIX.Size = new System.Drawing.Size(35, 15);
+            this.count_HP_FIX.TabIndex = 17;
+            this.count_HP_FIX.Text = "none";
+            // 
+            // ship_hp_scrol
+            // 
+            this.ship_hp_scrol.Location = new System.Drawing.Point(35, 264);
+            this.ship_hp_scrol.Name = "ship_hp_scrol";
+            this.ship_hp_scrol.Size = new System.Drawing.Size(435, 28);
+            this.ship_hp_scrol.TabIndex = 16;
+            // 
+            // price_1HP_ship
+            // 
+            this.price_1HP_ship.AutoSize = true;
+            this.price_1HP_ship.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.price_1HP_ship.Location = new System.Drawing.Point(305, 144);
+            this.price_1HP_ship.Name = "price_1HP_ship";
+            this.price_1HP_ship.Size = new System.Drawing.Size(35, 15);
+            this.price_1HP_ship.TabIndex = 15;
+            this.price_1HP_ship.Text = "none";
+            // 
+            // label43
+            // 
+            this.label43.AutoSize = true;
+            this.label43.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.label43.Location = new System.Drawing.Point(35, 144);
+            this.label43.Name = "label43";
+            this.label43.Size = new System.Drawing.Size(174, 15);
+            this.label43.TabIndex = 14;
+            this.label43.Text = "Цена за 1 единицу здоровья";
+            // 
+            // ship_hp_bar_workshop
+            // 
+            this.ship_hp_bar_workshop.Location = new System.Drawing.Point(35, 75);
+            this.ship_hp_bar_workshop.Name = "ship_hp_bar_workshop";
+            this.ship_hp_bar_workshop.Size = new System.Drawing.Size(435, 28);
+            this.ship_hp_bar_workshop.TabIndex = 13;
+            // 
+            // M_ship_HP
+            // 
+            this.M_ship_HP.AutoSize = true;
+            this.M_ship_HP.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.M_ship_HP.Location = new System.Drawing.Point(305, 31);
+            this.M_ship_HP.Name = "M_ship_HP";
+            this.M_ship_HP.Size = new System.Drawing.Size(35, 15);
+            this.M_ship_HP.TabIndex = 12;
+            this.M_ship_HP.Text = "none";
+            // 
+            // label45
+            // 
+            this.label45.AutoSize = true;
+            this.label45.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.label45.Location = new System.Drawing.Point(35, 31);
+            this.label45.Name = "label45";
+            this.label45.Size = new System.Drawing.Size(72, 15);
+            this.label45.TabIndex = 11;
+            this.label45.Text = "Корабыль :";
             // 
             // SeaportView
             // 
@@ -1591,6 +1729,8 @@ namespace Corsaries_by_VBUteamGKMI.View
             this.market.PerformLayout();
             this.hospital.ResumeLayout(false);
             this.hospital.PerformLayout();
+            this.workshop.ResumeLayout(false);
+            this.workshop.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -1728,5 +1868,17 @@ namespace Corsaries_by_VBUteamGKMI.View
         private System.Windows.Forms.Label label36;
         private System.Windows.Forms.Label _ship_capacity;
         private System.Windows.Forms.Label label38;
+        private System.Windows.Forms.TabPage workshop;
+        private System.Windows.Forms.Label label31;
+        private System.Windows.Forms.Label prise_all_HP_Ship;
+        private System.Windows.Forms.Button fix_btn;
+        private System.Windows.Forms.Label label40;
+        private System.Windows.Forms.Label count_HP_FIX;
+        private System.Windows.Forms.HScrollBar ship_hp_scrol;
+        private System.Windows.Forms.Label price_1HP_ship;
+        private System.Windows.Forms.Label label43;
+        private System.Windows.Forms.ProgressBar ship_hp_bar_workshop;
+        private System.Windows.Forms.Label M_ship_HP;
+        private System.Windows.Forms.Label label45;
     }
 }

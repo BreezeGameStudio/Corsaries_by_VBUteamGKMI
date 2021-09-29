@@ -59,6 +59,7 @@ namespace Corsaries_by_VBUteamGKMI.View
             SetSettingMarket();
             SetSettingHospital();
             SetSettingTaverna();
+            SetSettingWorkshop();
         }
 
        
@@ -70,6 +71,7 @@ namespace Corsaries_by_VBUteamGKMI.View
             SetSettingMarket();
             SetSettingHospital();
             SetSettingTaverna();
+            SetSettingWorkshop();
         }
 
         #region верфь
@@ -497,10 +499,46 @@ namespace Corsaries_by_VBUteamGKMI.View
             SetSettingMarket();
         }
         private void Market_bar_Scroll(object sender, ScrollEventArgs e) => Calculation_Capacity();
-        
+
         #endregion
 
+        #region Мастерская
+        private void SetSettingWorkshop()
+        {
+            fix_btn.Click += fix_btn_Click;
+            M_ship_HP.Text = $"{_ship._current_hp}/{_ship._max_hp}";
+            ship_hp_bar_workshop.Minimum = 0;
+            ship_hp_bar_workshop.Maximum = _ship._max_hp;
+            ship_hp_bar_workshop.Value = _ship._current_hp;
+            // поставить цену за 1 хп корабля
+            price_1HP_ship.Text = $"{_seaport._price_1hp_ship} зотолых";
+            ship_hp_scrol.LargeChange = 1;
+            ship_hp_scrol.Minimum = 0;
+            ship_hp_scrol.Maximum = _ship._max_hp - _ship._current_hp;
+            ship_hp_scrol.Value = 0;
+            ship_hp_scrol.Scroll += ship_hp_scrol_Scroll;
+            price_helth.Text = $"{scrol_hp.Value * _seaport._price_1hp_ship}/{_ship._captain._money}";
+            helth_hp.Text = $"{scrol_hp.Value} из {scrol_hp.Maximum}";
+        }
 
+        private void fix_btn_Click(object sender, EventArgs e)
+        {
+            if (ship_hp_scrol.Value * _seaport._price_1hp_ship > _ship._captain._money)
+            {
+                MessageBox.Show("Маловато золотишка =(", "ПРОСТИ!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            _ship._captain.SpendMoney(ship_hp_scrol.Value * _seaport._price_1hp_ship);
+            _ship._current_hp += ship_hp_scrol.Value;
+            SetSettingWorkshop();
+        }
+
+        private void ship_hp_scrol_Scroll(object sender, ScrollEventArgs e)
+        {
+            prise_all_HP_Ship.Text = $"{ship_hp_scrol.Value * _seaport._price_1hp_ship}/{_ship._captain._money}";
+            count_HP_FIX.Text = $"{ship_hp_scrol.Value} из {ship_hp_scrol.Maximum}";
+        }
+        #endregion
     }
 }
     

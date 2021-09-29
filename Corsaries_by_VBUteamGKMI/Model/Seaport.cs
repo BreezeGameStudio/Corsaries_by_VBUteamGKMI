@@ -21,6 +21,7 @@ namespace Corsaries_by_VBUteamGKMI.Model
         public List<Sailor> _sailors = new List<Sailor>(); // колекция моряков
         public int _money;// денег в порту
         public int _price_1hp_cap; // цена за единицу выличеного хп
+        public int _price_1hp_ship; // цена за единицу выличеного хп корабля
     
 
         #endregion
@@ -47,6 +48,7 @@ namespace Corsaries_by_VBUteamGKMI.Model
             _sailors.ForEach(i => i._price = _random.Next(i._price - _random.Next(50), i._price + _random.Next(50)));
 
             _price_1hp_cap = _random.Next(30, 80);
+            _price_1hp_ship = _random.Next(30, 80);
            
             _products.ForEach(i => i._count = _random.Next(20, 60));
             _products.ForEach(i => i._price = _random.Next(i._price - _random.Next(1,4), i._price + _random.Next(40)));
