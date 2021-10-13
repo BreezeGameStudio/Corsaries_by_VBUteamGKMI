@@ -58,7 +58,7 @@ namespace Corsaries_by_VBUteamGKMI
         private NPS_Ship _enemyShip;
 
         private System.Media.SoundPlayer player;
-       // private System.Windows.Forms.Timer auto_saver = new System.Windows.Forms.Timer();
+     
 
         public Game1()
         {
@@ -71,9 +71,7 @@ namespace Corsaries_by_VBUteamGKMI
             _timer.Tick += _timer_Tick; // событие тика
             _timer.Start();
 
-            //auto_saver.Interval = 10000;
-            //auto_saver.Tick += Auto_saver_Tick;
-            //auto_saver.Start();
+           
 
             // инициализируем камеру
             _camera.Pos = new Vector2(500.0f, 200.0f);
@@ -97,9 +95,7 @@ namespace Corsaries_by_VBUteamGKMI
             _timer.Tick += _timer_Tick; // событие тика
             _timer.Start();
            
-            //auto_saver.Interval = 4000;
-            //auto_saver.Tick += Auto_saver_Tick;
-            //auto_saver.Start();
+            
 
             // инициализируем камеру
             _camera.Pos = new Vector2(500.0f, 200.0f);
@@ -111,13 +107,7 @@ namespace Corsaries_by_VBUteamGKMI
             _graphics.PreferredBackBufferWidth = _size_screen.Width;
         }
 
-        private  void Auto_saver_Tick(object sender, EventArgs e)
-        {
-            // создаем новый поток
-             Thread saveThread = new Thread(new ThreadStart(()=>SaveRepository.Save_Progress(new Save(_myShip, _gameTime))));
-            saveThread.Start(); // запускаем поток
-           // SaveRepository.Async_Save_Progress(new Save(_myShip, _gameTime));
-        }
+        
 
         // тик таймера изменение движения нпс
         private void _timer_Tick(object sender, System.EventArgs e) => _nps.ForEach(i => i.Next_Move());
