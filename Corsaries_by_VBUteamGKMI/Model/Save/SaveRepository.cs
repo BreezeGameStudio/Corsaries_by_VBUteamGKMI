@@ -37,7 +37,7 @@ namespace Corsaries_by_VBUteamGKMI.Model.Save
                         {
                             conn.Query($"INSERT INTO Sailors (Value) VALUES(\'{item}\')");
                         }
-                    MessageBox.Show("Успещное сохранение", "Сохранеине", new List<string> { "OK" });
+                    MessageBox.Show("Сохранеине", "Успещное сохранение", new List<string> { "OK" });
                 }
                 catch (Exception ex)
                 {
