@@ -58,7 +58,7 @@ namespace Corsaries_by_VBUteamGKMI
         private NPS_Ship _enemyShip;
 
         private System.Media.SoundPlayer player;
-        private System.Windows.Forms.Timer auto_saver = new System.Windows.Forms.Timer();
+       // private System.Windows.Forms.Timer auto_saver = new System.Windows.Forms.Timer();
 
         public Game1()
         {
@@ -71,9 +71,9 @@ namespace Corsaries_by_VBUteamGKMI
             _timer.Tick += _timer_Tick; // событие тика
             _timer.Start();
 
-            auto_saver.Interval = 10000;
-            auto_saver.Tick += Auto_saver_Tick;
-            auto_saver.Start();
+            //auto_saver.Interval = 10000;
+            //auto_saver.Tick += Auto_saver_Tick;
+            //auto_saver.Start();
 
             // инициализируем камеру
             _camera.Pos = new Vector2(500.0f, 200.0f);
@@ -97,9 +97,9 @@ namespace Corsaries_by_VBUteamGKMI
             _timer.Tick += _timer_Tick; // событие тика
             _timer.Start();
            
-            auto_saver.Interval = 4000;
-            auto_saver.Tick += Async_Auto_saver_Tick;
-            auto_saver.Start();
+            //auto_saver.Interval = 4000;
+            //auto_saver.Tick += Auto_saver_Tick;
+            //auto_saver.Start();
 
             // инициализируем камеру
             _camera.Pos = new Vector2(500.0f, 200.0f);
@@ -111,12 +111,12 @@ namespace Corsaries_by_VBUteamGKMI
             _graphics.PreferredBackBufferWidth = _size_screen.Width;
         }
 
-        private async void Async_Auto_saver_Tick(object sender, EventArgs e)
+        private  void Auto_saver_Tick(object sender, EventArgs e)
         {
             // создаем новый поток
-            // Thread saveThread = new Thread(new ThreadStart(()=>SaveRepository.Save_Progress(new Save(_myShip, _gameTime))));
-            //saveThread.Start(); // запускаем поток
-            await new Task(() => SaveRepository.Async_Save_Progress(new Save(_myShip, _gameTime)));
+             Thread saveThread = new Thread(new ThreadStart(()=>SaveRepository.Save_Progress(new Save(_myShip, _gameTime))));
+            saveThread.Start(); // запускаем поток
+           // SaveRepository.Async_Save_Progress(new Save(_myShip, _gameTime));
         }
 
         // тик таймера изменение движения нпс
@@ -364,13 +364,8 @@ namespace Corsaries_by_VBUteamGKMI
         }
         // обновленние данных при состояние игры игровой мир
         private void In_World_Update(GameTime gameTime)
-        {           
-            // кнопка выхода
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
-            // кнопка проверки своего судна
-            if (Keyboard.GetState().IsKeyDown(Keys.Q))
-                Show_Info_Ship(_myShip);
+        {
+           
             // задаём НПС позицию
             _nps.FindAll(i=> i._position.X==0&&i._position.Y==0)
                 .ForEach(i => i.Set_Spawn_Position(_islands));
@@ -420,8 +415,20 @@ namespace Corsaries_by_VBUteamGKMI
             //проверка количества нпс на карте 
             if (_nps.Count < _nps_count)
                 AddNps();
-            
+            #region кнопки          
+            // кнопка проверки своего судна
+            if (Keyboard.GetState().IsKeyDown(Keys.Q))
+                Show_Info_Ship(_myShip);
+            if (Keyboard.GetState().IsKeyDown(Keys.F5))
+                new Task(() => SaveRepository.Save_Progress(new Save(_myShip, _gameTime))).RunSynchronously();
+                           
+            // кнопка выхода
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+                Exit();
+            #endregion
         }
+
+
         // метод добавляющий недостающих нпс на карту
         private void AddNps()
         {
