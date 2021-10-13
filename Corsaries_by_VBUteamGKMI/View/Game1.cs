@@ -18,6 +18,8 @@ namespace Corsaries_by_VBUteamGKMI
     public enum Game_Sate { In_Menu,In_World,In_Battle,In_Port}
     public class Game1 : Game
     {
+        // переменная константа количества нпс на карте
+        public const int _nps_count = 50;
         // переменная для хранения игровой даты
         Save _current_save = null;
         DateTime _gameTime = new DateTime(1500, 1, 1);
@@ -151,7 +153,7 @@ namespace Corsaries_by_VBUteamGKMI
             }
             if(_current_save == null)
             {
-                _myShip = new MyShip(Ship_type.Boat, Content, 500, 500);
+                _myShip = new MyShip(Ship_type.Corvette, Content, 500, 500);
             }
             else
             {
@@ -186,10 +188,9 @@ namespace Corsaries_by_VBUteamGKMI
 
             // добавляем нпс
             _nps.Clear(); //очищаем коллекцию чтобы при перезапуске не становилось больше NPS
-            for (int i = 0; i < 50; i++)
-            {
+            for (int i = 0; i < _nps_count; i++)            
                 _nps.Add(new NPS_Ship((Ship_type)new Random().Next(0, 7), Content));
-            }
+            
     
             //  текст координат
             _coordinates = Content.Load<SpriteFont>("testtext");
@@ -412,8 +413,19 @@ namespace Corsaries_by_VBUteamGKMI
             }
             // НПС ДВИЖЕНИЕ
             _nps.ForEach(i => i.Move_Random());
+            //проверка количества нпс на карте 
+            if (_nps.Count < _nps_count)
+                AddNps();
             
         }
+        // метод добавляющий недостающих нпс на карту
+        private void AddNps()
+        {
+            for (int i = 0; i < _nps_count - _nps.Count; i++)
+                _nps.Add(new NPS_Ship((Ship_type)new Random().Next(0, 7), Content));
+
+        }
+
         // метод столкновения с морскими портами
         private void Collision_seaport(Ship ship)
         {
