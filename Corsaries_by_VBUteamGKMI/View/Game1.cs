@@ -1,6 +1,7 @@
 ﻿using Corsaries_by_VBUteamGKMI.Model;
 using Corsaries_by_VBUteamGKMI.Model.People_on_ship;
 using Corsaries_by_VBUteamGKMI.Model.Products;
+using Corsaries_by_VBUteamGKMI.Model.Save;
 using Corsaries_by_VBUteamGKMI.Model.Ship;
 using Corsaries_by_VBUteamGKMI.View;
 using Microsoft.Xna.Framework;
@@ -109,8 +110,7 @@ namespace Corsaries_by_VBUteamGKMI
 
         private void Auto_saver_Tick(object sender, EventArgs e)
         {
-            Save save = new Save(_myShip,_gameTime);
-            save.Save_Progress();
+            SaveRepository.Save_Progress(new Save(_myShip, _gameTime));
         }
 
         // тик таймера изменение движения нпс
@@ -157,7 +157,7 @@ namespace Corsaries_by_VBUteamGKMI
             {
                 _myShip = new MyShip(Ship_type.Boat, Content, 500, 500);
                 _myShip._captain.FromString(_current_save.captain);
-                _myShip._ship_type = _current_save.ship_type;
+                _myShip._ship_type = (Ship_type)Enum.Parse(typeof(Ship_type),_current_save.ship_type);
                 _myShip._products.Clear();
                 foreach (var item in _current_save.products)
                 {

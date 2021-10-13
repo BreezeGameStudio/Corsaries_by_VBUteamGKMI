@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 using Corsaries_by_VBUteamGKMI.Model;
+using Corsaries_by_VBUteamGKMI.Model.Save;
 using Corsaries_by_VBUteamGKMI.View;
 
 namespace Corsaries_by_VBUteamGKMI
@@ -23,7 +24,7 @@ namespace Corsaries_by_VBUteamGKMI
                 }
                 else if(menu.DialogResult == DialogResult.Yes)
                 {
-                    new Game1(Save.Load_Progress()).Run();
+                    new Game1(SaveRepository.Load_Progress()).Run();
                 }
                 else
                 {
