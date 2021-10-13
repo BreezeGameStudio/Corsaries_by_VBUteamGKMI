@@ -5,6 +5,8 @@ using System.Data.SQLite;
 using Dapper;
 using System.Linq;
 using System.IO;
+using System.Threading.Tasks;
+using System.Threading;
 
 namespace Corsaries_by_VBUteamGKMI.Model.Save
 {
@@ -12,8 +14,9 @@ namespace Corsaries_by_VBUteamGKMI.Model.Save
     {
         static string save_path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\Corsairs\\save.sqlite";
 
-        public static void Save_Progress(Save save)
+        public static async void Async_Save_Progress(Save save)
         {
+
             SQLiteConnection.CreateFile(save_path);
 
             using (SQLiteConnection conn = new SQLiteConnection($"Data Source={save_path};Version=3;"))
@@ -23,15 +26,25 @@ namespace Corsaries_by_VBUteamGKMI.Model.Save
                     PropsRepository.CreateTable();
                     ProductsRepository.CreateTable();
                     SailorsRepository.CreateTable();
-                    conn.Query("INSERT INTO Props (gameTime,captain,ship_type,name,price,current_count_sailors,max_count_sailors,max_capacity,current_capacity,max_hp,current_hp,speed,cannon,count_cannon,protection,dodge_chance,position_x,position_y) VALUES(@gameTime,@captain,@ship_type,@name,@price,@current_count_sailors,@max_count_sailors,@max_capacity,@current_capacity,@max_hp,@current_hp,@speed,@cannon,@count_cannon,@protection,@dodge_chance,@position_x,@position_y)", new { save.gameTime, save.captain, save.ship_type, save.name, save.price, save.current_count_sailors, save.max_count_sailors, save.max_capacity, save.current_capacity, save.max_hp, save.current_hp, save.speed, save.cannon, save.count_cannon, save.protection, save.dodge_chance, save.position_x, save.position_y });
-                    foreach (var item in save.products)
+
+                    await new Task(() =>
                     {
-                        conn.Query($"INSERT INTO Products (Value) VALUES(\'{item}\')");
-                    }
-                    foreach (var item in save.sailors)
+                        conn.Query("INSERT INTO Props (gameTime,captain,ship_type,name,price,current_count_sailors,max_count_sailors,max_capacity,current_capacity,max_hp,current_hp,speed,cannon,count_cannon,protection,dodge_chance,position_x,position_y) VALUES(@gameTime,@captain,@ship_type,@name,@price,@current_count_sailors,@max_count_sailors,@max_capacity,@current_capacity,@max_hp,@current_hp,@speed,@cannon,@count_cannon,@protection,@dodge_chance,@position_x,@position_y)", new { save.gameTime, save.captain, save.ship_type, save.name, save.price, save.current_count_sailors, save.max_count_sailors, save.max_capacity, save.current_capacity, save.max_hp, save.current_hp, save.speed, save.cannon, save.count_cannon, save.protection, save.dodge_chance, save.position_x, save.position_y });
+                    });
+                    await new Task(() =>
                     {
-                        conn.Query($"INSERT INTO Sailors (Value) VALUES(\'{item}\')");
-                    }
+                        foreach (var item in save.products)
+                        {
+                            conn.Query($"INSERT INTO Products (Value) VALUES(\'{item}\')");
+                        }
+                    });
+                    await new Task(() =>
+                    {
+                        foreach (var item in save.sailors)
+                        {
+                            conn.Query($"INSERT INTO Sailors (Value) VALUES(\'{item}\')");
+                        }
+                    });
                 }
                 catch (Exception ex)
                 {

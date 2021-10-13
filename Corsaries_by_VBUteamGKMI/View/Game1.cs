@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Corsaries_by_VBUteamGKMI
@@ -95,9 +96,9 @@ namespace Corsaries_by_VBUteamGKMI
             _timer.Interval = 3000;// раз в 10 сек
             _timer.Tick += _timer_Tick; // событие тика
             _timer.Start();
-
+           
             auto_saver.Interval = 4000;
-            auto_saver.Tick += Auto_saver_Tick;
+            auto_saver.Tick += Async_Auto_saver_Tick;
             auto_saver.Start();
 
             // инициализируем камеру
@@ -110,9 +111,12 @@ namespace Corsaries_by_VBUteamGKMI
             _graphics.PreferredBackBufferWidth = _size_screen.Width;
         }
 
-        private void Auto_saver_Tick(object sender, EventArgs e)
+        private async void Async_Auto_saver_Tick(object sender, EventArgs e)
         {
-            SaveRepository.Save_Progress(new Save(_myShip, _gameTime));
+            // создаем новый поток
+            // Thread saveThread = new Thread(new ThreadStart(()=>SaveRepository.Save_Progress(new Save(_myShip, _gameTime))));
+            //saveThread.Start(); // запускаем поток
+            await new Task(() => SaveRepository.Async_Save_Progress(new Save(_myShip, _gameTime)));
         }
 
         // тик таймера изменение движения нпс
