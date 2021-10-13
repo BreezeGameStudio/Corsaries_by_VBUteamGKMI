@@ -15,26 +15,21 @@ namespace Corsaries_by_VBUteamGKMI
             Application.SetCompatibleTextRenderingDefault(false);
             while (true)
             {
-                Menu menu = new Menu();
-                Application.Run(menu);
-                Game1 New_Game;
-                Game1 Game_fo_Save;
-
-                if (menu.DialogResult == DialogResult.OK)
+                using (Menu menu = new Menu())
                 {
-                    using (New_Game = new Game1())
-                    { New_Game.Run(); }
-                                                          
+                    Application.Run(menu);
+                    if (menu.DialogResult == DialogResult.OK)
+                    {
+                        using (Game1 New_Game = new Game1())
+                        { New_Game.Run(); }
+                    }
+                    else if (menu.DialogResult == DialogResult.Yes)
+                    {
+                        using (Game1 Game_fo_Save = new Game1(SaveRepository.Load_Progress()))
+                        { Game_fo_Save.Run(); }
+                    }
+                    else  {  break; }
                 }
-                else if (menu.DialogResult == DialogResult.Yes)
-                {
-                    using (Game_fo_Save = new Game1(SaveRepository.Load_Progress()))
-                    { Game_fo_Save.Run(); }                                                    
-                }
-                else
-                {
-                    break;
-                }                            
             }
         }
     }
