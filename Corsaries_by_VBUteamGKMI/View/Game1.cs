@@ -45,7 +45,7 @@ namespace Corsaries_by_VBUteamGKMI
         private List<Island> _islands = new List<Island>(); // коллекция островов
         private List<Seaport> _seaports = new List<Seaport>(); // коллекция портов
         private List<Vector2> _island_positions = new List<Vector2>() { new Vector2(1000, 2500), new Vector2(2000, 1500), new Vector2(3000, 1500), new Vector2(4500, 2500), new Vector2(3500, 4000), new Vector2(2500, 4000) };
-        private List<Vector2> _edge_island_positions = new List<Vector2>() { new Vector2(2000, 0), new Vector2(2500, 4500) };
+        private List<Vector2> _edge_island_positions = new List<Vector2>() { new Vector2(2000, 0), new Vector2(2500, 4875) };
         private List<Vector2> _continent_positions = new List<Vector2>() { new Vector2(_game_ground_X_Y - 500, 0), new Vector2(0,0), new Vector2(0, _game_ground_X_Y-500), new Vector2(_game_ground_X_Y - 500, _game_ground_X_Y - 500) };
         private List<Vector2> _seaport_positions = new List<Vector2>() { new Vector2(380, 30), new Vector2(210, 330), new Vector2(330,4670), new Vector2(90,4540), new Vector2(2380,-20), new Vector2(4580,40), new Vector2(4880,370), new Vector2(2830,4150), new Vector2(3240,1640), new Vector2(1280, 2750), new Vector2(2300, 1660), new Vector2(2500, 2250), new Vector2(2590, 4890), new Vector2(3800,4300), new Vector2(4550,4870), new Vector2(4790,2630), new Vector2(4700,4580)};
         // камера
@@ -147,7 +147,7 @@ namespace Corsaries_by_VBUteamGKMI
             }
             if(_current_save == null)
             {
-                _myShip = new MyShip(Ship_type.Corvette, Content, 500, 500);
+                _myShip = new MyShip(Ship_type.Boat, Content, 2000, 2000);
             }
             else
             {
@@ -382,7 +382,7 @@ namespace Corsaries_by_VBUteamGKMI
             if(_size_screen.Width == 1366 && _size_screen.Height == 768)
             {
                 _coordinates_pos.Y = _camera.Pos.Y - (190 * (2 / _camera.Zoom)) + 5;
-                _coordinates_pos.X = _camera.Pos.X - (340 * (2 / _camera.Zoom)) + 50;
+                _coordinates_pos.X = _camera.Pos.X - (340 * (2 / _camera.Zoom)) + 25;
             }
             else if(_size_screen.Width == 1920 && _size_screen.Height == 1080)
             {
@@ -392,8 +392,8 @@ namespace Corsaries_by_VBUteamGKMI
             // даём положение игровому времени на экране
             if (_size_screen.Width == 1366 && _size_screen.Height == 768)
             {
-                _sprite_gameTime_pos.Y = _camera.Pos.Y - (190 * (2 / _camera.Zoom));
-                _sprite_gameTime_pos.X = _camera.Pos.X + (270 * (2 / _camera.Zoom));
+                _sprite_gameTime_pos.Y = _camera.Pos.Y - (190 * (2 / _camera.Zoom)) + 5;
+                _sprite_gameTime_pos.X = _camera.Pos.X + (270 * (2 / _camera.Zoom)) - 20;
             }
             else if (_size_screen.Width == 1920 && _size_screen.Height == 1080)
             {
@@ -472,18 +472,16 @@ namespace Corsaries_by_VBUteamGKMI
             // отрисовка островов   
             foreach (var item in _islands)
             {
-                _spriteBatch.Draw(item._current_sprite, item._position, null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.FlipVertically, 0f);
-                _seaports.ForEach(i => _spriteBatch.Draw(i._current_sprite, i._position, Color.White));
                 // отрисовка кораблей в цикле отрисовки островов что бы корабли рисовались поверх островов
-                _spriteBatch.Draw(_myShip._current_sprite, _myShip._position, Color.White); // отрисовка корабля
-                // отрисовка nps  
-                _nps.ForEach(i => _spriteBatch.Draw(i._current_sprite, i._position, Color.White));
                 // рисуем координаты
+                // отрисовка nps
                 if (_myShip != null)
                 {
+                    _spriteBatch.Draw(_myShip._current_sprite, _myShip._position, Color.White); // отрисовка корабля
+                    _spriteBatch.Draw(Content.Load<Texture2D>("bar"), new Vector2(_coordinates_pos.X - 50, _coordinates_pos.Y - 5), Color.White);
+                    _spriteBatch.Draw(Content.Load<Texture2D>("bar"), new Vector2(_sprite_gameTime_pos.X - 50, _sprite_gameTime_pos.Y-5), Color.White);
                     _spriteBatch.DrawString(_coordinates, $" X:{(int)_myShip._position.X} Y:{ (int)_myShip._position.Y}",
                          _coordinates_pos, new Color(0, 0, 0));
-                    _spriteBatch.Draw(Content.Load<Texture2D>("bar"), new Vector2(_coordinates_pos.X-50,_coordinates_pos.Y-5), Color.White);
                     string data = $"{_gameTime.Day}:{_gameTime.Month}:{_gameTime.Year}";
                     if (_gameTime.Day < 10)
                         data = $"0{_gameTime.Day}:{_gameTime.Month}:{_gameTime.Year}";
@@ -492,8 +490,10 @@ namespace Corsaries_by_VBUteamGKMI
                     if (_gameTime.Day < 10 && _gameTime.Day < 10)
                         data = $"0{_gameTime.Day}:0{_gameTime.Month}:{_gameTime.Year}";
                     _spriteBatch.DrawString(_sprite_gameTime, data, _sprite_gameTime_pos, new Color(0, 0, 0));
-                    _spriteBatch.Draw(Content.Load<Texture2D>("bar"), new Vector2(_sprite_gameTime_pos.X-100,_sprite_gameTime_pos.Y), Color.White);
                 }
+                _nps.ForEach(i => _spriteBatch.Draw(i._current_sprite, i._position, Color.White));
+                _spriteBatch.Draw(item._current_sprite, item._position, null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.FlipVertically, 0f);
+                                    _seaports.ForEach(i => _spriteBatch.Draw(i._current_sprite, i._position, Color.White));
             }
             
         }
@@ -557,8 +557,8 @@ namespace Corsaries_by_VBUteamGKMI
                     foreach (var item in _nps)
                     {
                         // создаём прямоугольник NPS
-                        Rectangle nps = new Rectangle(Convert.ToInt32(item._position.X - (100 / _camera.Zoom)), Convert.ToInt32(item._position.Y - ((100 / _camera.Zoom))),
-                            item._current_sprite.Width + Convert.ToInt32(100 / _camera.Zoom), item._current_sprite.Height + Convert.ToInt32(100 / _camera.Zoom));
+                        Rectangle nps = new Rectangle(Convert.ToInt32(item._position.X - (100 / 2)), Convert.ToInt32(item._position.Y - ((100 / 2))),
+                            item._current_sprite.Width + Convert.ToInt32(100 / 2), item._current_sprite.Height + Convert.ToInt32(100 / 2));
                         if (R_ship.Intersects(nps))
                         {
                             // коллекция вопросов при столкновении

@@ -201,7 +201,7 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
                     _price = 5000;
                     _max_capacity = 350; // всестимость
                     _max_hp = 500; // максимальное количество здоровья 
-                    _speed = 0.25f; // скорость               
+                    _speed = 0.75f; // скорость               
                     _count_cannon = 4; // количество пушке
                     _max_count_sailors = 10; // максимальное количество матросов
                     _protection = 10;// защит от выстрела в процентах
@@ -212,7 +212,7 @@ namespace Corsaries_by_VBUteamGKMI.Model.Ship
                     _price = 10000;
                     _max_capacity = 650; // всестимость
                     _max_hp = 1000; // максимальное количество здоровья 
-                    _speed = 0.5f; // скорость               
+                    _speed = 0.75f; // скорость               
                     _count_cannon = 6; // количество пушке
                     _max_count_sailors = 20; // максимальное количество матросов
                     _protection = 15;// защит от выстрела в процентах
